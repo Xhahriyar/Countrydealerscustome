@@ -14,26 +14,26 @@
                       <div class="statistics-item">
                         <p>
                           <i class="icon-sm fas fa-hourglass-half mr-2"></i>
-                          Expenses Count
+                          Expenses
                         </p>
-                        <h2>{{$expensesCount}}</h2>
-                        <label class="badge badge-outline-danger badge-pill">30% decrease</label>
+                        <h2>{{$TotalexpensesAmount}}</h2>
+                        <label class="badge badge-outline-danger badge-pill">{{$expensesCount}}</label>
                       </div>
                       <div class="statistics-item">
                         <p>
                           <i class="icon-sm fas fa-check-circle mr-2"></i>
-                          Purchase Count
+                          Purchase
                         </p>
-                        <h2>{{$purchasesCount}}</h2>
-                        <label class="badge badge-outline-success badge-pill">57% increase</label>
+                        <h2>{{$totaPurchasesAmount}}</h2>
+                        <label class="badge badge-outline-success badge-pill">{{$purchasesCount}}</label>
                       </div>
                       <div class="statistics-item">
                         <p>
                           <i class="icon-sm fas fa-chart-line mr-2"></i>
-                          Sales Count
+                          Sales
                         </p>
-                        <h2>{{$salesCount}}</h2>
-                        <label class="badge badge-outline-success badge-pill">10% increase</label>
+                        <h2>{{$totalSalesAmount}}</h2>
+                        <label class="badge badge-outline-success badge-pill">{{$salesCount}}</label>
                       </div>
                   </div>
                 </div>

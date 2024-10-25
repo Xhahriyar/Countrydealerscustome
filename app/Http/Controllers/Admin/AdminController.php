@@ -18,9 +18,12 @@ class AdminController extends Controller
     public function index(ExpenseChart $expenseChart , Purchase $purchaseChart)
     {
         $salesCount = $this->dashboardRepository->totalSales();
+        $totalSalesAmount = $this->dashboardRepository->totalSalesAmount();
         $expensesCount = $this->dashboardRepository->expenses();
+        $TotalexpensesAmount = $this->dashboardRepository->TotalexpensesAmount();
         $purchasesCount = $this->dashboardRepository->purchases();
-        return view("admin.dashboard" , ['expenseChart' => $expenseChart->build() , 'purchaseChart' => $purchaseChart->build()] , compact('salesCount' , 'expensesCount', 'purchasesCount'));
+        $totaPurchasesAmount = $this->dashboardRepository->totaPurchasesAmount();
+        return view("admin.dashboard" , ['expenseChart' => $expenseChart->build() , 'purchaseChart' => $purchaseChart->build()] , compact('salesCount' , 'expensesCount', 'purchasesCount' , 'totaPurchasesAmount' , 'TotalexpensesAmount' , 'totalSalesAmount'));
     }
     public function dashboard()
     {
