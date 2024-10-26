@@ -98,9 +98,12 @@
                 </div>
             </li>
         </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+            data-toggle="offcanvas">
+            <span class="fas fa-bars"></span>
+        </button>
     </div>
 </nav>
-
 @section('bottom-scripts')
     <script>
         $('#logoutBtn').on('click', function() {
