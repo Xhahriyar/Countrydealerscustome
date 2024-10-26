@@ -18911,7 +18911,7 @@ input:focus {
 .navbar.default-layout-navbar .navbar-brand-wrapper .navbar-brand img {
   width: calc(255px - 100px);
   max-width: 100%;
-  height: 38px;
+  height: 140px;
   margin: auto;
   vertical-align: middle;
 }
@@ -29041,7 +29041,7 @@ div.tagsinput span.tag a {
 /* === Landing screens === */
 /* Auth */
 .auth .login-half-bg {
-  background: url("../images/auth/login-bg.jpg");
+  background: url("../images/loginbanner.jpg");
   background-size: cover;
 }
 
