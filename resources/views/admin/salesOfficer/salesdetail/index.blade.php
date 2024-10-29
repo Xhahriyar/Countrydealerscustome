@@ -3,9 +3,9 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                Sales Officers
+                Sales Officers (Sulaman)
             </h3>
-            <a href="{{ route('sales.officer.create') }}" class="btn btn-sm btn-primary">+ New</a>
+            {{-- <a href="{{ route('sales.officer.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
         </div>
         <div class="row grid-margin">
             <div class="col-12">
@@ -17,7 +17,7 @@
                                     <i class="icon-sm fas fa-hourglass-half mr-2"></i>
                                     Total Sales
                                 </p>
-                                <h2>50</h2>
+                                <h2>10</h2>
                                 {{-- <label class="badge badge-outline-danger badge-pill">50</label> --}}
                             </div>
                             <div class="statistics-item">
@@ -25,7 +25,7 @@
                                     <i class="icon-sm fas fa-check-circle mr-2"></i>
                                     Total Paid Commission
                                 </p>
-                                <h2>76786896</h2>
+                                <h2>67896</h2>
                                 {{-- <label class="badge badge-outline-success badge-pill"></label> --}}
                             </div>
                             <div class="statistics-item">
@@ -33,7 +33,7 @@
                                     <i class="icon-sm fas fa-chart-line mr-2"></i>
                                     Total UnPaid Commission
                                 </p>
-                                <h2>9129879</h2>
+                                <h2>9879</h2>
                                 {{-- <label class="badge badge-outline-success badge-pill">{{$salesCount}}</label> --}}
                             </div>
                         </div>
@@ -50,46 +50,37 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
-                                        <th>CNIC</th>
-                                        <th>Total Deals</th>
-                                        <th>Grand Total commission</th>
-                                        <th>Unpaid commission</th>
-                                        <th>Paid commission</th>
-                                        <th>Action</th>
+                                        <th>Name Sale Officer</th>
+                                        <th>Client Name</th>
+                                        <th>Plaot Number</th>
+                                        <th>Commission Desided</th>
+                                        <th>Ploat Size</th>
+                                        <th>Phone</th>
+                                        <th>Agent</th>
+                                        <th>Actione</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($data as $key => $data)
+                                    {{-- @forelse ($data as $key => $data) --}}
                                         <tr>
-                                            <td>{{ $key += 1 }}</td>
-                                            <td>{{ $data->name }}</td>
-                                            <td>{{ $data->cnic }}</td>
+                                            <td>1</td>
+                                            <td>Sulaman</td>
+                                            <td>Hassan</td>
+                                            <td>123</td>
                                             <td>120</td>
-                                            <td>100000</td>
-                                            <td>50000</td>
-                                            <td>50000</td>
-                                            <td class="d-flex">
-                                                {{-- View button --}}
-                                                <a href="{{ route('sales.officer.show', $data->id) }}"
+                                            <td>5 Parla</td>
+                                            <td>03004423989</td>
+                                            {{-- <td>(Shuld be a type of Department we will auto fetch this when we creating the sale office we tell which type of this Sale officer)</td> --}}
+                                            <td>Sale team</td>
+                                            <td>
+                                                <a href=""
                                                     class="btn btn-warning btn-sm mr-2"><i
-                                                        class="fas fa-regular fa-eye"></i>
+                                                        class="fas fa-regular fa-dollar"></i>
                                                 </a>
-                                                {{-- <a href="{{route('sales.officer.delete' , $data->id)}}" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a> --}}
-                                                <form id="delete-form"
-                                                    action="{{ route('sales.officer.delete', $data->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" onclick="confirmDelete()"
-                                                        class="btn btn-sm btn-danger">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </button>
-                                                </form>
-
                                             </td>
                                         </tr>
-                                    @empty
-                                    @endforelse
+                                    {{-- @empty --}}
+                                    {{-- @endforelse --}}
                                 </tbody>
                             </table>
                         </div>

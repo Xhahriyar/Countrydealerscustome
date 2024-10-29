@@ -28,6 +28,11 @@ class SalesOfficerController extends Controller
         $this->SalesOfficerRepo->store($request->all());
         return redirect()->back()->with("success","Record Created Successfully");
     }
+    public function show($id)
+    {
+
+        return view('admin.salesOfficer.salesdetail.index');
+    }
     public function delete($id)
     {
         $this->SalesOfficerRepo->delete($id);
