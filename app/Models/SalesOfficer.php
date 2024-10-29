@@ -9,4 +9,9 @@ class SalesOfficer extends Model
 {
     protected $guarded = [];
     use HasFactory;
+
+    public function deals()
+    {
+        return $this->hasOne(PlotSalesOfficer::class , 'sales_officer_id');
+    }
 }

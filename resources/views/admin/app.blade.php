@@ -22,6 +22,7 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="assets/css/style.css">
+    @yield('styles')
     <!-- endinject -->
 </head>
 

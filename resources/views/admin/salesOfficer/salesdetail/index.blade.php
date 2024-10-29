@@ -1,46 +1,56 @@
 @extends('admin.app')
+@section('styles')
+    <style>
+        /* Animation to pulse the icon */
+        .info-icon {
+            color: #007bff;
+            /* Customize color if desired */
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(.5);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .dt-type-numeric {
+            text-align: left !important;
+        }
+
+        /* Optional hover effect */
+        .info-icon:hover {
+            color: #0056b3;
+            /* Darker shade on hover */
+            transform: scale(1.15);
+        }
+    </style>
+@endsection
 @section('content')
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                Sales Officers (Sulaman)
+                Sales Officer
             </h3>
             {{-- <a href="{{ route('sales.officer.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
         </div>
-        <div class="row grid-margin">
-            <div class="col-12">
-                <div class="card card-statistics">
-                    <div class="card-body">
-                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-                            <div class="statistics-item">
-                                <p>
-                                    <i class="icon-sm fas fa-hourglass-half mr-2"></i>
-                                    Total Sales
-                                </p>
-                                <h2>10</h2>
-                                {{-- <label class="badge badge-outline-danger badge-pill">50</label> --}}
-                            </div>
-                            <div class="statistics-item">
-                                <p>
-                                    <i class="icon-sm fas fa-check-circle mr-2"></i>
-                                    Total Paid Commission
-                                </p>
-                                <h2>67896</h2>
-                                {{-- <label class="badge badge-outline-success badge-pill"></label> --}}
-                            </div>
-                            <div class="statistics-item">
-                                <p>
-                                    <i class="icon-sm fas fa-chart-line mr-2"></i>
-                                    Total UnPaid Commission
-                                </p>
-                                <h2>9879</h2>
-                                {{-- <label class="badge badge-outline-success badge-pill">{{$salesCount}}</label> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('admin.partials.count', [
+            'label1' => 'Total Sales',
+            'label2' => 'Pending/Approved Commission',
+            'label3' => 'Remaining Commission',
+            'val1' => App\Services\CountService::getTotalDealsOfSalesOfficer($id),
+            'val2' => '',
+            'val3' => '',
+        ])
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -50,37 +60,41 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name Sale Officer</th>
+                                        <th>Sale Officer</th>
                                         <th>Client Name</th>
-                                        <th>Plaot Number</th>
-                                        <th>Commission Desided</th>
-                                        <th>Ploat Size</th>
-                                        <th>Phone</th>
-                                        <th>Agent</th>
-                                        <th>Actione</th>
+                                        <th>Plot Number</th>
+                                        <th style="width: 350px">Pending/Approved Commission <i
+                                                class="fas fa-info info-icon"
+                                                title="The Commission Amount for Advance, Adjustment payments."></i>
+
+                                        </th>
+                                        <th>Remaining Commission</th>
+                                        <th>Plot Size</th>
+                                        <th>Pending/Approved Commission Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @forelse ($data as $key => $data) --}}
+                                    @foreach ($data as $key => $data)
                                         <tr>
-                                            <td>1</td>
-                                            <td>Sulaman</td>
-                                            <td>Hassan</td>
-                                            <td>123</td>
-                                            <td>120</td>
-                                            <td>5 Parla</td>
-                                            <td>03004423989</td>
-                                            {{-- <td>(Shuld be a type of Department we will auto fetch this when we creating the sale office we tell which type of this Sale officer)</td> --}}
-                                            <td>Sale team</td>
+                                            <td>{{ $key += 1 }}</td>
+                                            <td>{{ $data->officer->name }}</td>
+                                            <td>{{ $data->client->name }}</td>
+                                            <td>{{ $data->client->plot_number }}</td>
+                                            <td id="pending_approved_commission">{{ $data->commission_received }}</td>
+                                            <td id="remaining_commission">
+                                                {{ ($data->commission_amount / 100) * $data->client->plot_sale_price - $data->commission_received }}
+                                            </td>
+                                            <td>{{ $data->client->plot_size }}</td>
+                                            <td>{{ $data->commission_received_status ?? 'PENDING' }}</td>
+
                                             <td>
-                                                <a href=""
-                                                    class="btn btn-warning btn-sm mr-2"><i
-                                                        class="fas fa-regular fa-dollar"></i>
+                                                <a href="javascript:;" class="btn btn-sm btn-primary" onclick="confirmAction('{{route('sales.officer.commission.status' , $data->id)}}')">
+                                                    <i class="fas fa-check"></i>
                                                 </a>
                                             </td>
                                         </tr>
-                                    {{-- @empty --}}
-                                    {{-- @endforelse --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -94,5 +108,10 @@
 @section('bottom-scripts')
     <script>
         let table = new DataTable('#myTable');
+
+        $(document).ready(function() {
+            $('#h1').text($('#pending_approved_commission').text());
+            $('#h2').text($('#remaining_commission').text());
+        });
     </script>
 @endsection

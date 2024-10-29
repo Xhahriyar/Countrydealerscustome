@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OfficerRerquest;
 use Illuminate\Http\Request;
 use App\Repositories\SalesOfficerRepo;
+use App\Models\Type;
 
 class SalesOfficerController extends Controller
 {
@@ -21,7 +22,8 @@ class SalesOfficerController extends Controller
     }
     public function create()
     {
-        return view("admin.salesOfficer.create");
+        $salesOfficerTypes = Type::where('type_category' , 'sales officer')->get();
+        return view("admin.salesOfficer.create" , compact("salesOfficerTypes"));
     }
     public function store(OfficerRerquest $request)
     {
@@ -30,8 +32,13 @@ class SalesOfficerController extends Controller
     }
     public function show($id)
     {
-
-        return view('admin.salesOfficer.salesdetail.index');
+        $data = $this->SalesOfficerRepo->getAllDealsDetails($id);
+        return view('admin.salesOfficer.salesdetail.index' , compact('data' , 'id'));
+    }
+    public function status($id)
+    {
+        $data = $this->SalesOfficerRepo->updateCommissionStatus($id);
+        return redirect()->back()->with("success","Record Deleted Successfully");
     }
     public function delete($id)
     {

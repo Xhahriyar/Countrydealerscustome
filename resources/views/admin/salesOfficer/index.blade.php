@@ -7,40 +7,13 @@
             </h3>
             <a href="{{ route('sales.officer.create') }}" class="btn btn-sm btn-primary">+ New</a>
         </div>
-        <div class="row grid-margin">
-            <div class="col-12">
-                <div class="card card-statistics">
-                    <div class="card-body">
-                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-                            <div class="statistics-item">
-                                <p>
-                                    <i class="icon-sm fas fa-hourglass-half mr-2"></i>
-                                    Total Sales
-                                </p>
-                                <h2>50</h2>
-                                {{-- <label class="badge badge-outline-danger badge-pill">50</label> --}}
-                            </div>
-                            <div class="statistics-item">
-                                <p>
-                                    <i class="icon-sm fas fa-check-circle mr-2"></i>
-                                    Total Paid Commission
-                                </p>
-                                <h2>76786896</h2>
-                                {{-- <label class="badge badge-outline-success badge-pill"></label> --}}
-                            </div>
-                            <div class="statistics-item">
-                                <p>
-                                    <i class="icon-sm fas fa-chart-line mr-2"></i>
-                                    Total UnPaid Commission
-                                </p>
-                                <h2>9129879</h2>
-                                {{-- <label class="badge badge-outline-success badge-pill">{{$salesCount}}</label> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{-- count sectionm --}}
+        @include('admin.partials.count', [
+            'label1' => 'Total Sales',
+            'label2' => 'Total Paid Commission',
+            'label3' => 'Total Unpaid Commission',
+        ])
+        {{-- count section end --}}
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -53,9 +26,6 @@
                                         <th>Name</th>
                                         <th>CNIC</th>
                                         <th>Total Deals</th>
-                                        <th>Grand Total commission</th>
-                                        <th>Unpaid commission</th>
-                                        <th>Paid commission</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -65,10 +35,9 @@
                                             <td>{{ $key += 1 }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->cnic }}</td>
-                                            <td>120</td>
-                                            <td>100000</td>
-                                            <td>50000</td>
-                                            <td>50000</td>
+                                            <td>
+                                                {{ App\Services\CountService::getTotalDealsOfSalesOfficer($data->id) }}
+                                            </td>
                                             <td class="d-flex">
                                                 {{-- View button --}}
                                                 <a href="{{ route('sales.officer.show', $data->id) }}"

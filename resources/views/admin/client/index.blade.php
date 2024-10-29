@@ -22,7 +22,7 @@
                                         <th>Father/Husband Name</th>
                                         <th>Client Type</th>
                                         <th>Sale Type</th>
-                                        <th>Plot Price</th>
+                                        <th>Plot Sale Price</th>
                                         <th style="width: 200px">Actions</th>
                                         <th>Installments</th>
                                     </tr>

@@ -20,6 +20,7 @@ class PlotSalesOfficersCommissionRepo
             'commission_type' => 'required',
             'commission_amount' => 'required',
         ];
+
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             return redirect()
@@ -27,14 +28,44 @@ class PlotSalesOfficersCommissionRepo
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        // Get plot_sale_price, adjustment_price, and advance_payment values
+        $plotSalePrice = $data['plot_sale_price'] ?? 0;
+        $adjustmentPrice = $data['adjustment_price'] ?? 0;
+        $advancePayment = $data['advance_payment'] ?? 0;
+
+        // Determine commission base: either sum of adjustment & advance or the full plot_sale_price if both are zero
+        $commissionBase = ($adjustmentPrice + $advancePayment) > 0
+            ? $adjustmentPrice + $advancePayment
+            : $plotSalePrice;
+
         for ($i = 0; $i < count($data['sales_officer_id']); $i++) {
+            $commissionType = $data['commission_type'][$i];
+            $commissionAmount = $data['commission_amount'][$i];
+
+            // Initialize commission received to zero
+            $commissionReceived = 0;
+
+            // Calculate commission received based on the commission type
+            if ($commissionType === 'percent') {
+                // Calculate commission as a percentage of the commission base
+                $commissionReceived = ($commissionAmount / 100) * $commissionBase;
+            } else {
+                // If the type is a fixed amount, use commission_amount directly
+                $commissionReceived = null;
+            }
+
             $salesOfficers = [
                 "client_id" => $clientId,
                 "sales_officer_id" => $data['sales_officer_id'][$i],
-                "commission_type" => $data['commission_type'][$i],
-                "commission_amount" => $data['commission_amount'][$i],
+                "commission_type" => $commissionType,
+                "commission_amount" => $commissionAmount,
+                "commission_received" => $commissionReceived,
             ];
+
             $this->model->create($salesOfficers);
         }
     }
+
+
 }

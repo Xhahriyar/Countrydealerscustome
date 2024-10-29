@@ -13,4 +13,8 @@ class PlotSalesOfficer extends Model
     {
         return $this->belongsTo(SalesOfficer::class , 'sales_officer_id');
     }
+    public function client()
+    {
+        return $this->belongsTo(Client::class , 'client_id');
+    }
 }
