@@ -76,6 +76,35 @@
     @yield('bottom-scripts')
 
     <script>
+        $('#logoutBtn').on('click', function() {
+            $('#logout-form').submit();
+        })
+
+        $(document).on('click', '.markAsReadNotification', function() {
+            $('#dropdpwn').removeClass('dropdwon');
+            var paymentNotificationId = $(this).data('paymentnotificationid');
+            var model = $(this).data('model');
+            $.ajax({
+                type: "get",
+                url: "admin/mark/as/read/notification/" + paymentNotificationId + '/' + model,
+                success: function(response) {
+                    window.location.reload();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+        $(document).on('click', '#goToClientBtn', function() {
+            $('#dropdpwn').removeClass('dropdwon');
+            window.location.href = 'admin/client'
+        })
+        $(document).on('click', '#goToPurchaseBtn', function() {
+            $('#dropdpwn').removeClass('dropdwon');
+            window.location.href = 'admin/purchase';
+        })
+    </script>
+    <script>
         function confirmDelete() {
             Swal.fire({
                 title: 'Are you sure?',
@@ -110,6 +139,7 @@
                 }
             });
         }
+
         function confirmAction(route) {
             Swal.fire({
                 title: 'Are you sure?',

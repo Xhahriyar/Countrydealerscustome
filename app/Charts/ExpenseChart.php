@@ -24,6 +24,7 @@ class ExpenseChart
         $salesData = [];
         $incomeData = [];
 
+
         // Get current year and month
         $currentMonth = now()->month;
 
