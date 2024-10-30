@@ -45,11 +45,11 @@
         </div>
         @include('admin.partials.count', [
             'label1' => 'Total Sales',
-            'label2' => 'Pending/Approved Commission',
+            'label2' => 'Approved Commission',
             'label3' => 'Remaining Commission',
-            'val1' => App\Services\CountService::getTotalDealsOfSalesOfficer($id),
-            'val2' => '',
-            'val3' => '',
+            'val1' => App\Services\CountService::getCountDataForSalesOfficer($id)[0],
+            'val2' => App\Services\CountService::getCountDataForSalesOfficer($id)[1],
+            'val3' => App\Services\CountService::getCountDataForSalesOfficer($id)[1] - 50,
         ])
         <div class="card">
             <div class="card-body">
@@ -81,17 +81,36 @@
                                             <td>{{ $data->officer->name }}</td>
                                             <td>{{ $data->client->name }}</td>
                                             <td>{{ $data->client->plot_number }}</td>
-                                            <td id="pending_approved_commission">{{ $data->commission_received }}</td>
-                                            <td id="remaining_commission">
-                                                {{ ($data->commission_amount / 100) * $data->client->plot_sale_price - $data->commission_received }}
+                                            <td class="pending_approved_commission">
+                                                {{ $data->commission_received }}
                                             </td>
+                                            @if ($data->commission_type != 'cash')
+                                                <td class="remaining_commission">
+                                                    {{ ($data->commission_amount / 100) * $data->client->plot_sale_price - $data->commission_received }}
+                                                </td>
+                                            @else
+                                                <td>0</td>
+                                            @endif
+
                                             <td>{{ $data->client->plot_size }}</td>
-                                            <td>{{ $data->commission_received_status ?? 'PENDING' }}</td>
 
                                             <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-primary" onclick="confirmAction('{{route('sales.officer.commission.status' , $data->id)}}')">
-                                                    <i class="fas fa-check"></i>
-                                                </a>
+                                                <span
+                                                    class="badge @if ($data->commission_received_status == 'PAID') badge-outline-success @else badge-outline-warning @endif  badge-pill">
+                                                    {{ $data->commission_received_status }}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                @if($data->commission_received_status == 'PAID')
+
+                                                <button class="btn btn-sm btn-danger" disabled><i class="fas fa-check"></i></button>
+                                                @else
+                                                <a href="javascript:;" class="btn btn-sm btn-primary"
+                                                onclick="confirmAction('{{ route('sales.officer.commission.status', $data->id) }}')">
+                                                <i class="fas fa-check"></i>
+                                            </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -106,12 +125,31 @@
 @endsection
 
 @section('bottom-scripts')
+    @php
+        $totalPendingCommission = App\Services\CountService::getCountDataForSalesOfficer($id)[2];
+    @endphp
     <script>
+        var totalPendingCommission = {{ $totalPendingCommission }};
         let table = new DataTable('#myTable');
 
         $(document).ready(function() {
-            $('#h1').text($('#pending_approved_commission').text());
-            $('#h2').text($('#remaining_commission').text());
+            let total = 0;
+            $('.remaining_commission').each(function() {
+                const value = parseFloat($(this).text()) || 0; // Convert to number, default to 0
+                total += value;
+            });
+            $('#countVal3').text(total.toFixed(2));
+            $('#count-main-div').append(`
+            <div class="statistics-item">
+                <p>
+                    <i class="icon-sm fas fa-hourglass-half mr-2"></i>
+                    Pending Commissions
+                </p>
+                <label class="badge badge-outline-secondary badge-pill">
+                    ${totalPendingCommission}
+                </label>
+            </div>
+        `);
         });
     </script>
 @endsection

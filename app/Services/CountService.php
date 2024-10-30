@@ -9,37 +9,17 @@ class CountService
     public static function getCountForSalesForAllOfficers()
     {
         $totalSalesCount = PlotSalesOfficer::all()->count();
-        // sales commission if cash
-        $totalSalesCommission = PlotSalesOfficer::where('commission_type', '=', 'cash')->sum('commission_amount');
-        // sales commission if percentage
-        $totalSalesCommission = PlotSalesOfficer::where('commission_type', '=', 'percent')->with('client')->get();
-
-        // Initialize a variable to hold the total commission
-        $totalCommission = 0;
-
-        // Loop through each sales officer entry
-        foreach ($totalSalesCommission as $salesOfficer) {
-            // Get the commission percentage
-            $commissionPercentage = $salesOfficer->commission_amount; // e.g., 1 for 1%, 2 for 2%, etc.
-
-            // Get the corresponding plot sale price from the related client
-            $plotSalePrice = $salesOfficer->client->plot_sale_price; // Adjust this based on your relationship and actual field name
-
-            // Calculate the commission for this entry
-            $commission = ($commissionPercentage / 100) * $plotSalePrice;
-
-            // Sum the commission to the total commission
-            $totalCommission += $commission;
-        }
-
-        // Now $totalCommission holds the total commission for all sales officers
-        return $totalCommission;
-
-
+        $totalPaidCommission = PlotSalesOfficer::where('commission_received_status' , 'PAID')->sum('commission_received');
+        $totalPendingCommission = PlotSalesOfficer::where('commission_received_status' , 'PENDING')->sum('commission_received');
+        return [$totalSalesCount , $totalPaidCommission , $totalPendingCommission];
     }
 
-    public static function getTotalDealsOfSalesOfficer($id)
+    public static function getCountDataForSalesOfficer($id)
     {
-        return PlotSalesOfficer::where('sales_officer_id' , $id)->count();
+        $totalDeals = PlotSalesOfficer::where('sales_officer_id' , $id)->count();
+        $totalCommission = PlotSalesOfficer::where('sales_officer_id' , $id)->where('commission_received_status' , '=' , 'PAID')->sum('commission_received');
+        $totalPendingCommission = PlotSalesOfficer::where('sales_officer_id' , $id)->where('commission_received_status' , '=' , 'PENDING')->sum('commission_received');
+        // dd($totalPendingCommission);
+        return [$totalDeals , $totalCommission , $totalPendingCommission];
     }
 }

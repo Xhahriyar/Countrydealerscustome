@@ -51,8 +51,8 @@ class PlotSalesOfficersCommissionRepo
                 // Calculate commission as a percentage of the commission base
                 $commissionReceived = ($commissionAmount / 100) * $commissionBase;
             } else {
-                // If the type is a fixed amount, use commission_amount directly
-                $commissionReceived = null;
+                // If the type is a fixed amount.
+                $commissionReceived = $commissionAmount;
             }
 
             $salesOfficers = [
@@ -61,6 +61,7 @@ class PlotSalesOfficersCommissionRepo
                 "commission_type" => $commissionType,
                 "commission_amount" => $commissionAmount,
                 "commission_received" => $commissionReceived,
+                "commission_received_status" => 'PENDING',
             ];
 
             $this->model->create($salesOfficers);

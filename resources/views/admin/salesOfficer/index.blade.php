@@ -10,8 +10,11 @@
         {{-- count sectionm --}}
         @include('admin.partials.count', [
             'label1' => 'Total Sales',
-            'label2' => 'Total Paid Commission',
-            'label3' => 'Total Unpaid Commission',
+            'label2' => 'Total Paid Commissions',
+            'label3' => 'Pending Commissions',
+            'val1' => App\Services\CountService::getCountForSalesForAllOfficers()[0],
+            'val2' => App\Services\CountService::getCountForSalesForAllOfficers()[1],
+            'val3' => App\Services\CountService::getCountForSalesForAllOfficers()[2],
         ])
         {{-- count section end --}}
         <div class="card">
@@ -36,7 +39,7 @@
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->cnic }}</td>
                                             <td>
-                                                {{ App\Services\CountService::getTotalDealsOfSalesOfficer($data->id) }}
+                                                {{ App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] }}
                                             </td>
                                             <td class="d-flex">
                                                 {{-- View button --}}
