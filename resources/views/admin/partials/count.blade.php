@@ -1,4 +1,4 @@
-<div>
+{{-- <div>
     <span id="val2">{{ $val2 }}</span>
     <span id="val3">{{ $val3 }}</span>
 </div>
@@ -13,7 +13,7 @@
                             {{$label1}}
                         </p>
                         <h2>{{$val1}}</h2>
-                        {{-- <label class="badge badge-outline-danger badge-pill">50</label> --}}
+                        <label class="badge badge-outline-danger badge-pill">50</label>
                     </div>
                     <div class="statistics-item">
                         <p>
@@ -33,4 +33,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

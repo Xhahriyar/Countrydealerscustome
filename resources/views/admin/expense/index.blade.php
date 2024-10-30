@@ -47,6 +47,49 @@
                 </div>
             </div>
         </div>
+        <h3 class="page-title mb-3">
+            Filters
+        </h3>
+        <div class="row mb-5">
+
+            <div class="col-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <select class="form-control mx-1" id="employee_type">
+                        <option disabled selected>-- Filter Expence category --</option>
+                        <option value="Expence">Sales Team</option>
+                        <option value="Expence">Admin Office</option>
+                        <option value="Expence">Home</option>
+                    </select>
+                    {{-- <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <select class="form-control mx-1" id="employee_type">
+                        <option disabled selected>-- Filter Expence Type --</option>
+                        <option value="Expence">Lunch</option>
+                        <option value="Expence">Food</option>
+                        <option value="Expence">Care Menataince</option>
+                    </select>
+                    {{-- <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <select class="form-control mx-1" id="employee_type">
+                        <option disabled selected>-- Filter By Name --</option>
+                        <option value="Expence">Sulaman</option>
+                        <option value="Expence">Hassan</option>
+                        <option value="Expence">Ali</option>
+                    </select>
+                    {{-- <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
+                </div>
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control" name="daterange" value="" />
+            </div>
+             <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">Search</a>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -98,4 +141,13 @@
     <script>
         let table = new DataTable('#myTable');
     </script>
+    <script>
+        $(function() {
+          $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+          }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+          });
+        });
+        </script>
 @endsection
