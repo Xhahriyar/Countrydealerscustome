@@ -33,7 +33,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($data as $key => $data)
+                                    @php
+                                        $totalRemainingCommissions = 0;
+                                    @endphp
+                                    @foreach ($data as $key => $data)
+                                        @foreach ($data->deals as $deal)
+                                            @if ($deal->commission_type == 'percent' && $deal->commission_received_status == 'PENDING')
+                                                @php
+                                                $remainingCommission = ($deal->commission_amount / 100) * $deal->client->plot_sale_price - $deal->commission_received;
+                                                    $totalRemainingCommissions += $remainingCommission;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+
                                         <tr>
                                             <td>{{ $key += 1 }}</td>
                                             <td>{{ $data->name }}</td>
@@ -42,12 +54,10 @@
                                                 {{ App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] }}
                                             </td>
                                             <td class="d-flex">
-                                                {{-- View button --}}
                                                 <a href="{{ route('sales.officer.show', $data->id) }}"
                                                     class="btn btn-warning btn-sm mr-2"><i
                                                         class="fas fa-regular fa-eye"></i>
                                                 </a>
-                                                {{-- <a href="{{route('sales.officer.delete' , $data->id)}}" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a> --}}
                                                 <form id="delete-form"
                                                     action="{{ route('sales.officer.delete', $data->id) }}" method="POST">
                                                     @csrf
@@ -57,11 +67,10 @@
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </form>
-
                                             </td>
                                         </tr>
-                                    @empty
-                                    @endforelse
+                                    @endforeach
+                                    {{-- <p>Total Remaining Commissions: {{ $totalRemainingCommissions }}</p> --}}
                                 </tbody>
                             </table>
                         </div>
@@ -74,6 +83,18 @@
 
 @section('bottom-scripts')
     <script>
+        var totalRemainingCommission = {{ $totalRemainingCommissions }};
         let table = new DataTable('#myTable');
+        $('#count-main-div').append(`
+            <div class="statistics-item">
+                <p>
+                    <i class="icon-sm fas fa-dollar mr-2"></i>
+                    Total Remaining Commissions
+                </p>
+                <label class="badge badge-outline-secondary badge-pill">
+                    ${totalRemainingCommission}
+                </label>
+            </div>
+        `);
     </script>
 @endsection

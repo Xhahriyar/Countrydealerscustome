@@ -18,6 +18,7 @@ class SalesOfficerController extends Controller
     public function index()
     {
         $data = $this->SalesOfficerRepo->all();
+        // dd($data);
         return view("admin.salesOfficer.index" , compact("data"));
     }
     public function create()

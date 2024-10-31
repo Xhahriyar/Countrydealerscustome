@@ -49,7 +49,7 @@
             'label3' => 'Remaining Commission',
             'val1' => App\Services\CountService::getCountDataForSalesOfficer($id)[0],
             'val2' => App\Services\CountService::getCountDataForSalesOfficer($id)[1],
-            'val3' => App\Services\CountService::getCountDataForSalesOfficer($id)[1] - 50,
+            'val3' => 0,
         ])
         <div class="card">
             <div class="card-body">
@@ -84,7 +84,7 @@
                                             <td class="pending_approved_commission">
                                                 {{ $data->commission_received }}
                                             </td>
-                                            @if ($data->commission_type != 'cash')
+                                            @if ($data->commission_type != 'cash' && $data->is_installment != false)
                                                 <td class="remaining_commission">
                                                     {{ ($data->commission_amount / 100) * $data->client->plot_sale_price - $data->commission_received }}
                                                 </td>
@@ -135,14 +135,14 @@
         $(document).ready(function() {
             let total = 0;
             $('.remaining_commission').each(function() {
-                const value = parseFloat($(this).text()) || 0; // Convert to number, default to 0
+                const value = parseFloat($(this).text()) || 0;
                 total += value;
             });
             $('#countVal3').text(total.toFixed(2));
             $('#count-main-div').append(`
             <div class="statistics-item">
                 <p>
-                    <i class="icon-sm fas fa-hourglass-half mr-2"></i>
+                    <i class="icon-sm fas fa-dollar mr-2"></i>
                     Pending Commissions
                 </p>
                 <label class="badge badge-outline-secondary badge-pill">

@@ -38,14 +38,11 @@ class PlotSalesOfficersCommissionRepo
         $commissionBase = ($adjustmentPrice + $advancePayment) > 0
             ? $adjustmentPrice + $advancePayment
             : $plotSalePrice;
-
         for ($i = 0; $i < count($data['sales_officer_id']); $i++) {
             $commissionType = $data['commission_type'][$i];
             $commissionAmount = $data['commission_amount'][$i];
-
             // Initialize commission received to zero
             $commissionReceived = 0;
-
             // Calculate commission received based on the commission type
             if ($commissionType === 'percent') {
                 // Calculate commission as a percentage of the commission base
@@ -54,7 +51,6 @@ class PlotSalesOfficersCommissionRepo
                 // If the type is a fixed amount.
                 $commissionReceived = $commissionAmount;
             }
-
             $salesOfficers = [
                 "client_id" => $clientId,
                 "sales_officer_id" => $data['sales_officer_id'][$i],
@@ -63,10 +59,9 @@ class PlotSalesOfficersCommissionRepo
                 "commission_received" => $commissionReceived,
                 "commission_received_status" => 'PENDING',
             ];
-
             $this->model->create($salesOfficers);
         }
     }
 
-
+    
 }

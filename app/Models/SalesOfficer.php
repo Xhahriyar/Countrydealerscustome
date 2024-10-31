@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +13,7 @@ class SalesOfficer extends Model
 
     public function deals()
     {
-        return $this->hasOne(PlotSalesOfficer::class , 'sales_officer_id');
+        return $this->hasMany(PlotSalesOfficer::class, 'sales_officer_id');
     }
+
 }
