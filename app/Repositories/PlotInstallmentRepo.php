@@ -122,7 +122,7 @@ class PlotInstallmentRepo
             return false;
         }
 
-        $this->calculateSalesOfficerCommission( $id, InstallmentPayment: $data['installment_payment']);
+        $this->calculateSalesOfficerCommission($id, InstallmentPayment: $data['installment_payment']);
         $new = $this->model;
         $new->client_id = $id;
         $new->payment_type = 'no';
@@ -152,27 +152,53 @@ class PlotInstallmentRepo
             $imagePath = $data['cheque_image']->store('cheque_images', 'public');
         }
 
-        $this->calculateSalesOfficerCommission( $id, $data['cheque_installment_amount']);
+        $this->calculateSalesOfficerCommission($id, $data['cheque_installment_amount']);
         $new->cheque_image = $imagePath;
         $new->cheque_installment_amount = $data['cheque_installment_amount'];
         $new->cheque_installment_due_date = $data['cheque_installment_due_date'];
         $new->save();
         return true;
     }
-    public function calculateSalesOfficerCommission( $id, $InstallmentPayment)
+    public function calculateSalesOfficerCommission($id, $InstallmentPayment)
     {
-        $getClientSalesOfficers = $this->plotSalesOfficer->where('client_id', $id)->with(['officer', 'client'])->get();
-        // $totalCommissionRecivedToSalesOfficers = $this->plotSalesOfficer->where('client_id', $id)->sum('commission_received');
-        $uniqueSalesOfficerCount = $this->plotSalesOfficer::where('client_id', $id)
-            ->distinct('sales_officer_id')->count('sales_officer_id');
+        // $getClientSalesOfficers = $this->plotSalesOfficer->where('client_id', $id)->with(['officer', 'client'])->distinct('sales_officer_id')->get();
+        // $uniqueSalesOfficerCount = $this->plotSalesOfficer::where('client_id', $id)
+        //     ->distinct('sales_officer_id')->count('sales_officer_id');
+        // foreach ($getClientSalesOfficers as $getClientSalesOfficer) {
+        //     $clientId = $getClientSalesOfficer->client_id;
+        //     $officerId = $getClientSalesOfficer->sales_officer_id;
+        //     $commissionAmount = $getClientSalesOfficer->commission_amount;
+        //     $commissionGoingToTheSalesOfficers = ($commissionAmount / 100) * $InstallmentPayment;
+        //     $commissionGoingToTheOneSalesOfficer = $commissionGoingToTheSalesOfficers / $uniqueSalesOfficerCount;
+        //     $salesOfficer = [
+        //         "client_id" => $clientId,
+        //         "sales_officer_id" => $officerId,
+        //         "commission_type" => 'percent',
+        //         "commission_amount" => $commissionAmount,
+        //         "commission_received" => $commissionGoingToTheOneSalesOfficer,
+        //         "commission_received_status" => 'PENDING',
+        //         "is_installment" => true,
+        //     ];
+        //     $this->plotSalesOfficer->create($salesOfficer);
+        // }
+        // Get unique entries by grouping by sales_officer_id
+        $getClientSalesOfficers = $this->plotSalesOfficer
+            ->where('client_id', $id)
+            ->select('client_id', 'sales_officer_id', 'commission_amount', \DB::raw('MAX(id) as id'))
+            ->with(['officer', 'client'])
+            ->groupBy('sales_officer_id', 'client_id', 'commission_amount')
+            ->get();
+
+        $uniqueSalesOfficerCount = $getClientSalesOfficers->count();
 
         foreach ($getClientSalesOfficers as $getClientSalesOfficer) {
             $clientId = $getClientSalesOfficer->client_id;
             $officerId = $getClientSalesOfficer->sales_officer_id;
             $commissionAmount = $getClientSalesOfficer->commission_amount;
-            // $totalRemainingCommission = ($commissionAmount / 100) * $getClientSalesOfficer->client->plot_sale_price - $totalCommissionRecivedToSalesOfficers;
+
             $commissionGoingToTheSalesOfficers = ($commissionAmount / 100) * $InstallmentPayment;
             $commissionGoingToTheOneSalesOfficer = $commissionGoingToTheSalesOfficers / $uniqueSalesOfficerCount;
+
             $salesOfficer = [
                 "client_id" => $clientId,
                 "sales_officer_id" => $officerId,
@@ -184,5 +210,6 @@ class PlotInstallmentRepo
             ];
             $this->plotSalesOfficer->create($salesOfficer);
         }
+
     }
 }

@@ -15,6 +15,7 @@ class PlotSalesOfficersCommissionRepo
     }
     public function store(array $data, $clientId)
     {
+        $totalSalesOfficers = count($data['sales_officer_id']);
         $rules = [
             'sales_officer_id' => 'required',
             'commission_type' => 'required',
@@ -56,12 +57,12 @@ class PlotSalesOfficersCommissionRepo
                 "sales_officer_id" => $data['sales_officer_id'][$i],
                 "commission_type" => $commissionType,
                 "commission_amount" => $commissionAmount,
-                "commission_received" => $commissionReceived,
+                "commission_received" => $commissionReceived / $totalSalesOfficers,
                 "commission_received_status" => 'PENDING',
             ];
             $this->model->create($salesOfficers);
         }
     }
 
-    
+
 }

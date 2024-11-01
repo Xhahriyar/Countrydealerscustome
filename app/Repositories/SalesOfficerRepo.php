@@ -25,7 +25,7 @@ class SalesOfficerRepo
     }
     public function getAllDealsDetails($id)
     {
-        $data = $this->plotSalesOfficer::where("sales_officer_id" , $id)->with(['client' , 'officer'])->get();
+        $data = $this->plotSalesOfficer::where('is_installment' , false)->where("sales_officer_id" , $id)->with(['client' , 'officer'])->get();
         return $data;
     }
     public function updateCommissionStatus($id)
@@ -33,6 +33,12 @@ class SalesOfficerRepo
         $data =  $this->plotSalesOfficer::find($id);
         $data->commission_received_status = 'PAID';
         $data->save();
+    }
+    public function getAllInstallmentsDetails($id)
+    {
+        $data =  $this->plotSalesOfficer::where('is_installment' , true)->where("sales_officer_id" , $id)->get();
+        // dd($data);
+       return $data;
     }
     public function delete($id)
     {

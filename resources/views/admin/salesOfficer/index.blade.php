@@ -83,18 +83,6 @@
 
 @section('bottom-scripts')
     <script>
-        var totalRemainingCommission = {{ $totalRemainingCommissions }};
         let table = new DataTable('#myTable');
-        $('#count-main-div').append(`
-            <div class="statistics-item">
-                <p>
-                    <i class="icon-sm fas fa-dollar mr-2"></i>
-                    Total Remaining Commissions
-                </p>
-                <label class="badge badge-outline-secondary badge-pill">
-                    ${totalRemainingCommission}
-                </label>
-            </div>
-        `);
     </script>
 @endsection

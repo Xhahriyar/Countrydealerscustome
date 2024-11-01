@@ -44,12 +44,12 @@
             {{-- <a href="{{ route('sales.officer.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
         </div>
         @include('admin.partials.count', [
-            'label1' => 'Total Sales',
+            'label1' => 'Total Installments',
             'label2' => 'Approved Commission',
             'label3' => 'Pending Commissions',
-            'val1' => App\Services\CountService::getCountDataForSalesOfficer($id)[0],
-            'val2' => App\Services\CountService::getCountDataForSalesOfficer($id)[1],
-            'val3' => App\Services\CountService::getCountDataForSalesOfficer($id)[2],
+            'val1' => App\Services\CountService::getCountDataForInstallments($salesOfficerId)[0],
+            'val2' => App\Services\CountService::getCountDataForInstallments($salesOfficerId)[1],
+            'val3' => App\Services\CountService::getCountDataForInstallments($salesOfficerId)[2],
         ])
         <div class="card">
             <div class="card-body">
@@ -111,9 +111,6 @@
                                                         <i class="fas fa-check"></i>
                                                     </a>
                                                 @endif
-                                                <a href="{{ route('sales.officer.commission.installments', $id) }}" class="btn btn-sm btn-success">
-                                                    <i class="fas fa-dollar"></i>
-                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

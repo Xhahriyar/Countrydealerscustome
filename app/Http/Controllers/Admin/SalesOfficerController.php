@@ -36,6 +36,11 @@ class SalesOfficerController extends Controller
         $data = $this->SalesOfficerRepo->getAllDealsDetails($id);
         return view('admin.salesOfficer.salesdetail.index' , compact('data' , 'id'));
     }
+    public function installments($salesOfficerId)
+    {
+        $data = $this->SalesOfficerRepo->getAllInstallmentsDetails($salesOfficerId);
+        return view('admin.salesOfficer.salesdetail.installments' , compact('data' , 'salesOfficerId'));
+    }
     public function status($id)
     {
         $data = $this->SalesOfficerRepo->updateCommissionStatus($id);
