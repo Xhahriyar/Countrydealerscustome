@@ -36,19 +36,19 @@ class SalesOfficerController extends Controller
         $data = $this->SalesOfficerRepo->getAllDealsDetails($id);
         return view('admin.salesOfficer.salesdetail.index' , compact('data' , 'id'));
     }
-    public function installments($salesOfficerId)
+    public function installments($salesOfficerId , $clientId)
     {
         $data = $this->SalesOfficerRepo->getAllInstallmentsDetails($salesOfficerId);
-        return view('admin.salesOfficer.salesdetail.installments' , compact('data' , 'salesOfficerId'));
+        return view('admin.salesOfficer.salesdetail.installments' , compact('data' , 'salesOfficerId' , 'clientId'));
     }
     public function status($id)
     {
         $data = $this->SalesOfficerRepo->updateCommissionStatus($id);
         return redirect()->back()->with("success","Record Updated Successfully");
     }
-    public function InstallmentStatus($installmenId , $salesOfficerId)
+    public function InstallmentStatus($installmenId , $salesOfficerId , $clientId)
     {
-        $data = $this->SalesOfficerRepo->updateInstallmentCommissionStatus($installmenId , $salesOfficerId);
+        $data = $this->SalesOfficerRepo->updateInstallmentCommissionStatus($installmenId , $salesOfficerId , $clientId);
         return redirect()->back()->with("success","Record Updated Successfully");
     }
     public function delete($id)

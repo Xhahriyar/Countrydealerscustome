@@ -36,10 +36,10 @@ class SalesOfficerRepo
         $data->save();
         return 0;
     }
-    public function updateInstallmentCommissionStatus($Installmentid , $salesOfficerId)
+    public function updateInstallmentCommissionStatus($Installmentid , $salesOfficerId , $clientId)
     {
         $data =  $this->plotSalesOfficer::find($Installmentid);
-        $sale = $this->plotSalesOfficer::where('sales_officer_id' , $salesOfficerId)->where('is_installment' , false)->first();
+        $sale = $this->plotSalesOfficer::where('sales_officer_id' , $salesOfficerId)->where('is_installment' , false)->where('client_id' , $clientId)->first();
         $sale->commission_received = $sale->commission_received - $data->commission_received;
         $data->commission_received_status = 'PAID';
         $data->save();

@@ -77,9 +77,9 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('sales/officer/create', 'create')->name('sales.officer.create');
         Route::post('sales/officer/store', 'store')->name('sales.officer.store');
         Route::get('sales/officer/commission/status/{id}', 'status')->name('sales.officer.commission.status');
-        Route::get('sales/officer/commission/installments/{id}', 'installments')->name('sales.officer.commission.installments');
+        Route::get('sales/officer/commission/installments/{salesOfficerId}/{clientId}', 'installments')->name('sales.officer.commission.installments');
         Route::delete('sales/officer/delete/{id}', 'delete')->name('sales.officer.delete');
-        Route::get('installments/sales/officer/commission/status/{installment_id}/{sales_officer_id}', 'InstallmentStatus')->name('sales.officer.commission.installments.status');
+        Route::get('installments/sales/officer/commission/status/{installment_id}/{sales_officer_id}/{client_id}', 'InstallmentStatus')->name('sales.officer.commission.installments.status');
     });
     Route::controller(NotificationController::class)->group(function () {
         Route::get('mark/as/read/notification/{id}/{model}', 'markAsRead')->name('mark.read.notification');

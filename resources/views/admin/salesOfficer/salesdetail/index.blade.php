@@ -111,7 +111,7 @@
                                                         <i class="fas fa-check"></i>
                                                     </a>
                                                 @endif
-                                                <a href="{{ route('sales.officer.commission.installments', $id) }}" class="btn btn-sm btn-success">
+                                                <a href="{{ route('sales.officer.commission.installments', ['salesOfficerId'=> $id , 'clientId' => $data->client->id]) }}" class="btn btn-sm btn-success">
                                                     <i class="fas fa-dollar"></i>
                                                 </a>
                                             </td>
