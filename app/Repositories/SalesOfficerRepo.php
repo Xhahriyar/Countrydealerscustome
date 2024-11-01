@@ -31,7 +31,6 @@ class SalesOfficerRepo
     public function updateCommissionStatus($id)
     {
         $data =  $this->plotSalesOfficer::find($id);
-        dd($data);
         $data->commission_received_status = 'PAID';
         $data->save();
         return 0;
