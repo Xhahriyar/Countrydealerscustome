@@ -107,7 +107,7 @@
                                                             class="fas fa-check"></i></button>
                                                 @else
                                                     <a href="javascript:;" class="btn btn-sm btn-primary"
-                                                        onclick="confirmAction('{{ route('sales.officer.commission.status', $data->id) }}')">
+                                                        onclick="confirmAction('{{ route('sales.officer.commission.installments.status', ['installment_id' => $data->id  , 'sales_officer_id' => $data->sales_officer_id]) }}')">
                                                         <i class="fas fa-check"></i>
                                                     </a>
                                                 @endif

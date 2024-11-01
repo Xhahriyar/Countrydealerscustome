@@ -44,7 +44,12 @@ class SalesOfficerController extends Controller
     public function status($id)
     {
         $data = $this->SalesOfficerRepo->updateCommissionStatus($id);
-        return redirect()->back()->with("success","Record Deleted Successfully");
+        return redirect()->back()->with("success","Record Updated Successfully");
+    }
+    public function InstallmentStatus($installmenId , $salesOfficerId)
+    {
+        $data = $this->SalesOfficerRepo->updateInstallmentCommissionStatus($installmenId , $salesOfficerId);
+        return redirect()->back()->with("success","Record Updated Successfully");
     }
     public function delete($id)
     {

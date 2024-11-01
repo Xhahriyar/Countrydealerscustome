@@ -20,9 +20,8 @@ class CountService
         $totalDeals = PlotSalesOfficer::where('is_installment' , false)->where('sales_officer_id' , $id)->count();
         $totalCommission = PlotSalesOfficer::where('sales_officer_id' , $id)->where('commission_received_status' , '=' , 'PAID')->sum('commission_received');
         $totalPendingCommission = PlotSalesOfficer::where('is_installment' , false)->where('sales_officer_id' , $id)->where('commission_received_status' , '=' , 'PENDING')->sum('commission_received');
-        $totalRemainingCommission = PlotSalesOfficer::where('is_installment' , false)->where('sales_officer_id' , $id)->where('commission_received_status' , '=' , 'PENDING')->sum('commission_received');
         // dd($totalPendingCommission);
-        return [$totalDeals , $totalCommission , $totalPendingCommission];
+        return [$totalDeals , $totalCommission , $totalPendingCommission - $totalCommission];
     }
 
     public static function getCountDataForInstallments($salesOfficerId)
