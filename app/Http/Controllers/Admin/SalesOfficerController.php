@@ -38,7 +38,7 @@ class SalesOfficerController extends Controller
     }
     public function installments($salesOfficerId , $clientId)
     {
-        $data = $this->SalesOfficerRepo->getAllInstallmentsDetails($salesOfficerId);
+        $data = $this->SalesOfficerRepo->getAllInstallmentsDetails($salesOfficerId , $clientId);
         return view('admin.salesOfficer.salesdetail.installments' , compact('data' , 'salesOfficerId' , 'clientId'));
     }
     public function status($id)

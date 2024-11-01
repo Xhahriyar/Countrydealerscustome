@@ -45,9 +45,9 @@ class SalesOfficerRepo
         $sale->save();
         return 0 ;
     }
-    public function getAllInstallmentsDetails($id)
+    public function getAllInstallmentsDetails($id , $clientId)
     {
-        $data =  $this->plotSalesOfficer::where('is_installment' , true)->where("sales_officer_id" , $id)->get();
+        $data =  $this->plotSalesOfficer::where('is_installment' , true)->where("sales_officer_id" , $id)->where('client_id' , $clientId)->get();
         // dd($data);
        return $data;
     }
