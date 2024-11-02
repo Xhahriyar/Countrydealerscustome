@@ -32,13 +32,8 @@ class PlotSalesOfficersCommissionRepo
 
         // Get plot_sale_price, adjustment_price, and advance_payment values
         $plotSalePrice = $data['plot_sale_price'] ?? 0;
-        $adjustmentPrice = $data['adjustment_price'] ?? 0;
-        $advancePayment = $data['advance_payment'] ?? 0;
 
         // Determine commission base: either sum of adjustment & advance or the full plot_sale_price if both are zero
-        $commissionBase = ($adjustmentPrice + $advancePayment) > 0
-            ? $adjustmentPrice + $advancePayment
-            : $plotSalePrice;
         for ($i = 0; $i < count($data['sales_officer_id']); $i++) {
             $commissionType = $data['commission_type'][$i];
             $commissionAmount = $data['commission_amount'][$i];
@@ -47,7 +42,7 @@ class PlotSalesOfficersCommissionRepo
             // Calculate commission received based on the commission type
             if ($commissionType === 'percent') {
                 // Calculate commission as a percentage of the commission base
-                $commissionReceived = ($commissionAmount / 100) * $commissionBase;
+                $commissionReceived = ($commissionAmount / 100) * $plotSalePrice;
             } else {
                 // If the type is a fixed amount.
                 $commissionReceived = $commissionAmount;

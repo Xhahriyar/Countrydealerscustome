@@ -51,8 +51,30 @@ class SalesOfficerRepo
         // dd($data);
        return $data;
     }
+    public function addCommissionDetails($data , $salesOfficerId , $clientId)
+    {
+        $dealDetails = $this->plotSalesOfficer->where([
+            'sales_officer_id' => $salesOfficerId,
+            'client_id' => $clientId,
+            'is_installment' => false,
+            ])->first();
+        $this->plotSalesOfficer->create([
+            'client_id' => $clientId,
+            'sales_officer_id' => $salesOfficerId,
+            'commission_type' => $dealDetails->commission_type,
+            'commission_amount' => $dealDetails->commission_amount,
+            'commission_received' => $data['commission_payment'],
+            'commission_received_status' => 'PAID',
+            'is_installment' => true,
+        ]);
+        return 0;
+    }
     public function delete($id)
     {
         return SalesOfficer::find($id)->delete();
+    }
+    public function deleteCommission($id)
+    {
+        return $this->plotSalesOfficer::find($id)->delete();
     }
 }

@@ -63,14 +63,9 @@
                                         <th>Sale Officer</th>
                                         <th>Client Name</th>
                                         <th>Plot Number</th>
-                                        <th style="width: 350px">Pending/Approved Commission <i
-                                                class="fas fa-info info-icon"
-                                                title="The Commission Amount for Advance, Adjustment payments."></i>
-
-                                        </th>
+                                        <th>Commission Decided</th>
                                         {{-- <th>Remaining Commission</th> --}}
                                         <th>Plot Size</th>
-                                        <th>Pending/Approved Commission Status</th>
                                         <th style="width: 350px">Actions</th>
                                     </tr>
                                 </thead>
@@ -84,22 +79,7 @@
                                             <td class="pending_approved_commission">
                                                 {{ $data->commission_received }}
                                             </td>
-                                            {{-- @if ($data->commission_type != 'cash')
-                                                <td class="remaining_commission">
-                                                    {{ ($data->commission_amount / 100) * $data->client->plot_sale_price - $data->commission_received }}
-                                                </td>
-                                            @else
-                                                <td>0</td>
-                                            @endif --}}
-
                                             <td>{{ $data->client->plot_size }}</td>
-
-                                            <td>
-                                                <span
-                                                    class="badge @if ($data->commission_received_status == 'PAID') badge-outline-success @else badge-outline-warning @endif  badge-pill">
-                                                    {{ $data->commission_received_status }}
-                                                </span>
-                                            </td>
 
                                             <td>
                                                 @if ($data->commission_received_status == 'PAID')

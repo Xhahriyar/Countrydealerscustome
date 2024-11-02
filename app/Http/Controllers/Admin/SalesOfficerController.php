@@ -46,6 +46,14 @@ class SalesOfficerController extends Controller
         $data = $this->SalesOfficerRepo->updateCommissionStatus($id);
         return redirect()->back()->with("success","Record Updated Successfully");
     }
+    public function updateCommission(Request $request , $salesOfficerId , $clientId)
+    {
+        $request->validate([
+            'commission_payment' => 'required'
+        ]);
+        $data = $this->SalesOfficerRepo->addCommissionDetails($request->all(),$salesOfficerId , $clientId);
+        return redirect()->back()->with('success' , 'Commission Added Successfully.');
+    }
     public function InstallmentStatus($installmenId , $salesOfficerId , $clientId)
     {
         $data = $this->SalesOfficerRepo->updateInstallmentCommissionStatus($installmenId , $salesOfficerId , $clientId);
@@ -54,6 +62,11 @@ class SalesOfficerController extends Controller
     public function delete($id)
     {
         $this->SalesOfficerRepo->delete($id);
+        return redirect()->back()->with("success","Record Deleted Successfully");
+    }
+    public function deleteCommission($id)
+    {
+        $this->SalesOfficerRepo->deleteCommission($id);
         return redirect()->back()->with("success","Record Deleted Successfully");
     }
 }

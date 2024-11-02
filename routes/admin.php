@@ -80,6 +80,8 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('sales/officer/commission/installments/{salesOfficerId}/{clientId}', 'installments')->name('sales.officer.commission.installments');
         Route::delete('sales/officer/delete/{id}', 'delete')->name('sales.officer.delete');
         Route::get('installments/sales/officer/commission/status/{installment_id}/{sales_officer_id}/{client_id}', 'InstallmentStatus')->name('sales.officer.commission.installments.status');
+        Route::post('update/sales/officer/commission/{salesOfficerId}/{clientId}', 'updateCommission')->name('update.sales.officer.commission');
+        Route::get('delete/sales/officer/commission/{installmentId}', 'deleteCommission')->name('sales.officer.commission.delete');
     });
     Route::controller(NotificationController::class)->group(function () {
         Route::get('mark/as/read/notification/{id}/{model}', 'markAsRead')->name('mark.read.notification');
