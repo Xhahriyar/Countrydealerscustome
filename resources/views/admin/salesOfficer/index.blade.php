@@ -28,7 +28,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>CNIC</th>
+                                        <th>Type</th>
+                                        {{-- <th>Total Commition</th> --}}
                                         <th>Total Deals</th>
                                         <th>Action</th>
                                     </tr>
@@ -50,7 +51,8 @@
                                         <tr>
                                             <td>{{ $key += 1 }}</td>
                                             <td>{{ $data->name }}</td>
-                                            <td>{{ $data->cnic }}</td>
+                                            <td>{{ $data->officer_type }}</td>
+
                                             <td>
                                                 {{ App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] }}
                                             </td>

@@ -18,6 +18,7 @@ class SalesOfficerRepo
     public function all()
     {
         return $this->model::with('deals.client')->get();
+        
     }
     public function store($data)
     {
