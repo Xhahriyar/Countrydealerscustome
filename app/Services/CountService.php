@@ -37,7 +37,9 @@ class CountService
     public static function getCommissionDetails($id)
     {
         $totalCommission = PlotSalesOfficer::where([
-            ''
+            'is_installment' => false,
+            'commission_received_status' => "PENDING",
+            'sales_officer_id' => $id,
         ])->sum('commission_received');
 
         return [$totalCommission];
