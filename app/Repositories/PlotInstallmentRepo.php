@@ -121,8 +121,6 @@ class PlotInstallmentRepo
         if ($checkBalance == false) {
             return false;
         }
-
-        $this->calculateSalesOfficerCommission($id, InstallmentPayment: $data['installment_payment']);
         $new = $this->model;
         $new->client_id = $id;
         $new->payment_type = 'no';
@@ -151,8 +149,6 @@ class PlotInstallmentRepo
             // Store the image and get the file path
             $imagePath = $data['cheque_image']->store('cheque_images', 'public');
         }
-
-        $this->calculateSalesOfficerCommission($id, $data['cheque_installment_amount']);
         $new->cheque_image = $imagePath;
         $new->cheque_installment_amount = $data['cheque_installment_amount'];
         $new->cheque_installment_due_date = $data['cheque_installment_due_date'];
