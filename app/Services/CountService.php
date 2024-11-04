@@ -15,10 +15,11 @@ class CountService
             ->where('is_installment', false)
             ->sum('commission_received');
         $finalPendingCommission = $totalPendingCommission - $totalPaidCommission;
-        if($finalPendingCommission <0){
+        if ($finalPendingCommission < 0) {
             $finalPendingCommission = 0;
         }
-        return [$totalSalesCount, $totalPaidCommission, $finalPendingCommission];
+        $totalCommissions = PlotSalesOfficer::where('commission_received_status', 'PENDING')->where('is_installment', false)->sum('commission_received');
+        return [$totalSalesCount, $totalPaidCommission, $finalPendingCommission , $totalCommissions];
     }
 
     public static function getCountDataForSalesOfficer($id)
@@ -28,17 +29,39 @@ class CountService
         $totalCommission = PlotSalesOfficer::where('sales_officer_id', $id)->where('commission_received_status', '=', 'PAID')->sum('commission_received');
         $totalPendingCommission = PlotSalesOfficer::where('is_installment', false)->where('sales_officer_id', $id)->where('commission_received_status', '=', 'PENDING')->sum('commission_received');
         $finalPendingCommission = $totalPendingCommission - $totalCommission;
-        if($finalPendingCommission <0){
+        if ($finalPendingCommission < 0) {
             $finalPendingCommission = 0;
         }
-        return [$totalDeals, $totalCommission, $finalPendingCommission];
+        return [$totalDeals, $totalCommission, $finalPendingCommission , $totalPendingCommission];
     }
 
     public static function getCountDataForInstallments($salesOfficerId, $clientId)
     {
         $totalInstallments = PlotSalesOfficer::where('is_installment', true)->where('sales_officer_id', $salesOfficerId)->where('client_id', $clientId)->count();
-        $totalApprovedInstallmentsPendingCommission = PlotSalesOfficer::where('is_installment', true)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PAID')->where('client_id', $clientId)->sum('commission_received');
-        $totalApprovedInstallmentsApprovedCommission = PlotSalesOfficer::where('is_installment', true)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PENDING')->where('client_id', $clientId)->sum('commission_received');
-        return [$totalInstallments, $totalApprovedInstallmentsPendingCommission, $totalApprovedInstallmentsApprovedCommission];
+        $totalApprovedCommission = PlotSalesOfficer::where('is_installment', true)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PAID')->where('client_id', $clientId)->sum('commission_received');
+        $totalpendingCommission = PlotSalesOfficer::where('is_installment', false)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PENDING')->where('client_id', $clientId)->sum('commission_received');
+        $totalCommission = PlotSalesOfficer::where('is_installment', false)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PENDING')->where('client_id', $clientId)->first();
+        return [$totalInstallments, $totalApprovedCommission, $totalpendingCommission - $totalApprovedCommission , $totalCommission];
+    }
+
+    public static function getCommissionDetailsForOneDeal($salesOfficerId, $clientId)
+    {
+        $totalApprovedInstallmentsPendingCommission = PlotSalesOfficer::where([
+            'is_installment' => true,
+            'sales_officer_id' => $salesOfficerId,
+            'commission_received_status' => 'PAID',
+            'client_id' => $clientId,
+        ])->sum('commission_received');
+        return $totalApprovedInstallmentsPendingCommission;
+    }
+    public static function getTotalCommissionAmountForOneDeal($salesOfficerId, $clientId)
+    {
+        $totalCommission = PlotSalesOfficer::where([
+            'is_installment' => false,
+            'sales_officer_id' => $salesOfficerId,
+            'commission_received_status' => 'PENDING',
+            'client_id' => $clientId,
+        ])->first();
+        return $totalCommission;
     }
 }

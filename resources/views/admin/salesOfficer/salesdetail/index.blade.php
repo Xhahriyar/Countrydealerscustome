@@ -46,10 +46,11 @@
         @include('admin.partials.count', [
             'label1' => 'Total Sales',
             'label2' => 'Approved Commission',
-            'label3' => 'Pending Commissions',
+            'label3' => 'Pending Commission',
             'val1' => App\Services\CountService::getCountDataForSalesOfficer($id)[0],
             'val2' => App\Services\CountService::getCountDataForSalesOfficer($id)[1],
             'val3' => App\Services\CountService::getCountDataForSalesOfficer($id)[2],
+            'val4' => App\Services\CountService::getCountDataForSalesOfficer($id)[3],
         ])
         <div class="card">
             <div class="card-body">
@@ -60,13 +61,13 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Sale Officer</th>
+                                        <th>Name</th>
                                         <th>Client Name</th>
                                         <th>Plot Number</th>
-                                        <th>Commission Decided</th>
-                                        {{-- <th>Remaining Commission</th> --}}
-                                        <th>Plot Size</th>
-                                        <th style="width: 350px">Actions</th>
+                                        <th>Total Commission</th>
+                                        <th>Approved Commission</th>
+                                        <th>Pending Commission</th>
+                                        <th style="width: 400px">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,23 +77,19 @@
                                             <td>{{ $data->officer->name }}</td>
                                             <td>{{ $data->client->name }}</td>
                                             <td>{{ $data->client->plot_number }}</td>
-                                            <td class="pending_approved_commission">
-                                                {{ $data->commission_received }}
+                                            <td>{{ $data->commission_received }}</td>
+                                            <td>{{ App\Services\CountService::getCommissionDetailsForOneDeal($id, $data->client->id) }}
                                             </td>
-                                            <td>{{ $data->client->plot_size }}</td>
-
+                                            <td>{{ $data->commission_received - App\Services\CountService::getCommissionDetailsForOneDeal($id, $data->client->id) }}
+                                            </td>
                                             <td>
-                                                @if ($data->commission_received_status == 'PAID')
-                                                    <button class="btn btn-sm btn-danger" disabled><i
-                                                            class="fas fa-check"></i></button>
-                                                @else
-                                                    <a href="javascript:;" class="btn btn-sm btn-primary"
-                                                        onclick="confirmAction('{{ route('sales.officer.commission.status', $data->id) }}')">
-                                                        <i class="fas fa-check"></i>
-                                                    </a>
-                                                @endif
-                                                <a href="{{ route('sales.officer.commission.installments', ['salesOfficerId'=> $id , 'clientId' => $data->client->id]) }}" class="btn btn-sm btn-success">
-                                                    <i class="fas fa-dollar"></i>
+                                                <a href="{{ route('sales.officer.commission.installments', ['salesOfficerId' => $id, 'clientId' => $data->client->id]) }}"
+                                                    class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="javascript:;" class="btn btn-sm btn-danger"
+                                                    onclick="confirmAction('{{ route('sales.officer.commission.delete', $data->id) }}')">
+                                                    <i class="fas fa-trash"></i>
                                                 </a>
                                             </td>
                                         </tr>

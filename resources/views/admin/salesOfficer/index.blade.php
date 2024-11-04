@@ -10,11 +10,12 @@
         {{-- count sectionm --}}
         @include('admin.partials.count', [
             'label1' => 'Total Sales',
-            'label2' => 'Total Paid Commissions',
-            'label3' => 'Pending Commissions',
+            'label2' => 'Total Paid Commission',
+            'label3' => 'Pending Commission',
             'val1' => App\Services\CountService::getCountForSalesForAllOfficers()[0],
             'val2' => App\Services\CountService::getCountForSalesForAllOfficers()[1],
             'val3' => App\Services\CountService::getCountForSalesForAllOfficers()[2],
+            'val4' => App\Services\CountService::getCountForSalesForAllOfficers()[3],
         ])
         {{-- count section end --}}
         <div class="card">

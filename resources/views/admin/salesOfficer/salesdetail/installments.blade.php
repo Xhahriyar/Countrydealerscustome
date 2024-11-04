@@ -13,10 +13,12 @@
         @include('admin.partials.count', [
             'label1' => 'Total Installments',
             'label2' => 'Approved Commission',
-            'label3' => 'Pending Commissions',
-            'val1' => App\Services\CountService::getCountDataForInstallments($salesOfficerId , $clientId)[0],
-            'val2' => App\Services\CountService::getCountDataForInstallments($salesOfficerId , $clientId)[1],
-            'val3' => App\Services\CountService::getCountDataForInstallments($salesOfficerId , $clientId)[2],
+            'label3' => 'Pending Commission',
+            'label4' => 'Total Commission',
+            'val1' => App\Services\CountService::getCountDataForInstallments($salesOfficerId, $clientId)[0],
+            'val2' => App\Services\CountService::getCountDataForInstallments($salesOfficerId, $clientId)[1],
+            'val3' => App\Services\CountService::getCountDataForInstallments($salesOfficerId, $clientId)[2],
+            'val4' => App\Services\CountService::getCountDataForInstallments($salesOfficerId, $clientId)[3]->commission_received,
         ])
         <div class="card">
             <div class="card-body">
@@ -27,14 +29,12 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Sale Officer</th>
                                         <th>Client Name</th>
                                         <th>Plot Number</th>
-                                        <th style="width: 350px">Commission Amount
-                                        </th>
-                                        {{-- <th>Remaining Commission</th> --}}
+                                        <th style="width: 350px">Commission Decided</th>
+                                        <th style="width: 350px">Approved Commission</th>
+                                        <th style="width: 350px">Pending Commission</th>
                                         <th>Plot Size</th>
-                                        <th>Status</th>
                                         <th style="width: 350px">Actions</th>
                                     </tr>
                                 </thead>
@@ -42,27 +42,20 @@
                                     @foreach ($data as $key => $data)
                                         <tr>
                                             <td>{{ $key += 1 }}</td>
-                                            <td>{{ $data->officer->name }}</td>
                                             <td>{{ $data->client->name }}</td>
                                             <td>{{ $data->client->plot_number }}</td>
-                                            <td class="pending_approved_commission">
-                                                {{ $data->commission_received }}
+                                            <td>{{ App\Services\CountService::getTotalCommissionAmountForOneDeal($salesOfficerId, $clientId)->commission_received }}
                                             </td>
-
+                                            <td>{{ $data->commission_received }}</td>
+                                            <td>{{ App\Services\CountService::getTotalCommissionAmountForOneDeal($salesOfficerId, $clientId)->commission_received - $data->commission_received }}
+                                            </td>
                                             <td>{{ $data->client->plot_size }}</td>
 
                                             <td>
-                                                <span
-                                                    class="badge @if ($data->commission_received_status == 'PAID') badge-outline-success @else badge-outline-warning @endif  badge-pill">
-                                                    {{ $data->commission_received_status }}
-                                                </span>
-                                            </td>
-
-                                            <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-danger"
-                                                onclick="confirmAction('{{ route('sales.officer.commission.delete', $data->id) }}')">
-                                                <i class="fas fa-check"></i>
-                                            </a>
+                                                    onclick="confirmAction('{{ route('sales.officer.commission.delete', $data->id) }}')">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
