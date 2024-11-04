@@ -34,7 +34,14 @@ class CountService
         }
         return [$totalDeals, $totalCommission, $finalPendingCommission , $totalPendingCommission];
     }
+    public static function getCommissionDetails($id)
+    {
+        $totalCommission = PlotSalesOfficer::where([
+            ''
+        ])->sum('commission_received');
 
+        return [$totalCommission];
+    }
     public static function getCountDataForInstallments($salesOfficerId, $clientId)
     {
         $totalInstallments = PlotSalesOfficer::where('is_installment', true)->where('sales_officer_id', $salesOfficerId)->where('client_id', $clientId)->count();
