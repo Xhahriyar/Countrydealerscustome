@@ -66,6 +66,8 @@ class SalesOfficerRepo
             'commission_received' => $data['commission_payment'],
             'commission_received_status' => 'PAID',
             'is_installment' => true,
+            'paid_by' =>  $data['paid_by'],
+            'paid_date' =>  $data['paid_date'],
         ]);
         return 0;
     }

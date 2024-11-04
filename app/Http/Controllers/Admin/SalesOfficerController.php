@@ -49,7 +49,9 @@ class SalesOfficerController extends Controller
     public function updateCommission(Request $request , $salesOfficerId , $clientId)
     {
         $request->validate([
-            'commission_payment' => 'required'
+            'commission_payment' => 'required',
+            'paid_by' => 'required',
+            'paid_date' => 'required',
         ]);
         $data = $this->SalesOfficerRepo->addCommissionDetails($request->all(),$salesOfficerId , $clientId);
         return redirect()->back()->with('success' , 'Commission Added Successfully.');

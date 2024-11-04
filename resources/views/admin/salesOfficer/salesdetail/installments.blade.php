@@ -35,6 +35,8 @@
                                         <th style="width: 350px">Approved Commission</th>
                                         <th style="width: 350px">Pending Commission</th>
                                         <th>Plot Size</th>
+                                        <th>Paid By</th>
+                                        <th>Paid Date</th>
                                         <th style="width: 350px">Actions</th>
                                     </tr>
                                 </thead>
@@ -50,7 +52,8 @@
                                             <td>{{ App\Services\CountService::getTotalCommissionAmountForOneDeal($salesOfficerId, $clientId)->commission_received - $data->commission_received }}
                                             </td>
                                             <td>{{ $data->client->plot_size }}</td>
-
+                                            <td>{{$data->paid_by}}</td>
+                                            <td>{{$data->paid_date}}</td>
                                             <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-danger"
                                                     onclick="confirmAction('{{ route('sales.officer.commission.delete', $data->id) }}')">
