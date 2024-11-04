@@ -41,8 +41,14 @@ class CountService
             'commission_received_status' => "PENDING",
             'sales_officer_id' => $id,
         ])->sum('commission_received');
+        $approvedCommission = PlotSalesOfficer::where([
+            'is_installment' => true,
+            'commission_received_status' => "PAID",
+            'sales_officer_id' => $id,
+        ])->sum('commission_received');
 
-        return [$totalCommission];
+        $pendingCommission = $totalCommission - $approvedCommission;
+        return [$totalCommission , $approvedCommission , $pendingCommission];
     }
     public static function getCountDataForInstallments($salesOfficerId, $clientId)
     {

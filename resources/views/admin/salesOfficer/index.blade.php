@@ -29,9 +29,9 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Type</th>
-                                        <th>Total commition</th>
-                                        <th>Approved commition</th>
-                                        <th>Pending commition</th>
+                                        <th>Total commission</th>
+                                        <th>Approved commission</th>
+                                        <th>Pending commission</th>
                                         {{-- <th>CNIC</th> --}}
                                         <th>Total Deals</th>
                                         <th>Action</th>
@@ -56,9 +56,9 @@
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->officer_type }}</td>
                                             {{-- <td>{{ $data->cnic }}</td> --}}
-                                            <td>{{ App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] }}</td>
-                                            <td>{{ $data->cnic }}</td>
-                                            <td>{{ $data->cnic }}</td>
+                                            <td>{{ App\Services\CountService::getCommissionDetails($data->id)[0] }}</td>
+                                            <td>{{ App\Services\CountService::getCommissionDetails($data->id)[1] }}</td>
+                                            <td>{{ App\Services\CountService::getCommissionDetails($data->id)[2] }}</td>
                                             <td>
                                                 {{ App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] }}
                                             </td>
