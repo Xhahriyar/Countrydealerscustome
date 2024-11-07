@@ -12,6 +12,7 @@
             'label1' => 'Total Sales',
             'label2' => 'Total Paid Commission',
             'label3' => 'Pending Commission',
+            'label4' => 'Total Commission',
             'val1' => App\Services\CountService::getCountForSalesForAllOfficers()[0],
             'val2' => App\Services\CountService::getCountForSalesForAllOfficers()[1],
             'val3' => App\Services\CountService::getCountForSalesForAllOfficers()[2],

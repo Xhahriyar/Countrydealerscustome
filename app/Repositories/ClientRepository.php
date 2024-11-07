@@ -39,11 +39,50 @@ class ClientRepository
     }
     public function all()
     {
-        return $this->model->all();
+        return $this->model->with(['saleOfficers.officer', 'installments'])->get();
+    }
+    public function search($data)
+    {
+        // Get the input values from the form
+        $salesOfficer = $data['sales_officer'] ?? '';
+        $saleType = $data['sale_type'] ?? '';
+        $fromDate = $data['from'] ?? '';
+        $toDate = $data['to'] ?? '';
+
+        // Build the query to fetch data based on filters
+        $clients = $this->model::query();
+
+        // Filter by Sales Officer if provided (using the relationship)
+        if ($salesOfficer) {
+            $clients->whereHas('saleOfficers', function ($query) use ($salesOfficer) {
+                $query->whereHas('officer', function ($query) use ($salesOfficer) {
+                    $query->where('id', $salesOfficer);
+                });
+            });
+        }
+
+        // Filter by Sale Type if provided
+        if ($saleType) {
+            $clients->where('sale_type', $saleType);
+        }
+
+        // Filter by From Date if provided
+        if ($fromDate) {
+            $clients->whereDate('created_at', '>=', $fromDate);
+        }
+
+        // Filter by To Date if provided
+        if ($toDate) {
+            $clients->whereDate('created_at', '<=', $toDate);
+        }
+
+        // Get the filtered clients
+        $clients = $clients->with(['saleOfficers.officer', 'installments'])->get();
+        return $clients;
     }
     public function getOldPlots()
     {
-        return $this->model->select('id' , 'number')->get();
+        return $this->model->select('id', 'number')->get();
     }
     public function store($data)
     {
@@ -84,9 +123,9 @@ class ClientRepository
     {
         return $this->model->with(['installments', 'owners', 'payments', 'saleOfficers.officer'])->where('id', $Id)->first();
     }
-    public function update($data , $Id)
+    public function update($data, $Id)
     {
-        $record = $this->model->find( $Id);
+        $record = $this->model->find($Id);
         $client = [
             "email" => $data["email"],
             "name" => $data["name"],

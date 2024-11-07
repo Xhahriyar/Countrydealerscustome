@@ -47,6 +47,7 @@
             'label1' => 'Total Sales',
             'label2' => 'Approved Commission',
             'label3' => 'Pending Commission',
+            'label4' => 'Total Commission',
             'val1' => App\Services\CountService::getCountDataForSalesOfficer($id)[0],
             'val2' => App\Services\CountService::getCountDataForSalesOfficer($id)[1],
             'val3' => App\Services\CountService::getCountDataForSalesOfficer($id)[2],

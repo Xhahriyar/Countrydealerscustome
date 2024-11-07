@@ -50,6 +50,8 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('add/custom/cheque/installment/{id}', 'addNewChequeInstallment')->name('add.custom.cheque.installment');
         Route::get('client/delete/{id}', 'delete')->name('client.delete');
         Route::get('client/print/{client_id}/{installment_id}', 'print')->name('client.print');
+        Route::get('client/search', 'index')->name('client.search');
+        Route::get('print/all/installments/{id}', 'printAll')->name('print.all.installments');
     });
     Route::controller(ExpenseController::class)->group(function () {
         Route::get('expense', 'index')->name('expense.index');

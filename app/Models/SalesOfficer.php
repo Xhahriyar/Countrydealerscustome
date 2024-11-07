@@ -15,5 +15,8 @@ class SalesOfficer extends Model
     {
         return $this->hasMany(PlotSalesOfficer::class, 'sales_officer_id');
     }
-
+    public function plotSalesOfficers()
+    {
+        return $this->hasMany(PlotSalesOfficer::class);
+    }
 }

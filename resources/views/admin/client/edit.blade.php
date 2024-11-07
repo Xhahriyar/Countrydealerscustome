@@ -85,7 +85,7 @@
                                     <select class="form-control" name="client_type">
                                         <option disabled selected>-- select an option --</option>
                                         @foreach (App\Services\TypeService::getClientTypes() as $clientType)
-                                            <option value="{{ $clientType->name }}" @if (!empty($data->clientType) && $data->clientType == $clientType) selected @endif>
+                                            <option value="{{ $clientType->name }}" @if (!empty($data->client_type) && $data->client_type == $clientType->name) selected @endif>
                                                 {{ $clientType->name }}
                                             </option>
                                         @endforeach

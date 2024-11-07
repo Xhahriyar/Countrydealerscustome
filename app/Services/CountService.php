@@ -19,7 +19,7 @@ class CountService
             $finalPendingCommission = 0;
         }
         $totalCommissions = PlotSalesOfficer::where('commission_received_status', 'PENDING')->where('is_installment', false)->sum('commission_received');
-        return [$totalSalesCount, $totalPaidCommission, $finalPendingCommission , $totalCommissions];
+        return [$totalSalesCount, $totalPaidCommission, $finalPendingCommission, $totalCommissions];
     }
 
     public static function getCountDataForSalesOfficer($id)
@@ -32,7 +32,7 @@ class CountService
         if ($finalPendingCommission < 0) {
             $finalPendingCommission = 0;
         }
-        return [$totalDeals, $totalCommission, $finalPendingCommission , $totalPendingCommission];
+        return [$totalDeals, $totalCommission, $finalPendingCommission, $totalPendingCommission];
     }
     public static function getCommissionDetails($id)
     {
@@ -48,7 +48,7 @@ class CountService
         ])->sum('commission_received');
 
         $pendingCommission = $totalCommission - $approvedCommission;
-        return [$totalCommission , $approvedCommission , $pendingCommission];
+        return [$totalCommission, $approvedCommission, $pendingCommission];
     }
     public static function getCountDataForInstallments($salesOfficerId, $clientId)
     {
@@ -56,7 +56,7 @@ class CountService
         $totalApprovedCommission = PlotSalesOfficer::where('is_installment', true)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PAID')->where('client_id', $clientId)->sum('commission_received');
         $totalpendingCommission = PlotSalesOfficer::where('is_installment', false)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PENDING')->where('client_id', $clientId)->sum('commission_received');
         $totalCommission = PlotSalesOfficer::where('is_installment', false)->where('sales_officer_id', $salesOfficerId)->where('commission_received_status', 'PENDING')->where('client_id', $clientId)->first();
-        return [$totalInstallments, $totalApprovedCommission, $totalpendingCommission - $totalApprovedCommission , $totalCommission];
+        return [$totalInstallments, $totalApprovedCommission, $totalpendingCommission - $totalApprovedCommission, $totalCommission];
     }
 
     public static function getCommissionDetailsForOneDeal($salesOfficerId, $clientId)
@@ -78,5 +78,17 @@ class CountService
             'client_id' => $clientId,
         ])->first();
         return $totalCommission;
+    }
+    public static function clientCount($data)
+    {
+        $totalCount = $data->count();
+        $totalReceivedAmount = 0;
+        $totalSalesAmount = $data->sum('plot_sale_price');
+        foreach ($data as $key => $client) {
+            $totalReceivedAmountCalc = $client->installments->where('status', '=', 'PAID')->sum('installment_payment') + $client->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount');
+            $totalReceivedAmount += $totalReceivedAmountCalc;
+        }
+        $totalPendingAmount = $totalSalesAmount - $totalReceivedAmount;
+        return [$totalCount ,$totalSalesAmount ,  $totalReceivedAmount , $totalPendingAmount];
     }
 }

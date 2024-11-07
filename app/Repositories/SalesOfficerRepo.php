@@ -15,10 +15,13 @@ class SalesOfficerRepo
         $this->model = $model;
         $this->plotSalesOfficer = $plotSalesOfficer;
     }
+    public function getAllSalesOfficers()
+    {
+        return $this->model->all();
+    }
     public function all()
     {
         return $this->model::with('deals.client')->get();
-        
     }
     public function store($data)
     {

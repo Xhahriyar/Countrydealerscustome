@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use App\Repositories\SalesOfficerRepo;
+use App\Services\CountService;
 use Illuminate\Http\Request;
 use App\Repositories\ClientRepository;
 use App\Repositories\PlotInstallmentRepo;
@@ -13,18 +15,29 @@ class ClientController extends Controller
 {
     protected $clientRepository;
     protected $plotInstallmentRepository;
+    protected $salesOfficerRepo;
 
     public function __construct(
         ClientRepository $clientRepository,
-        PlotInstallmentRepo $plotInstallmentRepository
+        PlotInstallmentRepo $plotInstallmentRepository,
+        SalesOfficerRepo $salesOfficerRepo
     ) {
         $this->clientRepository = $clientRepository;
         $this->plotInstallmentRepository = $plotInstallmentRepository;
+        $this->salesOfficerRepo = $salesOfficerRepo;
     }
-    public function index()
+    public function index(Request $request)
     {
+        $salesOfficers = $this->salesOfficerRepo->getAllSalesOfficers();
+        if($request->has('query')){
+            $searcData = $request->all();
+            $data = $this->clientRepository->search($searcData);
+            $count = CountService::clientCount($data);
+            return view("admin.client.index", compact("data" , "salesOfficers" , "searcData" , "count"));
+        }
         $data = $this->clientRepository->all();
-        return view("admin.client.index", compact("data"));
+        $count = CountService::clientCount($data);
+        return view("admin.client.index", compact("data" , "salesOfficers" , "count"));
     }
     public function create()
     {
@@ -93,5 +106,10 @@ class ClientController extends Controller
         $data = $this->clientRepository->show($client_id);
         $newInstallment = $this->plotInstallmentRepository->find($installment_id);
         return view('admin.client.print', compact('data', 'newInstallment'));
+    }
+    public function printAll($clientId)
+    {
+        $data = $this->clientRepository->show($clientId);
+        return view('admin.client.print-all' , compact('data'));
     }
 }

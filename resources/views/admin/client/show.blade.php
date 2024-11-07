@@ -266,6 +266,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
+                        {{-- if the sales officers are more than one --}}
+                        @php
+                            $totalSaleOfficers = $data->saleOfficers->count();
+                            $commission = 0;
+                        @endphp
                         @foreach ($data->saleOfficers as $officers)
                             <div class="card-body d-flex justify-content-between">
                                 <div class="col-md-4">
@@ -278,10 +283,18 @@
                                 </div>
                                 <div class="col-md-4">
                                     <p><strong for="">Commission Amount</strong></p>
-                                    @if($officers->commission_type == 'percent')
-                                    {{ ($officers->commission_amount / 100 ) * $data->plot_price }}
+                                    @php
+                                        if (
+                                            $officers->is_installment == 0 &&
+                                            $officers->commission_received_status == 'PENDING'
+                                        ) {
+                                            $commission += $officers->commission_received;
+                                        }
+                                    @endphp
+                                    @if ($officers->commission_received_status == 'PENDING' && $officers->is_installment == 0)
+                                        {{ $commission / $totalSaleOfficers }}
                                     @else
-                                    {{$officers->commission_amount}}
+                                        {{ $officers->commission_received }}
                                     @endif
                                 </div>
                             </div>

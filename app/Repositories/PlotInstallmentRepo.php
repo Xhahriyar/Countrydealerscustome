@@ -157,27 +157,7 @@ class PlotInstallmentRepo
     }
     public function calculateSalesOfficerCommission($id, $InstallmentPayment)
     {
-        // $getClientSalesOfficers = $this->plotSalesOfficer->where('client_id', $id)->with(['officer', 'client'])->distinct('sales_officer_id')->get();
-        // $uniqueSalesOfficerCount = $this->plotSalesOfficer::where('client_id', $id)
-        //     ->distinct('sales_officer_id')->count('sales_officer_id');
-        // foreach ($getClientSalesOfficers as $getClientSalesOfficer) {
-        //     $clientId = $getClientSalesOfficer->client_id;
-        //     $officerId = $getClientSalesOfficer->sales_officer_id;
-        //     $commissionAmount = $getClientSalesOfficer->commission_amount;
-        //     $commissionGoingToTheSalesOfficers = ($commissionAmount / 100) * $InstallmentPayment;
-        //     $commissionGoingToTheOneSalesOfficer = $commissionGoingToTheSalesOfficers / $uniqueSalesOfficerCount;
-        //     $salesOfficer = [
-        //         "client_id" => $clientId,
-        //         "sales_officer_id" => $officerId,
-        //         "commission_type" => 'percent',
-        //         "commission_amount" => $commissionAmount,
-        //         "commission_received" => $commissionGoingToTheOneSalesOfficer,
-        //         "commission_received_status" => 'PENDING',
-        //         "is_installment" => true,
-        //     ];
-        //     $this->plotSalesOfficer->create($salesOfficer);
-        // }
-        // Get unique entries by grouping by sales_officer_id
+
         $getClientSalesOfficers = $this->plotSalesOfficer
             ->where('client_id', $id)
             ->select('client_id', 'sales_officer_id', 'commission_amount', \DB::raw('MAX(id) as id'))
@@ -207,5 +187,12 @@ class PlotInstallmentRepo
             $this->plotSalesOfficer->create($salesOfficer);
         }
 
+    }
+    public function getAllInstallmentsForPrint($clientId)
+    {
+       return $this->model::where([
+        'client_id' => $clientId,
+        'status' => 'PAID',
+        ])->get();
     }
 }

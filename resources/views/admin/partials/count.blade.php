@@ -29,7 +29,7 @@
                     <div class="statistics-item">
                         <p>
                             <i class="icon-sm fas fa-dollar mr-2"></i>
-                            Total Commission
+                            {{ $label4 }}
                         </p>
                         <label class="badge badge-outline-secondary badge-pill count-val3"
                             id="countVal3">{{$val4}}</label>
