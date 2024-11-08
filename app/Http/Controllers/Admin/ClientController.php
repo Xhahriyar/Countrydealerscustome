@@ -57,10 +57,12 @@ class ClientController extends Controller
     public function edit($id)
     {
         $data = $this->clientRepository->show($id);
+        // dd($data);
         return view('admin.client.edit', compact('data'));
     }
     public function update(UpdateClientRequest $request, $id)
     {
+        dd($request->all());
         $this->clientRepository->update($request->all(), $id);
         return redirect()->back()->with('success', 'Record Updated Successfully.');
     }

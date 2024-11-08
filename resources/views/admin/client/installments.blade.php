@@ -9,7 +9,7 @@
             </h3>
             <div>
                 <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#installmentModal">+ New</a>
-                <a href="{{route('print.all.installments' , $id)}}" class="btn btn-primary btn-sm">Print All</a>
+                <a href="{{route('print.all.installments' , $id)}}" class="btn btn-primary btn-sm" target="_blank">Print All</a>
             </div>
         </div>
         <div class="row">

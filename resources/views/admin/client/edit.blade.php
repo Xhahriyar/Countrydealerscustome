@@ -8,7 +8,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form action="{{route('client.update' , $data->id)}}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('client.update', $data->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12 my-2">
@@ -85,7 +85,8 @@
                                     <select class="form-control" name="client_type">
                                         <option disabled selected>-- select an option --</option>
                                         @foreach (App\Services\TypeService::getClientTypes() as $clientType)
-                                            <option value="{{ $clientType->name }}" @if (!empty($data->client_type) && $data->client_type == $clientType->name) selected @endif>
+                                            <option value="{{ $clientType->name }}"
+                                                @if (!empty($data->client_type) && $data->client_type == $clientType->name) selected @endif>
                                                 {{ $clientType->name }}
                                             </option>
                                         @endforeach
@@ -254,14 +255,63 @@
                                 </div>
                             </div>
                             @if (!empty($data['adjustment_product']))
-                            <img src="{{Storage::url($data->adjustment_product)}}" alt="" width="200px">
+                                <img src="{{ Storage::url($data->adjustment_product) }}" alt="" width="200px">
                             @endif
                         </div>
-                        {{-- <div class="col-md-12" style="display: none" id="priceNoteShow">
-                            <div class="alert alert-danger" role="alert">
-                                <strong>Note : </strong> <span id="totalCountAlertText"></span>
+                        {{-- sales officers --}}
+                        @if (count($data->saleOfficers) > 0)
+                            <div class="card col-md-12 mt-3">
+                                <div class="card-body row">
+                                    <div class="col-md-12 mb-4">
+                                        <h5 class="">Sales Officers Info</h5>
+                                    </div>
+                                    @foreach ($data->saleOfficers as $officer)
+                                        <div class="row col-md-12" id="sales_officer_box">
+                                            <div class="col-md-4">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Officer</label>
+                                                    <div class="">
+                                                        <select name="sales_officer_id[]" id=""
+                                                            class="form-control" disabled>
+                                                            <option selected disabled>-- select sales officer --</option>
+                                                            <option value="{{$officer->officer}}" selected>{{ $officer->officer->name }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Type</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="commission_type[]" id=""
+                                                            class="form-control" >
+                                                            <option selected disabled>-- select type --</option>
+                                                            <option value="percent"
+                                                                @if ($officer->commission_type == 'percent') selected @endif>Percent
+                                                            </option>
+                                                            <option value="cash"
+                                                                @if ($officer->commission_type == 'cash') selected @endif>Cash
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Commission</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Commission here" name="commission_amount[]"
+                                                            value="{{ $officer->commission_received / $data->saleOfficers->count() }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div> --}}
+                        @endif
+                        {{-- end sales officers --}}
                         <div class="col-md-12">
                             <div class="form-group row my-2">
                                 <button class="btn btn-sm btn-primary">Submit</button>
@@ -274,25 +324,25 @@
 @endsection
 
 @section('bottom-scripts')
-<script>
-    function getResults() {
-                let adjustmentPrice = parseFloat($('#adjustmentPrice').val()) || 0;
-                let advancePayment = parseFloat($('#advancePayment').val()) || 0;
-                let plotSalePrice = parseFloat($('#plotSalePrice').val()) || 0;
-                let totalPrice = (plotSalePrice) - (adjustmentPrice + advancePayment);
-                $('#totalCountAlertText').text('Remaining Amount For Installments ' + totalPrice);
-            }
-            $(document).on('input', '#advancePayment', function() {
-                $('#priceNoteShow').show()
-                getResults()
-            })
-            $(document).on('input', '#adjustmentPrice', function() {
-                $('#priceNoteShow').show()
-                getResults()
-            })
-            $(document).on('input', '#plotSalePrice', function() {
-                $('#priceNoteShow').show()
-                getResults()
-            })
-</script>
+    <script>
+        function getResults() {
+            let adjustmentPrice = parseFloat($('#adjustmentPrice').val()) || 0;
+            let advancePayment = parseFloat($('#advancePayment').val()) || 0;
+            let plotSalePrice = parseFloat($('#plotSalePrice').val()) || 0;
+            let totalPrice = (plotSalePrice) - (adjustmentPrice + advancePayment);
+            $('#totalCountAlertText').text('Remaining Amount For Installments ' + totalPrice);
+        }
+        $(document).on('input', '#advancePayment', function() {
+            $('#priceNoteShow').show()
+            getResults()
+        })
+        $(document).on('input', '#adjustmentPrice', function() {
+            $('#priceNoteShow').show()
+            getResults()
+        })
+        $(document).on('input', '#plotSalePrice', function() {
+            $('#priceNoteShow').show()
+            getResults()
+        })
+    </script>
 @endsection
