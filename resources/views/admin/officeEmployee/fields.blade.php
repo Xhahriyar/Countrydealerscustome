@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="form-group row">
             <label class="col-sm-3 col-form-label">Employee Type</label>
-            <div class="col-sm-9">
+            <div class="col-sm-12">
                 <select class="form-control" name="employee_type">
                     <option disabled selected>-- select an option --</option>
                     @foreach (config('vars.employee_type') as $employeeType)

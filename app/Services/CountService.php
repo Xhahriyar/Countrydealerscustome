@@ -84,11 +84,18 @@ class CountService
         $totalCount = $data->count();
         $totalReceivedAmount = 0;
         $totalSalesAmount = $data->sum('plot_sale_price');
+        $adjustmentOrAdvanceAmount = $data->sum('adjustment_price') + $data->sum('advance_payment');
         foreach ($data as $key => $client) {
             $totalReceivedAmountCalc = $client->installments->where('status', '=', 'PAID')->sum('installment_payment') + $client->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount');
             $totalReceivedAmount += $totalReceivedAmountCalc;
         }
         $totalPendingAmount = $totalSalesAmount - $totalReceivedAmount;
-        return [$totalCount ,$totalSalesAmount ,  $totalReceivedAmount , $totalPendingAmount];
+        return [$totalCount, $totalSalesAmount, $totalReceivedAmount + $adjustmentOrAdvanceAmount, $totalPendingAmount - $adjustmentOrAdvanceAmount];
+    }
+    public static function expenseCount($data)
+    {
+        $totalCount = $data->count();
+        $totalExpense = $data->sum('amount');
+        return [$totalCount , $totalExpense];
     }
 }

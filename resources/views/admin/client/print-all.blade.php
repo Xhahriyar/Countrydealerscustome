@@ -42,26 +42,55 @@
             </p>
         </div>
         <div class="d-flex justify-content-center align-items-center flex-column">
-            <div class="d-flex justify-content-between" style="width: 60%;border-bottom: 1px solid black">
-                <span> Total Price of Plot/Farm House/Hut:</span> <span>{{ $data->plot_sale_price }} </span>
+            <div class="table-responsive" style="width: 60%;">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col" style="width: 10%;">#</th>
+                            <th scope="col" style="width: 45%;">Amount</th>
+                            <th scope="col" style="width: 45%;">Paid Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data->installments as $key => $installment)
+                            @if ($installment->status == 'PAID')
+                                <tr>
+                                    <td scope="row" class="text-center">{{ $key + 1 }}</td>
+                                    <td class="text-end">
+                                        {{ number_format($installment->cheque_installment_amount ?? $installment->installment_payment, 2) }}
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($installment->updated_at)->format('d-M-Y') }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-secondary">
+                            <th colspan="2" class="text-end">Plot Price</th>
+                            <th class="text-end">{{ number_format($data->plot_sale_price, 2) }}</th>
+                        </tr>
+                        <tr class="table-secondary">
+                            <th colspan="2" class="text-end">Total Paid</th>
+                            <th class="text-end">
+                                {{ number_format($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment'), 2) }}
+                            </th>
+                        </tr>
+                        <tr class="table-secondary">
+                            <th colspan="2" class="text-end">Adjustment / Advance payments</th>
+                            <th class="text-end">
+                                {{ number_format($data->advance_payment + $data->adjustment_price, 2) }}
+                            </th>
+                        </tr>
+                        <tr class="table-secondary">
+                            <th colspan="2" class="text-end">Remaining</th>
+                            <th class="text-end">
+                                {{ number_format(($data->plot_sale_price - ($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment'))) - ($data->advance_payment + $data->adjustment_price), 2)  }}
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-            @foreach ($data->installments as $key => $installment)
-                @if ($installment->status == 'PAID')
-                    <div class="d-flex justify-content-between my-1" style="width: 60%;border-bottom: 1px solid black">
-                        <span> Installment # {{ $key += 1 }} </span>
-                        <span>{{ $installment->cheque_installment_amount ?? $installment->installment_payment }}
-                        </span>
-                    </div>
-                @endif
-            @endforeach
-            <div class="d-flex justify-content-between my-1" style="width: 60%;border-bottom: 1px solid black">
-                <span> Total Amount #</span>
-                <span>{{ $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment') }}</span>
-            </div>
-            <div class="d-flex justify-content-between my-1" style="width: 60%;border-bottom: 1px solid black">
-                <span> Remaining Amount #</span>
-                <span>{{ $data->plot_sale_price - ($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) }}</span>
-            </div>
+
             <p style="font-size: 10px" class="p-0">Note: This is a Computer-Generated Receipt/Invoice. In Case of any
                 Discrepancies/Queries/Objections, Please Notify Country Dealers & Developers.</p>
 

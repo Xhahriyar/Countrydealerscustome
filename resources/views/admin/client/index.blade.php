@@ -49,7 +49,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="d-flex justify-content-center align-items-center">
                         <input type="date" class="form-control" name="from">
                     </div>
@@ -59,9 +59,10 @@
                         <input type="date" class="form-control" name="to">
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div class="d-flex justify-content-center align-items-center">
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                        <button class="btn btn-sm btn-primary mr-1"><i class="fas fa-filter"></i></button>
+                        <a href="{{ route('client.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                     </div>
                 </div>
             </div>
@@ -84,7 +85,7 @@
                                         <th>Plot Size</th>
                                         <th>Received</th>
                                         <th>Pending</th>
-                                        <th style="width: 200px">Actions</th>
+                                        <th>Actions</th>
                                         <th>Installments</th>
                                     </tr>
                                 </thead>
@@ -103,26 +104,31 @@
                                             <td>{{ $data->plot_sale_price }}</td>
                                             <td>{{ $data->plot_size }}</td>
                                             <td>
-                                                {{ $data->installments->where('status', '=', 'PAID')->sum('installment_payment') +  $data->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount')}}
+                                                {{ $data->installments->where('status', '=', 'PAID')->sum('installment_payment') + $data->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount') + $data->sum('adjustment_price') + $data->sum('advance_payment') }}
                                             </td>
-                                            <td>{{ $data->plot_sale_price - $data->installments->where('status', '=', 'PAID')->sum('installment_payment') +  $data->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount')}}
+                                            <td>{{ $data->plot_sale_price - ($data->installments->where('status', '=', 'PAID')->sum('installment_payment') + $data->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount')) - ($data->sum('adjustment_price') + $data->sum('advance_payment')) }}
                                             </td>
-                                            <td class="d-flex">
-                                                <a href="javascript:;" class="btn btn-danger btn-sm"
-                                                    onclick="confirmAction('{{ route('client.delete', $data->id) }}')">
-                                                    <i class="fas fa-regular fa-trash"></i>
-                                                </a>
-                                                <a href="{{ route('client.show', $data->id) }}"
-                                                    class="btn btn-warning btn-sm mx-1"><i
-                                                        class="fas fa-regular fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('client.edit', $data->id) }}"
-                                                    class="btn btn-primary btn-sm"><i class="fas fa-regular fa-pencil"></i>
+                                            <td class="">
+                                                <div class="d-flex">
+                                                    <a href="javascript:;" class="btn btn-danger btn-sm"
+                                                        onclick="confirmAction('{{ route('client.delete', $data->id) }}')">
+                                                        <i class="fas fa-regular fa-trash"></i>
+                                                    </a>
+                                                    <a href="{{ route('client.show', $data->id) }}"
+                                                        class="btn btn-warning btn-sm mx-1"><i
+                                                            class="fas fa-regular fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('client.edit', $data->id) }}"
+                                                        class="btn btn-primary btn-sm"><i
+                                                            class="fas fa-regular fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('client.installments', $data->id) }}"
+                                                    class="btn btn-success btn-sm"><i class="fas fa-regular fa-dollar"></i>
                                                 </a>
                                             </td>
-                                            <td><a href="{{ route('client.installments', $data->id) }}"
-                                                    class="btn btn-success btn-sm"><i
-                                                        class="fas fa-regular fa-dollar"></i></a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

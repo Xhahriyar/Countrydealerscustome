@@ -57,6 +57,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('expense', 'index')->name('expense.index');
         Route::post('expense/store', 'store')->name('expense.store');
         Route::get('expense/delete/{id}', 'delete')->name('expense.delete');
+        // Route::get('expense/filter', 'filter')->name('expense.filter');
     });
     Route::controller(PurchaseController::class)->group(function () {
         Route::get('purchase', 'index')->name('purchase.index');

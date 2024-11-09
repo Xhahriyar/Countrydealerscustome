@@ -17,30 +17,20 @@
             <div class="col-12">
                 <div class="card card-statistics">
                     <div class="card-body">
-                        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between">
                             <div class="statistics-item">
                                 <p>
                                     <i class="icon-sm fas fa-hourglass-half mr-2"></i>
-                                    Total Expence Site
+                                    Total Count
                                 </p>
-                                <h2>10</h2>
-                                {{-- <label class="badge badge-outline-danger badge-pill">50</label> --}}
+                                <h2>{{$count[0]}}</h2>
                             </div>
                             <div class="statistics-item">
                                 <p>
                                     <i class="icon-sm fas fa-check-circle mr-2"></i>
-                                    Total Expence Home
+                                    Total Expences
                                 </p>
-                                <h2>67896</h2>
-                                {{-- <label class="badge badge-outline-success badge-pill"></label> --}}
-                            </div>
-                            <div class="statistics-item">
-                                <p>
-                                    <i class="icon-sm fas fa-chart-line mr-2"></i>
-                                    Total Expence Office
-                                </p>
-                                <h2>9879</h2>
-                                {{-- <label class="badge badge-outline-success badge-pill">{{$salesCount}}</label> --}}
+                                <h2>{{$count[1]}}</h2>
                             </div>
                         </div>
                     </div>
@@ -50,46 +40,57 @@
         <h3 class="page-title mb-3">
             Filters
         </h3>
-        <div class="row mb-5">
-
-            <div class="col-2">
-                <div class="d-flex justify-content-center align-items-center">
-                    <select class="form-control mx-1" id="employee_type">
-                        <option disabled selected>-- Filter Expence category --</option>
-                        <option value="Expence">Sales Team</option>
-                        <option value="Expence">Admin Office</option>
-                        <option value="Expence">Home</option>
-                    </select>
-                    {{-- <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
+        <form action="{{ route('expense.index') }}" method="get">
+            <input type="hidden" name="query">
+            <div class="row mb-3">
+                <div class="col-2">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <select class="form-control mx-1" id="" name="expense_category">
+                            <option disabled selected>-- Expence category --</option>
+                            @foreach (App\Services\TypeService::getExpenseCategories() as $clientType)
+                                <option value="{{ $clientType->name }}" @if (!empty($data->clientType) && $data->clientType == $clientType) selected @endif>
+                                    {{ $clientType->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <select class="form-control mx-1" name="expense_type">
+                            <option disabled selected>-- Expence Type --</option>
+                            @foreach (App\Services\TypeService::getExpenseTypes() as $clientType)
+                                <option value="{{ $clientType->name }}" @if (!empty($data->clientType) && $data->clientType == $clientType) selected @endif>
+                                    {{ $clientType->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <select class="form-control mx-1" name="name">
+                            <option disabled selected>-- Filter By Name --</option>
+                            @foreach (App\Services\TypeService::getExpenseNames() as $clientType)
+                                <option value="{{ $clientType }}">
+                                    {{ $clientType }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input type="date" class="form-control" name="from" value="" />
+                </div>
+                <div class="col-2">
+                    <input type="date" class="form-control" name="to" value="" />
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-sm btn-primary"><i class="fas fa-filter"></i></button>
+                    <a href="{{ route('expense.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                 </div>
             </div>
-            <div class="col-2">
-                <div class="d-flex justify-content-center align-items-center">
-                    <select class="form-control mx-1" id="employee_type">
-                        <option disabled selected>-- Filter Expence Type --</option>
-                        <option value="Expence">Lunch</option>
-                        <option value="Expence">Food</option>
-                        <option value="Expence">Care Menataince</option>
-                    </select>
-                    {{-- <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="d-flex justify-content-center align-items-center">
-                    <select class="form-control mx-1" id="employee_type">
-                        <option disabled selected>-- Filter By Name --</option>
-                        <option value="Expence">Sulaman</option>
-                        <option value="Expence">Hassan</option>
-                        <option value="Expence">Ali</option>
-                    </select>
-                    {{-- <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a> --}}
-                </div>
-            </div>
-            <div class="col-2">
-                <input type="text" class="form-control" name="daterange" value="" />
-            </div>
-             <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">Search</a>
-        </div>
+        </form>
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -100,8 +101,10 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Image</th>
+                                        <th>Name</th>
                                         <th>Amount</th>
                                         <th>Type</th>
+                                        <th>Category</th>
                                         <th>Description</th>
                                         <th>Actions</th>
                                     </tr>
@@ -116,8 +119,10 @@
                                                         width="20px">
                                                 </a>
                                             </td>
+                                            <td>{{ $expense->name }}</td>
                                             <td>{{ $expense->amount }}</td>
                                             <td>{{ $expense->expense_type }}</td>
+                                            <td>{{ $expense->expense_category }}</td>
                                             <td>{{ $expense->description }}</td>
                                             <td>
                                                 <a href="javascript:;" class="btn btn-danger"
@@ -141,13 +146,4 @@
     <script>
         let table = new DataTable('#myTable');
     </script>
-    <script>
-        $(function() {
-          $('input[name="daterange"]').daterangepicker({
-            opens: 'left'
-          }, function(start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-          });
-        });
-        </script>
 @endsection

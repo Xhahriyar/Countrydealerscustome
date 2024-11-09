@@ -1,11 +1,7 @@
-<!-- partial:partials/_sidebar.html -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item nav-profile">
             <div class="nav-link">
-                {{-- <div class="profile-image">
-                    <img src="assets/images/COUNTRY DEALERS LOGO AZ.svg" alt="logo" />
-                </div> --}}
                 <div class="profile-name">
                     <p class="name">
                         Welcome Jane

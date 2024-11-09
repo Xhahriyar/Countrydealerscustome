@@ -29,15 +29,15 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $salesOfficers = $this->salesOfficerRepo->getAllSalesOfficers();
-        if($request->has('query')){
+        if ($request->has('query')) {
             $searcData = $request->all();
             $data = $this->clientRepository->search($searcData);
             $count = CountService::clientCount($data);
-            return view("admin.client.index", compact("data" , "salesOfficers" , "searcData" , "count"));
+            return view("admin.client.index", compact("data", "salesOfficers", "searcData", "count"));
         }
         $data = $this->clientRepository->all();
         $count = CountService::clientCount($data);
-        return view("admin.client.index", compact("data" , "salesOfficers" , "count"));
+        return view("admin.client.index", compact("data", "salesOfficers", "count"));
     }
     public function create()
     {
@@ -62,7 +62,6 @@ class ClientController extends Controller
     }
     public function update(UpdateClientRequest $request, $id)
     {
-        dd($request->all());
         $this->clientRepository->update($request->all(), $id);
         return redirect()->back()->with('success', 'Record Updated Successfully.');
     }
@@ -112,6 +111,6 @@ class ClientController extends Controller
     public function printAll($clientId)
     {
         $data = $this->clientRepository->show($clientId);
-        return view('admin.client.print-all' , compact('data'));
+        return view('admin.client.print-all', compact('data'));
     }
 }

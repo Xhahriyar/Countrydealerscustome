@@ -258,8 +258,7 @@
                                 <img src="{{ Storage::url($data->adjustment_product) }}" alt="" width="200px">
                             @endif
                         </div>
-                        {{-- sales officers --}}
-                        @if (count($data->saleOfficers) > 0)
+                        {{-- @if (count($data->saleOfficers) > 0)
                             <div class="card col-md-12 mt-3">
                                 <div class="card-body row">
                                     <div class="col-md-12 mb-4">
@@ -310,8 +309,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                        @endif
-                        {{-- end sales officers --}}
+                        @endif --}}
                         <div class="col-md-12">
                             <div class="form-group row my-2">
                                 <button class="btn btn-sm btn-primary">Submit</button>

@@ -41,15 +41,15 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="amount"
+                                    <input type="text" class="form-control" name="name"
                                         placeholder="Name here">
-                                        @error('amount')
+                                        @error('name')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Expense Type</label>
                                 <div class="col-sm-9">
@@ -64,13 +64,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Expense Category</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="expense_type">
+                                    <select class="form-control" name="expense_category">
                                         <option disabled selected>-- select an option --</option>
-                                        @foreach (App\Services\TypeService::getExpenseTypes() as $clientType)
+                                        @foreach (App\Services\TypeService::getExpenseCategories() as $clientType)
                                             <option value="{{ $clientType->name }}" @if (!empty($data->clientType) && $data->clientType == $clientType) selected @endif>
                                                 {{ $clientType->name }}
                                             </option>
