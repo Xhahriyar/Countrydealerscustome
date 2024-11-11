@@ -206,9 +206,9 @@
             <div class="col-sm-9">
                 <select class="form-control" name="designation">
                     <option disabled selected>-- select an option --</option>
-                    @foreach (config('vars.designations') as $designation)
-                        <option value="{{ $designation }}" @if (!empty($data->designation) && $data->designation == $designation) selected @endif>
-                            {{ $designation }}
+                    @foreach (App\Services\TypeService::getEmployeeDesignation() as $designation)
+                        <option value="{{ $designation->name }}" @if (!empty($data->designation) && $data->designation == $designation->name) selected @endif>
+                            {{ $designation->name }}
                         </option>
                     @endforeach
                 </select>
@@ -227,9 +227,9 @@
             <div class="col-sm-9">
                 <select class="form-control" name="department">
                     <option disabled selected>-- select an option --</option>
-                    @foreach (config('vars.departments') as $department)
-                        <option value="{{ $department }}" @if (!empty($data->department) && $data->department == $department) selected @endif>
-                            {{ $department }}
+                    @foreach (App\Services\TypeService::getEmployeeDepartment() as $department)
+                        <option value="{{ $department->name }}" @if (!empty($data->department) && $data->department == $department->name) selected @endif>
+                            {{ $department->name }}
                     @endforeach
                 </select>
                 @error('department')

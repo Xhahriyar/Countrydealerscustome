@@ -10,6 +10,7 @@ use App\Repositories\SalesOfficerRepo;
 use App\Repositories\purchase\PurchaseRepository;
 use App\Repositories\purchase\PurchasePlotInstallmentRepo;
 use App\Repositories\ClientRepository;
+use App\Services\CountService;
 
 class PurchaseController extends Controller
 {
@@ -24,10 +25,17 @@ class PurchaseController extends Controller
         $this->PurchasePlotInstallmentRepo = $PurchasePlotInstallmentRepo;
         $this->clientRepository = $clientRepository;
     }
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('query')) {
+            $searchData = $request->all();
+            $data = $this->PurchaseRepository->search($searchData);
+            $count = CountService::purchaseCount($data);
+            return view("admin.purchase.index", compact('data', 'count'));
+        }
         $data = $this->PurchaseRepository->all();
-        return view("admin.purchase.index", compact("data"));
+        $count = CountService::purchaseCount($data);
+        return view("admin.purchase.index", compact("data" , "count"));
     }
 
     public function create()
@@ -106,6 +114,6 @@ class PurchaseController extends Controller
     public function getOldClient($client_id)
     {
         $data = $this->clientRepository->find($client_id);
-        return response()->json(['data'=> $data]);
+        return response()->json(['data' => $data]);
     }
 }
