@@ -64,5 +64,11 @@
                 <span class="menu-title">Sales Officer</span>
             </a>
         </li>
+        <li class="nav-item {{ Request::is('admin/roles') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('roles.index') }}">
+                <i class="fa-solid fa-user menu-icon"></i>
+                <span class="menu-title">Roles</span>
+            </a>
+        </li>
     </ul>
 </nav>

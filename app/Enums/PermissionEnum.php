@@ -52,4 +52,13 @@ enum PermissionEnum: string
     case PURCHASE_UPDATE = 'purchase-update';
     case PURCHASE_DELETE = 'purchase-delete';
 
+        // ROLE
+    case ROLE = 'role';
+    case ROLE_LIST = 'role-list';
+    case ROLE_VIEW = 'role-view';
+    case ROLE_CREATE = 'role-create';
+    case ROLE_STORE = 'role-store';
+    case ROLE_EDIT = 'role-edit';
+    case ROLE_UPDATE = 'role-update';
+    case ROLE_DELETE = 'role-delete';
 }

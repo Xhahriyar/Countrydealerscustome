@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Role;
 
 use App\DTO\Roles\RoleDTO;
-use App\Repositories\RolesRepository;
+use App\Repositories\Role\RoleRepository;
 
-class RolesService
+class RoleService
 {
     /**
      * @param RoleRepository $repository
      */
-    public function __construct(protected RolesRepository $repository)
+    public function __construct(protected RoleRepository $repository)
     {
     }
 

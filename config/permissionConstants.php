@@ -217,4 +217,55 @@ return [
             'sort_order' => 8400
         ],
     ],
+
+    'role' => [
+        [
+            'name' => PermissionEnum::ROLE(),
+            'label' => 'Roles',
+            'is_visible' => false,
+            'sort_order' => 10050
+        ],
+        [
+            'name' => PermissionEnum::ROLE_LIST(),
+            'label' => 'List',
+            'is_visible' => true,
+            'sort_order' => 10100
+        ],
+        [
+            'name' => PermissionEnum::ROLE_VIEW(),
+            'label' => 'View',
+            'is_visible' => true,
+            'sort_order' => 10150
+        ],
+        [
+            'name' => PermissionEnum::ROLE_CREATE(),
+            'label' => 'Create',
+            'is_visible' => true,
+            'sort_order' => 10200
+        ],
+        [
+            'name' => PermissionEnum::ROLE_STORE(),
+            'label' => 'Store',
+            'is_visible' => true,
+            'sort_order' => 10250
+        ],
+        [
+            'name' => PermissionEnum::ROLE_EDIT(),
+            'label' => 'Edit',
+            'is_visible' => true,
+            'sort_order' => 10300
+        ],
+        [
+            'name' => PermissionEnum::ROLE_UPDATE(),
+            'label' => 'Update',
+            'is_visible' => true,
+            'sort_order' => 10350
+        ],
+        [
+            'name' => PermissionEnum::ROLE_DELETE(),
+            'label' => 'Delete',
+            'is_visible' => true,
+            'sort_order' => 10400
+        ],
+    ],
 ];

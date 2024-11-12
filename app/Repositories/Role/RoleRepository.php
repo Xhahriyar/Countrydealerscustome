@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Role;
 
-use App\DTO\Roles\RoleDTO;
-use App\Models\Roles;
+use App\Models\Role;
+use App\Repositories\BaseRepository;
 
-class RolesRepository extends BaseRepository
+class RoleRepository extends BaseRepository
 {
     /**
      * @param Roles $role
      */
-    public function __construct(Roles $role)
+    public function __construct(Role $role)
     {
         $this->model = $role;
     }

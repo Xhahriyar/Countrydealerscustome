@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Role;
 
+use App\Http\Controllers\Controller;
 use App\Enums\PermissionEnum;
 use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
@@ -9,15 +10,15 @@ use App\Models\Roles;
 use App\Models\User;
 use App\Services\AdminService;
 use App\Services\PermissionService;
-use App\Services\RolesService;
+use App\Services\Role\RoleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class RolesController extends Controller
+class RoleController extends Controller
 {
 
     public function __construct(
-        protected RolesService $service,
+        protected RoleService $service,
         protected PermissionService $permissionService,
         protected AdminService $adminService
     ) {
@@ -33,9 +34,8 @@ class RolesController extends Controller
         $filters = $request->all();
         $roles = $this->service->getAll($filters);
         $roleCount = $roles->total();
-        return view("admin.dashboard");
 
-        return Inertia::render('Roles/index', ['roles' => $roles, 'roleCount' => $roleCount,  'searchParams' => $filters]);
+        return view("roles.index", ['roles' => $roles, 'roleCount' => $roleCount,  'searchParams' => $filters]);
     }
 
     /**
@@ -46,7 +46,7 @@ class RolesController extends Controller
         $this->authorize(PermissionEnum::ROLE_CREATE(), [User::class]);
 
         $permissions = $this->permissionService->getAll();
-        return Inertia::render('Roles/Partials/Create', ['permissions' => $permissions]);
+        return view('roles.create', ['permissions' => $permissions]);
     }
 
     /**

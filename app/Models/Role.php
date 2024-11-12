@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-class Roles extends \Spatie\Permission\Models\Role
+class Role extends \Spatie\Permission\Models\Role
 {
     protected $fillable = [
         'name',
         'guard_name'
     ];
 
-    // public function getCreatedAtAttribute($value)
-    // {
-    //     return dateFormat($value);
-    // }
+    public function getCreatedAtAttribute($value)
+    {
+        return dateFormat($value);
+    }
 }
