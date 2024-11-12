@@ -33,7 +33,7 @@ class PurchaseRepository
     }
     public function all()
     {
-        return $this->model->all();
+        return $this->model::with('installments')->get();
     }
     public function store($data)
     {
@@ -81,9 +81,9 @@ class PurchaseRepository
     {
         return $this->model->with(['installments', 'owners', 'payments', 'saleOfficers.officer'])->where('id', $Id)->first();
     }
-    public function update($data , $Id)
+    public function update($data, $Id)
     {
-        $record = $this->model->find( $Id);
+        $record = $this->model->find($Id);
         if (isset($data['adjustment_product']) && $data['adjustment_product']->isValid()) {
             $data['adjustment_product'] = $data['adjustment_product']->store('adjustmentproducts', 'public');
         }
@@ -91,10 +91,45 @@ class PurchaseRepository
     }
     public function delete($Id)
     {
-        $this->model->find( $Id)->delete();
+        $this->model->find($Id)->delete();
     }
     public function getCashInstallments($id)
     {
         return $this->PurchasePlotInstallmentRepo->getCashInstallments($id);
+    }
+    public function search($data)
+    {
+        // Get the input values from the form
+        $purchaseType = $data['purchase_type'] ?? '';
+        $saleType = $data['sale_type'] ?? '';
+        $fromDate = $data['from'] ?? '';
+        $toDate = $data['to'] ?? '';
+
+        // Build the query to fetch data based on filters
+        $clients = $this->model::query();
+
+        // Filter by Sales Officer if provided (using the relationship)
+
+        // Filter by Sale Type if provided
+        if ($saleType) {
+            $clients->where('sale_type', $saleType);
+        }
+        if ($purchaseType) {
+            $clients->where('client_type', $purchaseType);
+        }
+
+        // Filter by From Date if provided
+        if ($fromDate) {
+            $clients->whereDate('created_at', '>=', $fromDate);
+        }
+
+        // Filter by To Date if provided
+        if ($toDate) {
+            $clients->whereDate('created_at', '<=', $toDate);
+        }
+
+        // Get the filtered clients
+        $clients = $clients->with('installments')->get();
+        return $clients;
     }
 }

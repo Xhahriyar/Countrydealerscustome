@@ -33,8 +33,10 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('payroll/store/{id}', 'store')->name('payroll.store');
     });
     Route::controller(PayrollHistoryControlelr::class)->group(function () {
-        Route::get('payroll/store/{id}', 'store')->name('payroll.store');
         Route::get('payroll/history/{id}', 'history')->name('payroll.history');
+        Route::get('payroll/store/{id}', 'store')->name('payroll.store');
+        Route::get('payroll/print/{id}', 'print')->name('payroll.print');
+        Route::get('payroll/ladger/print/{id}', 'printLadger')->name('payroll.print.ladger');
     });
 
     Route::controller(ClientController::class)->group(function () {

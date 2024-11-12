@@ -10,4 +10,9 @@ class AdminOfficeEMployee extends Model
     protected $table = "admin_office_employees";
     protected $guarded = [];
     use HasFactory;
+
+    public function histories()
+    {
+        return $this->hasMany(History::class , 'employee_id' , 'id');
+    }
 }

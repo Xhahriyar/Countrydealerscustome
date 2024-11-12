@@ -22,6 +22,14 @@ class TypeService
     {
         return Type::where('type_category', 'expense category')->get();
     }
+    public static function getEmployeeDesignation()
+    {
+        return Type::where('type_category', 'employee designation')->get();
+    }
+    public static function getEmployeeDepartment()
+    {
+        return Type::where('type_category', 'employee department')->get();
+    }
     public static function getExpenseNames()
     {
         return Expense::pluck('name');

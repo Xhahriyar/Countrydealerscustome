@@ -20,7 +20,18 @@ class PayrollHistoryControlelr extends Controller
     }
     public function history($id)
     {
+        $employeeId = $id;
         $data = $this->historyRepository->find($id);
-        return view("admin.history.index", compact("data"));
+        return view("admin.history.index", compact("data" , 'employeeId'));
+    }
+    public function print($id)
+    {
+        $data = $this->historyRepository->findForPrint($id);
+        return view("admin.payrolls.print-salary", compact("data"));
+    }
+    public function printLadger($employeeId)
+    {
+        $data = $this->historyRepository->printLadger($employeeId);
+        return view("admin.payrolls.print-salary-ladger", compact("data"));
     }
 }

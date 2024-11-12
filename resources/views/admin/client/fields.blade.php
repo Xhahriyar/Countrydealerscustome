@@ -74,7 +74,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Client Type <sup class="text-danger">*</sup></label>
+                    <label class="col-sm-3 col-form-label"> @if($type == 'purchase') Purchase @else Client @endif Type <sup class="text-danger">*</sup></label>
                     <div class="col-sm-9">
                         @if($type == 'client')
                         <select class="form-control" name="client_type">
@@ -283,6 +283,7 @@
     </div>
     <div class="row" id="cheque_fields_container">
     </div>
+    @if($type == 'client')
     <div class="card col-md-12 mt-3">
         <div class="card-body row">
             <div class="col-md-12 mb-4">
@@ -346,4 +347,5 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
