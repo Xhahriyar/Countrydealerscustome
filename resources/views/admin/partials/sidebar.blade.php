@@ -33,7 +33,7 @@
         <li class="nav-item {{ Request::is('admin/client') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('client.index') }}">
                 <i class="fa-solid fa-user menu-icon"></i>
-                <span class="menu-title">Client</span>
+                <span class="menu-title">Sale</span>
             </a>
         </li>
         <li class="nav-item {{ Request::is('admin/purchase') ? 'active' : '' }}">

@@ -10,7 +10,7 @@
         {{-- count sectionm --}}
         @include('admin.partials.count', [
             'label1' => 'Total Count',
-            'label2' => 'Total Sales Amount',
+            'label2' => 'Total Purchase Amount',
             'label3' => 'Total Received Amount',
             'label4' => 'Total Pending Amount',
             'val1' => $count[0],

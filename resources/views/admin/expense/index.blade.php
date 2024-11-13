@@ -123,7 +123,7 @@
                                             <td>{{ $expense->amount }}</td>
                                             <td>{{ $expense->expense_type }}</td>
                                             <td>{{ $expense->expense_category }}</td>
-                                            <td>{{ $expense->description }}</td>
+                                            <td>{{ \Illuminate\Support\Str::words($expense->description, 5, '...') }}</td>
                                             <td>
                                                 <a href="javascript:;" class="btn btn-danger"
                                                     onclick="confirmAction('{{ route('expense.delete', $expense->id) }}')">
