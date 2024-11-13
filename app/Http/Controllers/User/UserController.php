@@ -12,7 +12,7 @@ use App\Repositories\DashboardRepository;
 use App\Services\Role\RoleService;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Redirect;
-
+use App\Http\Requests\Users\StoreUserRequest;
 class UserController extends Controller
 {
     protected $dashboardRepository;
@@ -64,26 +64,25 @@ class UserController extends Controller
 
         $filters = $request->all();
         $roles = $this->roleService->getAll($filters);
-        return Inertia::render('Admins/Partials/Create', ['roles' => $roles]);
+        return view('users.create', ['roles' => $roles]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAdminRequest $request)
+    public function store(StoreUserRequest $request)
     {
         $this->authorize(PermissionEnum::USER_STORE(), [User::class]);
 
-        $admin = $this->service->store($request->validated());
-        if ($admin) {
+        $user = $this->service->store($request->validated());
+        if ($user) {
             if ($request->filled('role')) {
-                $this->service->updateRole($admin, $request->input('role'));
+                $this->service->updateRole($user, $request->input('role'));
             }
-            $this->service->sendEmail($admin);
 
-            return Redirect::route('admins.index')->with('success', Config('flashMessagesConstants.admin.success.created'));
+            return Redirect::route('users.index')->with('success', Config('flashMessagesConstants.user.success.created'));
         }
-        return Redirect::route('admins.index')->with('error', Config('flashMessagesConstants.admin.error.created'));
+        return Redirect::route('users.index')->with('error', Config('flashMessagesConstants.user.error.created'));
     }
 
     /**

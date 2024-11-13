@@ -74,7 +74,7 @@
         </li>
         <li class="nav-item {{ Request::is('admin/users') ? 'active' : '' }}">
             @can('user-list')
-                <a class="nav-link" href="{{ route('users.list') }}">
+                <a class="nav-link" href="{{ route('users.index') }}">
                     <i class="fa-solid fa-user menu-icon"></i>
                     <span class="menu-title">Users</span>
                 </a>

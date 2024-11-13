@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Enums\PermissionEnum;
 use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
-use App\Models\Roles;
 use App\Models\User;
 use App\Services\PermissionService;
 use App\Services\Role\RoleService;
 use App\Services\User\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Role;
 
 class RoleController extends Controller
 {
@@ -55,7 +55,7 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request)
     {
         $this->authorize(PermissionEnum::ROLE_STORE(), [User::class]);
-
+        
         $role = $this->service->store($request->validated());
         $permissions = $request['permissions'];
         $this->service->updatePermissions($role, $permissions);
@@ -73,7 +73,7 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Roles $role)
+    public function edit(Role $role)
     {
         $this->authorize(PermissionEnum::ROLE_EDIT(), [User::class]);
         // dd($role);
@@ -87,7 +87,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Roles $role)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         $this->authorize(PermissionEnum::ROLE_UPDATE(), [User::class]);
 
@@ -100,10 +100,9 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Roles $role)
+    public function delete(Role $role)
     {
         $this->authorize(PermissionEnum::ROLE_DELETE(), [User::class]);
-
         // Deleting role if not assigned to any user
         $contOfUsersHavingRole = $this->userService->getRoleAdminsCount($role);
         if ($contOfUsersHavingRole < 1) {

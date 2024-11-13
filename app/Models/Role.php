@@ -9,8 +9,4 @@ class Role extends \Spatie\Permission\Models\Role
         'guard_name'
     ];
 
-    public function getCreatedAtAttribute($value)
-    {
-        return dateFormat($value);
-    }
 }

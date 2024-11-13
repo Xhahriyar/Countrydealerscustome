@@ -21,7 +21,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     });
     // Users
     Route::controller(UserController::class)->group(function () {
-        Route::get('users', 'getUser')->name('users.list');
+        Route::get('users', 'getUser')->name('users.index');
         Route::get('users/create', 'create')->name('users.create');
         Route::post('users/store', 'store')->name('users.store');
         Route::get('users/show/{id}', 'show')->name('users.show');
@@ -29,7 +29,15 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('users/update/{id}', 'update')->name('users.update');
         Route::delete('users/delete/{id}', 'delete')->name('users.delete');
     });
-    Route::resource('roles', RoleController::class);
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('roles', 'index')->name('roles.index');
+        Route::get('roles/create', 'create')->name('roles.create');
+        Route::post('roles/store', 'store')->name('roles.store');
+        Route::get('roles/show/{id}', 'show')->name('roles.show');
+        Route::get('roles/edit/{id}', 'edit')->name('roles.edit');
+        Route::post('roles/update/{id}', 'update')->name('roles.update');
+        Route::get('roles/delete/{id}', 'delete')->name('roles.delete');
+    });
 
     Route::controller(OfficeEmployeeController::class)->group(function () {
         Route::get('office/employee', 'index')->name('employee.office.index');

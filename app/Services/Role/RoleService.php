@@ -41,9 +41,8 @@ class RoleService
     {
         // dd($data);
         $data['guard_name'] = auth()->guard()->name;
-        // dump($data);
         $dto = new RoleDTO(...$data);
-        return $this->repository->store($data->toArray());
+        return $this->repository->store($dto->toArray());
     }
 
     /**

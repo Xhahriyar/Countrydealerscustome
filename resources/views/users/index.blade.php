@@ -41,7 +41,7 @@
         <h3 class="page-title mb-3">
             Filters
         </h3>
-        <form action="{{ route('users.list') }}" method="get">
+        <form action="{{ route('users.index') }}" method="get">
             <input type="hidden" name="query">
             <div class="row mb-3">
                 <div class="col-2">
@@ -58,7 +58,7 @@
                 <div class="col-md-2">
                     <button class="btn btn-sm btn-primary"><i class="fas fa-filter"></i></button>
                     @can('role-list')
-                        <a href="{{ route('users.list') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                        <a href="{{ route('users.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                     @endcan
                 </div>
             </div>
