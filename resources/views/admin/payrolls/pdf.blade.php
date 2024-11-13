@@ -10,6 +10,43 @@
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <style>
+        @media print {
+
+            /* Ensure the table fits within the print area */
+            table {
+                width: 150%;
+                table-layout: fixed;
+                /* Ensures fixed width for all columns */
+                border-collapse: collapse;
+                /* Optional: removes gaps between table cells */
+            }
+
+            th,
+            td {
+                word-wrap: break-word;
+                /* Makes sure text does not overflow */
+                white-space: normal;
+                /* Allows wrapping of text within cells */
+                padding: 5px;
+                /* Optional: adjust padding to fit content */
+            }
+
+            /* Optional: Adjust the overall page layout */
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+
+            /* Optional: Resize font size for printing */
+            body,
+            th,
+            td {
+                font-size: 10px;
+                /* Reduce font size to fit content */
+            }
+        }
+    </style>
 </head>
 
 <body>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Repositories\HistoryRepository;
 use App\Exports\EmployeeExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Storage;
 
 class PayrollHistoryControlelr extends Controller
 {
@@ -36,8 +37,13 @@ class PayrollHistoryControlelr extends Controller
         $data = $this->historyRepository->printLadger($employeeId);
         return view("admin.payrolls.print-salary-ladger", compact("data"));
     }
-    public function payrollExport()
+    public function payrollExport(Request $request)
     {
-        return Excel::download(new EmployeeExport, 'payroll.xlsx');
+        $ids = $request->input('ids');
+        $filePath = 'exports/payroll.xlsx';
+        Excel::store(new EmployeeExport($ids), $filePath, 'public');
+        return response()->json([
+            'download_url' => Storage::url($filePath),
+        ]);
     }
 }
