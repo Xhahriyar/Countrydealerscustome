@@ -6,7 +6,7 @@ return [
     'dashboard' => [
         [
             'name' => PermissionEnum::DASHBOARD(),
-            'label' => 'DASHBOARD',
+            'label' => 'Dashboard',
             'is_visible' => false,
             'sort_order' => 50
         ],
@@ -20,7 +20,7 @@ return [
     'employee' => [
         [
             'name' => PermissionEnum::EMPLOYEE(),
-            'label' => 'EMPLOYEE',
+            'label' => 'Employee',
             'is_visible' => false,
             'sort_order' => 2050
         ],
@@ -70,7 +70,7 @@ return [
     'client' => [
         [
             'name' => PermissionEnum::CLIENT(),
-            'label' => 'CLIENT',
+            'label' => 'Client',
             'is_visible' => false,
             'sort_order' => 4050
         ],
@@ -120,7 +120,7 @@ return [
     'expense' => [
         [
             'name' => PermissionEnum::EXPENSE(),
-            'label' => 'EXPENSE',
+            'label' => 'Expense',
             'is_visible' => false,
             'sort_order' => 6050
         ],
@@ -170,7 +170,7 @@ return [
     'purchase' => [
         [
             'name' => PermissionEnum::PURCHASE(),
-            'label' => 'PURCHASE',
+            'label' => 'Purchase',
             'is_visible' => false,
             'sort_order' => 8050
         ],
@@ -266,6 +266,56 @@ return [
             'label' => 'Delete',
             'is_visible' => true,
             'sort_order' => 10400
+        ],
+    ],
+    'user' => [
+        [
+            'name' => PermissionEnum::USER(),
+            'label' => 'User',
+            'is_visible' => false,
+            'sort_order' => 12050
+        ],
+        [
+            'name' => PermissionEnum::USER_LIST(),
+            'label' => 'List',
+            'is_visible' => true,
+            'sort_order' => 12100
+        ],
+        [
+            'name' => PermissionEnum::USER_VIEW(),
+            'label' => 'View',
+            'is_visible' => true,
+            'sort_order' => 12150
+        ],
+        [
+            'name' => PermissionEnum::USER_CREATE(),
+            'label' => 'Create',
+            'is_visible' => true,
+            'sort_order' => 12200
+        ],
+        [
+            'name' => PermissionEnum::USER_STORE(),
+            'label' => 'Store',
+            'is_visible' => true,
+            'sort_order' => 12250
+        ],
+        [
+            'name' => PermissionEnum::USER_EDIT(),
+            'label' => 'Edit',
+            'is_visible' => true,
+            'sort_order' => 12300
+        ],
+        [
+            'name' => PermissionEnum::USER_UPDATE(),
+            'label' => 'Update',
+            'is_visible' => true,
+            'sort_order' => 12350
+        ],
+        [
+            'name' => PermissionEnum::USER_DELETE(),
+            'label' => 'Delete',
+            'is_visible' => true,
+            'sort_order' => 12400
         ],
     ],
 ];

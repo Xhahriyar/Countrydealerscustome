@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
 
 
-class AdminRepository extends BaseRepository
+class UserRepository extends BaseRepository
 {
     /**
      * PermissionRepository constructor.

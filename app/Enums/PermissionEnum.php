@@ -61,4 +61,14 @@ enum PermissionEnum: string
     case ROLE_EDIT = 'role-edit';
     case ROLE_UPDATE = 'role-update';
     case ROLE_DELETE = 'role-delete';
+
+        // USER
+    case USER = 'user';
+    case USER_LIST = 'user-list';
+    case USER_VIEW = 'user-view';
+    case USER_CREATE = 'user-create';
+    case USER_STORE = 'user-store';
+    case USER_EDIT = 'user-edit';
+    case USER_UPDATE = 'user-update';
+    case USER_DELETE = 'user-delete';
 }

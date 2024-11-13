@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\User;
 
-use App\DTO\Admin\AdminDTO;
 use App\DTO\Roles\RoleDTO;
-use App\Repositories\AdminRepository;
+use App\DTO\User\UserDTO;
+use App\Repositories\User\UserRepository;
 use Illuminate\Support\Str;
 
 
-class AdminService
+class UserService
 {
     /**
      * @param  AdminRepository  $repository
      */
     public function __construct(
-        protected AdminRepository $repository,
+        protected  UserRepository $repository,
     ) {}
 
     public function getAll(array $filters = [], $pagination = true, $select = '*')
@@ -41,7 +41,7 @@ class AdminService
     public function store($data)
     {
         $data['verify_token'] = Str::random(14);
-        $dto = new AdminDTO(...$data);
+        $dto = new UserDTO(...$data);
         return $this->repository->store($dto->toArray());
     }
 
@@ -55,7 +55,7 @@ class AdminService
     public function update($data, $admin)
     {
         $data['password'] = $admin['password'];
-        $dto = new AdminDTO(...$data);
+        $dto = new UserDTO(...$data);
         return $this->repository->update($dto->toArray(), $admin);
     }
 

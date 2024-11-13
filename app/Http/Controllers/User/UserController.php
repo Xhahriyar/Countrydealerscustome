@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Charts\ExpenseChart;
 use App\Charts\Purchase;
@@ -9,15 +9,22 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Repositories\DashboardRepository;
+use App\Services\Role\RoleService;
+use App\Services\User\UserService;
 use Illuminate\Support\Facades\Redirect;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     protected $dashboardRepository;
 
-    public function __construct(DashboardRepository $dashboardRepository)
+    public function __construct(
+        DashboardRepository $dashboardRepository,
+        protected UserService $service,
+        protected RoleService $roleService,
+        )
     {
         $this->dashboardRepository = $dashboardRepository;
+        
     }
     public function index(ExpenseChart $expenseChart , Purchase $purchaseChart)
     {
@@ -39,13 +46,13 @@ class AdminController extends Controller
      */
     public function getUser(Request $request)
     {
-        $this->authorize(PermissionEnum::ADMIN_LIST(), [User::class]);
+        $this->authorize(PermissionEnum::USER_LIST(), [User::class]);
 
         $filters = $request->all();
-        $admins = $this->service->getAll($filters);
-        $adminCount = $admins->total();
+        $users = $this->service->getAll($filters);
+        $userCount = $users->total();
 
-        return Inertia::render('Admins/index', ['admins' => $admins, 'searchParams' => $filters , 'adminCount' => $adminCount]);
+        return view('users.index', ['users' => $users, 'searchParams' => $filters , 'userCount' => $userCount]);
     }
 
     /**
@@ -53,10 +60,10 @@ class AdminController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize(PermissionEnum::ADMIN_CREATE(), [User::class]);
+        $this->authorize(PermissionEnum::USER_CREATE(), [User::class]);
 
         $filters = $request->all();
-        $roles = $this->rolesService->getAll($filters);
+        $roles = $this->roleService->getAll($filters);
         return Inertia::render('Admins/Partials/Create', ['roles' => $roles]);
     }
 
@@ -65,7 +72,7 @@ class AdminController extends Controller
      */
     public function store(StoreAdminRequest $request)
     {
-        $this->authorize(PermissionEnum::ADMIN_STORE(), [User::class]);
+        $this->authorize(PermissionEnum::USER_STORE(), [User::class]);
 
         $admin = $this->service->store($request->validated());
         if ($admin) {
@@ -91,11 +98,11 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize(PermissionEnum::ADMIN_EDIT(), [User::class]);
+        $this->authorize(PermissionEnum::USER_EDIT(), [User::class]);
 
         $id = decodeId($id);
         $admin = $this->service->getOne($id);
-        $roles = $this->rolesService->getAll([],false);
+        $roles = $this->roleService->getAll([],false);
         return Inertia::render('Admins/Partials/Edit', ['admin' => $admin, 'roles' => $roles, 'assignedRoles' => $admin->roles]);
     }
 
@@ -104,7 +111,7 @@ class AdminController extends Controller
      */
     public function update(UpdateAdminRequest $request, $id)
     {
-        $this->authorize(PermissionEnum::ADMIN_UPDATE(), [User::class]);
+        $this->authorize(PermissionEnum::USER_UPDATE(), [User::class]);
 
         $admin = $this->service->getOne($id);
         $this->service->update($request->validated(), $admin);
@@ -119,7 +126,7 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize(PermissionEnum::ADMIN_DELETE(), [User::class]);
+        $this->authorize(PermissionEnum::USER_DELETE(), [User::class]);
 
         $admin = $this->service->getOne($id);
         $this->service->destroy($admin);

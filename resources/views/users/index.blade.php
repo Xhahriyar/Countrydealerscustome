@@ -8,10 +8,10 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                Roles
+                Users
             </h3>
             @can('role-create')
-                <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary">+ New</a>
+                <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">+ New</a>
             @endcan
         </div>
         <div class="row grid-margin">
@@ -24,7 +24,7 @@
                                     <i class="icon-sm fas fa-hourglass-half mr-2"></i>
                                     Total Count
                                 </p>
-                                <h2>{{ $roleCount }}</h2>
+                                <h2>{{ $userCount }}</h2>
                             </div>
                             {{-- <div class="statistics-item">
                                 <p>
@@ -41,7 +41,7 @@
         <h3 class="page-title mb-3">
             Filters
         </h3>
-        <form action="{{ route('roles.index') }}" method="get">
+        <form action="{{ route('users.list') }}" method="get">
             <input type="hidden" name="query">
             <div class="row mb-3">
                 <div class="col-2">
@@ -58,7 +58,7 @@
                 <div class="col-md-2">
                     <button class="btn btn-sm btn-primary"><i class="fas fa-filter"></i></button>
                     @can('role-list')
-                        <a href="{{ route('roles.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                        <a href="{{ route('users.list') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                     @endcan
                 </div>
             </div>
@@ -73,20 +73,22 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
+                                        <th>Email</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($roles as $key => $role)
+                                    @foreach ($users as $key => $user)
                                         <tr>
                                             <td>{{ $key += 1 }}</td>
-                                            <td>{{ $role->name }}</td>
-                                            <td>{{ $role->created_at }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->created_at }}</td>
                                             <td>
-                                                @can('roles-delete')
+                                                @can('users-delete')
                                                     <a href="javascript:;" class="btn btn-danger"
-                                                        onclick="confirmAction('{{ route('roles.delete', $role->id) }}')">
+                                                        onclick="confirmAction('{{ route('users.delete', $user->id) }}')">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
                                                 @endcan

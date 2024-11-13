@@ -8,9 +8,9 @@ use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Models\Roles;
 use App\Models\User;
-use App\Services\AdminService;
 use App\Services\PermissionService;
 use App\Services\Role\RoleService;
+use App\Services\User\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -20,7 +20,7 @@ class RoleController extends Controller
     public function __construct(
         protected RoleService $service,
         protected PermissionService $permissionService,
-        protected AdminService $adminService
+        protected UserService $userService
     ) {
     }
 
@@ -105,7 +105,7 @@ class RoleController extends Controller
         $this->authorize(PermissionEnum::ROLE_DELETE(), [User::class]);
 
         // Deleting role if not assigned to any user
-        $contOfUsersHavingRole = $this->adminService->getRoleAdminsCount($role);
+        $contOfUsersHavingRole = $this->userService->getRoleAdminsCount($role);
         if ($contOfUsersHavingRole < 1) {
             $deleted = $this->service->destroy($role);
             return Redirect::route('roles.index')->with('success', Config('flashMessagesConstants.roles.success.deleted'));

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO\Admin;
+namespace App\DTO\User;
 
-class AdminDTO
+class UserDTO
 {
     /**
      * AdminDTO constructor.
