@@ -22,6 +22,9 @@
                 <div>
                     <a href="javascript:;" class="btn btn-sm btn-primary" id="print">Print</a>
                 </div>
+                <div class="logo d-flex justify-content-end">
+                    <img src="{{ asset('assets/images/COUNTRY DEALERS LOGO AZ.svg') }}" alt="Logo Image" height="50px">
+                </div>
                 <div class="col-md-12">
                     <div class="text-center lh-1 mb-4">
                         <h6 class="fw-bold">Payslip</h6> <span class="fw-normal">Payment slip of all time</span>
@@ -65,28 +68,51 @@
                         <table class="mt-4 table table-bordered">
                             <thead class="bg-dark text-white">
                                 <tr>
-                                    <th scope="col">Earnings</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Deductions</th>
-                                    <th scope="col">Amount</th>
+                                    <th scope="col">Net Salary</th>
+                                    <th scope="col">Loan Deductions</th>
+                                    <th scope="col">Total Loan</th>
+                                    <th scope="col">Remaining Loan</th>
+                                    <th scope="col">Total Paid Loan</th>
                                     <th scope="col">Month</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data->histories as $data)
+                                @php
+                                    // Start with the initial loan amount from the first entry
+                                    $remainingLoan = $data->first()->loan_amount;
+                                    $loanPermotn = $data->first()->loan_return;
+                                @endphp
+                                @foreach ($data->histories as $history)
                                     <tr>
-                                        <th scope="row">Salary</th>
-                                        <td>{{ $data->salary }}.00</td>
-                                        <td>Loan Return</td>
-                                        <td>{{ $data->loan_return }}.00</td>
-                                        <td>{{ Carbon\Carbon::parse($data->created_at)->format('M Y') }}</td>
+                                        <td>{{ $history->salary + $history->other_allowance }}.00</td>
+                                        <td>{{ $history->loan_return }}.00</td>
+                                        <td>{{ $history->loan_amount }}.00</td>
+
+                                        {{-- Calculate and display the remaining loan balance --}}
+                                        <td>
+                                            @php
+                                                // Decrease the remaining loan balance by the loan return amount for the current month
+                                                $remainingLoan -= $history->loan_return;
+                                            @endphp
+                                            {{ $remainingLoan }}.00
+
+                                        </td>
+                                        <td>
+                                            {{ $loanPermotn }}.00
+                                            @php
+                                                $loanPermotn += $history->loan_return;
+                                            @endphp
+
+                                        </td>
+
+                                        <td>{{ Carbon\Carbon::parse($history->created_at)->format('M Y') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <div class="d-flex flex-column mt-2"> <span class="fw-bolder">Country Dealers</span>  </div>
+                        <div class="d-flex flex-column mt-2"> <span class="fw-bolder">Country Dealers</span> </div>
                     </div>
                 </div>
             </div>

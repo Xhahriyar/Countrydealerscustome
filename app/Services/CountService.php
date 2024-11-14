@@ -2,6 +2,7 @@
 //<!-- this will deal with all the counts for all the section like client , sales officers etc -->
 namespace App\Services;
 
+use App\Models\History;
 use App\Models\PlotSalesOfficer;
 
 class CountService
@@ -110,5 +111,21 @@ class CountService
         }
         $totalPendingAmount = $totalSalesAmount - $totalReceivedAmount;
         return [$totalCount, $totalSalesAmount, $totalReceivedAmount + $adjustmentOrAdvanceAmount, $totalPendingAmount - $adjustmentOrAdvanceAmount];
+    }
+    public static function PayrollCount($data)
+    {
+        // dd($data);
+        $totalCount = $data->count();
+        $totalPayments = $data->sum(function ($employee) {
+            return $employee->histories->sum(function ($history) {
+                return $history->salary + $history->other_allowance;
+            });
+        });
+        return [$totalCount , $totalPayments];
+    }
+    // getpayrolldetails
+    public static function getLoanDetailsOfEmployee($id)
+    {
+        return History::where('employee_id' , $id)->sum('loan_return');
     }
 }

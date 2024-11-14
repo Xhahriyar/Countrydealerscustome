@@ -3,13 +3,13 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                Admin Office Employee
+                Employee
             </h3>
             <div class="d-flex justify-content-center align-items-center">
                 <select class="form-control mx-1" id="employee_type">
                     <option disabled selected>-- Filter Employees --</option>
                     @foreach (config('vars.employee_type') as $employeeType)
-                        <option value="{{ $employeeType }}">
+                        <option value="{{ $employeeType }}" @if (!empty($data->employee_type) && $data->employee_type == $employeeType) selected @endif>
                             {{ $employeeType }}
                         </option>
                     @endforeach
@@ -19,6 +19,7 @@
                 @endcan
             </div>
         </div>
+
         <div class="card">
             <div class="card-body">
                 <div class="row">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\HistoryRepository;
+use App\Exports\EmployeeExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PayrollHistoryControlelr extends Controller
 {
@@ -13,16 +15,16 @@ class PayrollHistoryControlelr extends Controller
     {
         $this->historyRepository = $historyRepository;
     }
-    public function store($id)
-    {
-        $this->historyRepository->store($id);
-        return redirect()->back()->with("success","Salary has been paid.");
-    }
     public function history($id)
     {
         $employeeId = $id;
         $data = $this->historyRepository->find($id);
         return view("admin.history.index", compact("data" , 'employeeId'));
+    }
+    public function store($id)
+    {
+        $this->historyRepository->store($id);
+        return redirect()->back()->with("success","Salary has been paid.");
     }
     public function print($id)
     {
@@ -33,5 +35,9 @@ class PayrollHistoryControlelr extends Controller
     {
         $data = $this->historyRepository->printLadger($employeeId);
         return view("admin.payrolls.print-salary-ladger", compact("data"));
+    }
+    public function payrollExport()
+    {
+        return Excel::download(new EmployeeExport, 'payroll.xlsx');
     }
 }

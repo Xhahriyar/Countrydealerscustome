@@ -157,44 +157,6 @@
         </div>
     @endif
 
-    @if (count($data->owners) > 0)
-        <div class="content-wrapper">
-            <div class="page-header">
-                <h3 class="page-title">
-                    Other Plot Owners
-                </h3>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        @forelse ($data->owners as $owner)
-                            <div class="card-body d-flex justify-content-between">
-                                <div class="col-md-3">
-                                    <p><strong for="">Other Owner Name</strong></p>
-                                    {{ $owner->other_owner_name }}
-                                </div>
-                                <div class="col-md-3">
-                                    <p><strong for="">Other Owner Email</strong></p>
-                                    {{ $owner->other_owner_email }}
-                                </div>
-                                <div class="col-md-3">
-                                    <p><strong for="">Other Owner Phone</strong></p>
-                                    {{ $owner->other_owner_number }}
-                                </div>
-                                <div class="col-md-3">
-                                    <p><strong for="">Other Owner Father/Husband Name</strong></p>
-                                    {{ $owner->other_owner_father_or_husband_name }}
-                                </div>
-                            </div>
-                        @empty
-                            <h5 class="text-center m-0 py-4">No data found.</h5>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
     @if (count($data->payments) > 0)
         <div class="content-wrapper">
             <div class="page-header">
@@ -254,42 +216,6 @@
     </div>
     </div>
     </div>
-    @endif
-
-    @if (count($data->saleOfficers) > 0)
-        <div class="content-wrapper">
-            <div class="page-header">
-                <h3 class="page-title">
-                    Sales Officers
-                </h3>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        @foreach ($data->saleOfficers as $officers)
-                            <div class="card-body d-flex justify-content-between">
-                                <div class="col-md-4">
-                                    <p><strong for="">Name</strong></p>
-                                    {{ $officers->officer->name }}
-                                </div>
-                                <div class="col-md-4">
-                                    <p><strong for="">Commission Type</strong></p>
-                                    {{ $officers->commission_type }}
-                                </div>
-                                <div class="col-md-4">
-                                    <p><strong for="">Commission Amount</strong></p>
-                                    @if($officers->commission_type == 'percent')
-                                    {{ ($officers->commission_amount / 100 ) * $data->plot_price }}
-                                    @else
-                                    {{$officers->commission_amount}}
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
     @endif
 @endsection
 
