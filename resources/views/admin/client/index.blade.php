@@ -6,7 +6,9 @@
                 Sales
             </h3>
             <div class="d-flex">
-                <a href="{{ route('client.create') }}" class="btn btn-sm btn-primary">+ New</a>
+                @can('client-create')
+                    <a href="{{ route('client.create') }}" class="btn btn-sm btn-primary">+ New</a>
+                @endcan
             </div>
         </div>
         {{-- count sectionm --}}
@@ -62,7 +64,9 @@
                 <div class="col-md-2">
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="btn btn-sm btn-primary mr-1"><i class="fas fa-filter"></i></button>
-                        <a href="{{ route('client.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                        @can('client-list')
+                            <a href="{{ route('client.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -110,18 +114,24 @@
                                             </td>
                                             <td class="">
                                                 <div class="d-flex">
-                                                    <a href="javascript:;" class="btn btn-danger btn-sm"
-                                                        onclick="confirmAction('{{ route('client.delete', $data->id) }}')">
-                                                        <i class="fas fa-regular fa-trash"></i>
-                                                    </a>
-                                                    <a href="{{ route('client.show', $data->id) }}"
-                                                        class="btn btn-warning btn-sm mx-1"><i
-                                                            class="fas fa-regular fa-eye"></i>
-                                                    </a>
-                                                    <a href="{{ route('client.edit', $data->id) }}"
-                                                        class="btn btn-primary btn-sm"><i
-                                                            class="fas fa-regular fa-pencil"></i>
-                                                    </a>
+                                                    @can('client-delete')
+                                                        <a href="javascript:;" class="btn btn-danger btn-sm"
+                                                            onclick="confirmAction('{{ route('client.delete', $data->id) }}')">
+                                                            <i class="fas fa-regular fa-trash"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('client-view')
+                                                        <a href="{{ route('client.show', $data->id) }}"
+                                                            class="btn btn-warning btn-sm mx-1"><i
+                                                                class="fas fa-regular fa-eye"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('client-edit')
+                                                        <a href="{{ route('client.edit', $data->id) }}"
+                                                            class="btn btn-primary btn-sm"><i
+                                                                class="fas fa-regular fa-pencil"></i>
+                                                        </a>
+                                                    @endcan
                                                 </div>
                                             </td>
                                             <td>

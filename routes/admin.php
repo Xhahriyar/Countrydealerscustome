@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\EmployeePayrollController;
 use App\Http\Controllers\Admin\ExpenseController;
@@ -10,14 +9,36 @@ use App\Http\Controllers\Admin\PayrollHistoryControlelr;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SalesOfficerController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 
 
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
-    Route::controller(AdminController::class)->group(function () {
+    Route::controller(UserController::class)->group(function () {
         Route::get('/dashboard', 'index')->name('admin.index');
     });
+    // Users
+    Route::controller(UserController::class)->group(function () {
+        Route::get('users', 'getUser')->name('users.index');
+        Route::get('users/create', 'create')->name('users.create');
+        Route::post('users/store', 'store')->name('users.store');
+        Route::get('users/show/{id}', 'show')->name('users.show');
+        Route::get('users/edit/{id}', 'edit')->name('users.edit');
+        Route::post('users/update/{id}', 'update')->name('users.update');
+        Route::delete('users/delete/{id}', 'delete')->name('users.delete');
+    });
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('roles', 'index')->name('roles.index');
+        Route::get('roles/create', 'create')->name('roles.create');
+        Route::post('roles/store', 'store')->name('roles.store');
+        Route::get('roles/show/{id}', 'show')->name('roles.show');
+        Route::get('roles/edit/{id}', 'edit')->name('roles.edit');
+        Route::post('roles/update/{id}', 'update')->name('roles.update');
+        Route::get('roles/delete/{id}', 'delete')->name('roles.delete');
+    });
+
     Route::controller(OfficeEmployeeController::class)->group(function () {
         Route::get('office/employee', 'index')->name('employee.office.index');
         Route::get('office/employee/create', 'create')->name('employee.office.create');

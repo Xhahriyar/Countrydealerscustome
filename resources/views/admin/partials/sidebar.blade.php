@@ -13,16 +13,20 @@
             </div>
         </li>
         <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.index') }}">
-                <i class="fa fa-home menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
-            </a>
+            @can('dashboard')
+                <a class="nav-link" href="{{ route('admin.index') }}">
+                    <i class="fa fa-home menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/office/employee/index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('employee.office.index') }}">
-                <i class="fa-solid fa-user menu-icon"></i>
-                <span class="menu-title">Employees</span>
-            </a>
+            @can('employee-list')
+                <a class="nav-link" href="{{ route('employee.office.index') }}">
+                    <i class="fa-solid fa-user menu-icon"></i>
+                    <span class="menu-title">Employees</span>
+                </a>
+            @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/payroll') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('payroll.index') }}">
@@ -31,28 +35,50 @@
             </a>
         </li>
         <li class="nav-item {{ Request::is('admin/client') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('client.index') }}">
-                <i class="fa-solid fa-user menu-icon"></i>
-                <span class="menu-title">Sale</span>
-            </a>
+            @can('client-list')
+                <a class="nav-link" href="{{ route('client.index') }}">
+                    <i class="fa-solid fa-user menu-icon"></i>
+                    <span class="menu-title">Client</span>
+                </a>
+            @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/purchase') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('purchase.index') }}">
-                <i class="fa-solid fa-cart-shopping menu-icon"></i>
-                <span class="menu-title">Purchase</span>
-            </a>
+            @can('purchase-list')
+                <a class="nav-link" href="{{ route('purchase.index') }}">
+                    <i class="fa-solid fa-cart-shopping menu-icon"></i>
+                    <span class="menu-title">Purchase</span>
+                </a>
+            @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/expense') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('expense.index') }}">
-                <i class="fa-solid fa-dollar-sign menu-icon"></i>
-                <span class="menu-title">Expense</span>
-            </a>
+            @can('expense-list')
+                <a class="nav-link" href="{{ route('expense.index') }}">
+                    <i class="fa-solid fa-dollar-sign menu-icon"></i>
+                    <span class="menu-title">Expense</span>
+                </a>
+            @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/sales/officer') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('sales.officer.index') }}">
                 <i class="fa-solid fa-user menu-icon"></i>
                 <span class="menu-title">Sales Officer</span>
             </a>
+        </li>
+        <li class="nav-item {{ Request::is('admin/roles') ? 'active' : '' }}">
+            @can('role-list')
+                <a class="nav-link" href="{{ route('roles.index') }}">
+                    <i class="fa-solid fa-user menu-icon"></i>
+                    <span class="menu-title">Roles</span>
+                </a>
+            @endcan
+        </li>
+        <li class="nav-item {{ Request::is('admin/users') ? 'active' : '' }}">
+            @can('user-list')
+                <a class="nav-link" href="{{ route('users.index') }}">
+                    <i class="fa-solid fa-user menu-icon"></i>
+                    <span class="menu-title">Users</span>
+                </a>
+            @endcan
         </li>
     </ul>
 </nav>

@@ -14,8 +14,9 @@
                         </option>
                     @endforeach
                 </select>
-
-                <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a>
+                @can('employee-create')
+                    <a href="{{ route('employee.office.create') }}" class="btn btn-sm btn-primary">+ New</a>
+                @endcan
             </div>
         </div>
 
@@ -45,22 +46,28 @@
                                             <td>{{ $data->cnic }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{ route('employee.office.show', $data->id) }}"
-                                                        class="btn btn-sm btn-outline-primary"><i
-                                                            class="fa-regular fa-eye"></i></a>
-                                                    <a href="{{ route('employee.office.edit', $data->id) }}"
-                                                        class="btn btn-sm btn-outline-warning mx-1"><i
-                                                            class="fa-solid fa-pencil"></i></a>
-                                                    <form id="delete-form"
-                                                        action="{{ route('employee.office.delete', $data->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" onclick="confirmDelete()"
-                                                            class="btn btn-sm btn-danger">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </form>
+                                                    @can('employee-view')
+                                                        <a href="{{ route('employee.office.show', $data->id) }}"
+                                                            class="btn btn-sm btn-outline-primary"><i
+                                                                class="fa-regular fa-eye"></i></a>
+                                                    @endcan
+                                                    @can('employee-edit')
+                                                        <a href="{{ route('employee.office.edit', $data->id) }}"
+                                                            class="btn btn-sm btn-outline-warning mx-1"><i
+                                                                class="fa-solid fa-pencil"></i></a>
+                                                    @endcan
+                                                    @can('employee-delete')
+                                                        <form id="delete-form"
+                                                            action="{{ route('employee.office.delete', $data->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" onclick="confirmDelete()"
+                                                                class="btn btn-sm btn-danger">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>
