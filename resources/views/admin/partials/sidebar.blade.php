@@ -4,11 +4,11 @@
             <div class="nav-link">
                 <div class="profile-name">
                     <p class="name">
-                        Welcome Jane
+                        Welcome  {{ Auth::user()->name }}
                     </p>
-                    <p class="designation">
+                    {{-- <p class="designation">
                         Super Admin
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </li>

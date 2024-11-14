@@ -9,12 +9,17 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 
 class EmployeeExport implements FromCollection, WithHeadings, WithMapping
 {
+    protected $ids;
+    public function __construct($ids)
+    {
+        $this->ids = $ids;
+    }
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        return AdminOfficeEMployee::with('histories')->get();
+        return AdminOfficeEMployee::whereIn('id' , $this->ids)->with('histories')->get();
     }
     public function headings(): array
     {

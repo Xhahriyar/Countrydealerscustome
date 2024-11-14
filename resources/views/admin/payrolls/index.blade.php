@@ -6,8 +6,8 @@
                 Payroll
             </h3>
             <div class="d-flex justify-content-end">
-                <a href="{{route('payroll.export')}}" class="btn btn-sm btn-primary">Excel</a>
-                <a href="{{route('payroll.pdf')}}" class="btn btn-sm btn-success ml-1">PDF</a>
+                <a href="javascript:;" class="btn btn-sm btn-primary" id="export_to_excel">Excel</a>
+                <a href="{{ route('payroll.pdf') }}" class="btn btn-sm btn-success ml-1">PDF</a>
             </div>
         </div>
         @include('admin.partials.count', [
@@ -72,6 +72,7 @@
                             <table id="myTable" class="table">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="select_all" /></th>
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>CNIC</th>
@@ -90,19 +91,23 @@
                                 <tbody>
                                     @forelse ($data as $key => $data)
                                         <tr>
+                                            <td><input type="checkbox" class="employee_checkbox"
+                                                    data-id="{{ $data->id }}" /></td>
                                             <td>{{ $key += 1 }}</td>
                                             <td>{{ $data->first_name }} {{ $data->last_name }}</td>
                                             <td>{{ $data->cnic }}</td>
                                             <td>{{ $data->employee_type }}</td>
-                                            <td>{{ $data->loan_amount ?? 0}}</td>
-                                            <td>{{ $data->loan_return ?? 0}}</td>
-                                            <td>{{ ($data->loan_amount > 0 && $data->loan_amount - $data->histories->sum('loan_return') >= 0) ? $data->loan_amount - $data->histories->sum('loan_return') : 0 }}</td>
+                                            <td>{{ $data->loan_amount ?? 0 }}</td>
+                                            <td>{{ $data->loan_return ?? 0 }}</td>
+                                            <td>{{ $data->loan_amount > 0 && $data->loan_amount - $data->histories->sum('loan_return') >= 0 ? $data->loan_amount - $data->histories->sum('loan_return') : 0 }}
+                                            </td>
 
-                                            <td>{{ $data->loan_amount > 0 ? $data->histories->sum('loan_return') : 0 }}</td>
+                                            <td>{{ $data->loan_amount > 0 ? $data->histories->sum('loan_return') : 0 }}
+                                            </td>
 
-                                            <td>{{ $data->salary ?? 0}}</td>
-                                            <td>{{ $data->other_allowance ?? 0}}</td>
-                                            <td>{{ $data->salary - $data->loan_return + $data->other_allowance ?? 0}}</td>
+                                            <td>{{ $data->salary ?? 0 }}</td>
+                                            <td>{{ $data->other_allowance ?? 0 }}</td>
+                                            <td>{{ $data->salary - $data->loan_return + $data->other_allowance ?? 0 }}</td>
                                             <td>
                                                 <a href="javascript:;" class="btn btn-sm btn-outline-primary"
                                                     onclick="confirmAction('{{ route('payroll.store', $data->id) }}')"><i
@@ -129,5 +134,57 @@
 @section('bottom-scripts')
     <script>
         let table = new DataTable('#myTable');
+        $('#select_all').click(function() {
+            var isChecked = $(this).prop('checked'); // Get the status of "Select All"
+            // Set all checkboxes to the same state
+            $('.employee_checkbox').prop('checked', isChecked);
+        });
+
+        // Handle individual checkbox click (to uncheck "Select All" if not all are selected)
+        $('.employee_checkbox').click(function() {
+            var totalCheckboxes = $('.employee_checkbox').length;
+            var checkedCheckboxes = $('.employee_checkbox:checked').length;
+            // If all checkboxes are checked, check the "Select All"
+            $('#select_all').prop('checked', totalCheckboxes === checkedCheckboxes);
+        });
+        // Get selected employee IDs
+        function getSelectedEmployeeIds() {
+            var selectedIds = [];
+            $(".employee_checkbox:checked").each(function() {
+                selectedIds.push($(this).data("id"));
+            });
+            return selectedIds;
+        }
+
+        // Handle the Excel export button click
+        $("#export_to_excel").click(function() {
+            var selectedIds = getSelectedEmployeeIds();
+
+            // If no employees are selected
+            if (selectedIds.length === 0) {
+                alert("Please select at least one employee.");
+                return;
+            }
+
+            // Make an AJAX request to fetch the data and generate Excel
+            $.ajax({
+                url: "{{ route('payroll.export') }}", // Your export route
+                method: "GET",
+                data: {
+                    ids: selectedIds,
+                },
+                success: function(response) {
+                    if (response.download_url) {
+                        // Trigger the download by navigating to the file URL
+                        window.location.href = response.download_url;
+                    } else {
+                        alert("An error occurred while generating the Excel file.");
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
     </script>
 @endsection
