@@ -24,6 +24,9 @@ class StoreExpenseRequest extends FormRequest
         return [
             'amount' => 'required',
             'description' => 'required',
+            'name' => 'required',
+            'expense_type' => 'required',
+            'expense_category' => 'required',
         ];
     }
 }

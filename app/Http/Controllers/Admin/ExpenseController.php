@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExpenseRequest;
+use App\Services\CountService;
 use Illuminate\Http\Request;
 use App\Repositories\ExpenseRepository;
 class ExpenseController extends Controller
@@ -13,19 +14,26 @@ class ExpenseController extends Controller
     {
         $this->expenseRepository = $expenseRepository;
     }
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('query')) {
+            $searchData = $request->all();
+            $data = $this->expenseRepository->search($searchData);
+            $count = CountService::expenseCount($data);
+            return view("admin.expense.index", compact('data', 'count'));
+        }
         $data = $this->expenseRepository->all();
-        return view("admin.expense.index" , compact('data'));
+        $count = CountService::expenseCount($data);
+        return view("admin.expense.index", compact('data', 'count'));
     }
     public function store(StoreExpenseRequest $request)
     {
         $this->expenseRepository->store($request->all());
-        return redirect()->back()->with('success' , 'Record Created Successfully.');
+        return redirect()->back()->with('success', 'Record Created Successfully.');
     }
     public function delete($id)
     {
         $this->expenseRepository->delete($id);
-        return redirect()->back()->with('success' , 'Record Deleted Successfully.');
+        return redirect()->back()->with('success', 'Record Deleted Successfully.');
     }
 }

@@ -9,4 +9,9 @@ class History extends Model
 {
     protected $guarded = [];
     use HasFactory;
+
+    public function employee()
+    {
+        return $this->belongsTo(AdminOfficeEMployee::class , 'employee_id');
+    }
 }

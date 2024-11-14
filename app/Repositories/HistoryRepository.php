@@ -29,4 +29,12 @@ class HistoryRepository
         $history = History::where('employee_id', $id)->get();
         return $history;
     }
+    public function findForPrint($id)
+    {
+        return $this->model->find($id);
+    }
+    public function printLadger($employeeId)
+    {
+       return AdminOfficeEMployee::with('histories')->find($employeeId);
+    }
 }

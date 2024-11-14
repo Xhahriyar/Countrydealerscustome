@@ -33,6 +33,10 @@
                                         <option value="client">Client Type</option>
                                         <option value="purchase">Purchase Type</option>
                                         <option value="expense">Expense Type</option>
+                                        <option value="expense category">Expense Category</option>
+                                        <option value="sales officer">Sales Officer Type</option>
+                                        <option value="employee designation">Employee Designation</option>
+                                        <option value="employee department">Employee Department</option>
                                     </select>
                                 </div>
                             </div>

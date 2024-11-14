@@ -167,6 +167,7 @@
         $('#printButton').on('click' , function() {
             $(this).hide();
             print();
+            window.location.reload();
         })
     });
 </script>

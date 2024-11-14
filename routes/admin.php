@@ -31,10 +31,14 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::controller(EmployeePayrollController::class)->group(function () {
         Route::get('payroll', 'index')->name('payroll.index');
         Route::get('payroll/store/{id}', 'store')->name('payroll.store');
+        Route::get('payroll/pdf', 'payrollPdf')->name('payroll.pdf');
     });
     Route::controller(PayrollHistoryControlelr::class)->group(function () {
-        Route::get('payroll/store/{id}', 'store')->name('payroll.store');
         Route::get('payroll/history/{id}', 'history')->name('payroll.history');
+        Route::get('payroll/store/{id}', 'store')->name('payroll.store');
+        Route::get('payroll/print/{id}', 'print')->name('payroll.print');
+        Route::get('payroll/ladger/print/{id}', 'printLadger')->name('payroll.print.ladger');
+        Route::get('payroll/export', 'payrollExport')->name('payroll.export');
     });
 
     Route::controller(ClientController::class)->group(function () {
@@ -50,11 +54,14 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('add/custom/cheque/installment/{id}', 'addNewChequeInstallment')->name('add.custom.cheque.installment');
         Route::get('client/delete/{id}', 'delete')->name('client.delete');
         Route::get('client/print/{client_id}/{installment_id}', 'print')->name('client.print');
+        Route::get('client/search', 'index')->name('client.search');
+        Route::get('print/all/installments/{id}', 'printAll')->name('print.all.installments');
     });
     Route::controller(ExpenseController::class)->group(function () {
         Route::get('expense', 'index')->name('expense.index');
         Route::post('expense/store', 'store')->name('expense.store');
         Route::get('expense/delete/{id}', 'delete')->name('expense.delete');
+        // Route::get('expense/filter', 'filter')->name('expense.filter');
     });
     Route::controller(PurchaseController::class)->group(function () {
         Route::get('purchase', 'index')->name('purchase.index');
@@ -73,9 +80,15 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     });
     Route::controller(SalesOfficerController::class)->group(function () {
         Route::get('sales/officer', 'index')->name('sales.officer.index');
+        Route::get('sales/officer/show/{id}', 'show')->name('sales.officer.show');
         Route::get('sales/officer/create', 'create')->name('sales.officer.create');
         Route::post('sales/officer/store', 'store')->name('sales.officer.store');
+        Route::get('sales/officer/commission/status/{id}', 'status')->name('sales.officer.commission.status');
+        Route::get('sales/officer/commission/{salesOfficerId}/{clientId}', 'installments')->name('sales.officer.commission.installments');
         Route::delete('sales/officer/delete/{id}', 'delete')->name('sales.officer.delete');
+        Route::get('sales/officer/commission/status/{installment_id}/{sales_officer_id}/{client_id}', 'InstallmentStatus')->name('sales.officer.commission.installments.status');
+        Route::post('update/sales/officer/commission/{salesOfficerId}/{clientId}', 'updateCommission')->name('update.sales.officer.commission');
+        Route::get('delete/sales/officer/commission/{installmentId}', 'deleteCommission')->name('sales.officer.commission.delete');
     });
     Route::controller(NotificationController::class)->group(function () {
         Route::get('mark/as/read/notification/{id}/{model}', 'markAsRead')->name('mark.read.notification');

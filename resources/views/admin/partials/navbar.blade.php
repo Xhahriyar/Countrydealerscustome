@@ -40,7 +40,7 @@
                                     <p class="preview-subject font-weight-medium">Upcoming Installment for Plot #
                                         {{ $clientNotification->client->plot_number }}
                                     </p>
-                                    <span class="badge bg-success text-white m-0">Client</span>
+                                    <span class="badge bg-success text-white m-0 cursor-pointer" id="goToClientBtn">Client</span>
                                 </div>
                                 <span
                                     class="ml-5 d-flex justify-content-center align-items-center p-0 me-auto markAsReadNotification"
@@ -64,7 +64,7 @@
                                     <p class="preview-subject font-weight-medium">Upcoming Installment for Plot #
                                         {{ $purchaseNotification->purchase->plot_number }}
                                     </p>
-                                    <span class="badge bg-success text-white m-0">Purchase</span>
+                                    <span class="badge bg-success text-white m-0 cursor-pointer" id="goToPurchaseBtn">Purchase</span>
                                 </div>
                                 <span
                                     class="ml-5 d-flex justify-content-center align-items-center p-0 markAsReadNotification"
@@ -104,26 +104,4 @@
         </button>
     </div>
 </nav>
-@section('bottom-scripts')
-    <script>
-        $('#logoutBtn').on('click', function() {
-            $('#logout-form').submit();
-        })
 
-        $(document).on('click', '.markAsReadNotification', function() {
-            $('#dropdpwn').removeClass('dropdwon');
-            var paymentNotificationId = $(this).data('paymentnotificationid');
-            var model = $(this).data('model');
-            $.ajax({
-                type: "get",
-                url: "admin/mark/as/read/notification/" + paymentNotificationId + '/' + model,
-                success: function(response) {
-                    window.location.reload();
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        });
-    </script>
-@endsection

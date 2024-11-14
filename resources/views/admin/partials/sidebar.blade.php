@@ -1,18 +1,14 @@
-<!-- partial:partials/_sidebar.html -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item nav-profile">
             <div class="nav-link">
-                {{-- <div class="profile-image">
-                    <img src="assets/images/COUNTRY DEALERS LOGO AZ.svg" alt="logo" />
-                </div> --}}
                 <div class="profile-name">
                     <p class="name">
-                        Welcome Jane
+                        Welcome  {{ Auth::user()->name }}
                     </p>
-                    <p class="designation">
+                    {{-- <p class="designation">
                         Super Admin
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </li>
@@ -37,7 +33,7 @@
         <li class="nav-item {{ Request::is('admin/client') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('client.index') }}">
                 <i class="fa-solid fa-user menu-icon"></i>
-                <span class="menu-title">Client</span>
+                <span class="menu-title">Sale</span>
             </a>
         </li>
         <li class="nav-item {{ Request::is('admin/purchase') ? 'active' : '' }}">

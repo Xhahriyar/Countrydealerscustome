@@ -6,16 +6,22 @@ namespace App\Repositories;
 use App\Models\Client;
 use App\Models\ClientNotification;
 use App\Models\PlotInstallment;
-use App\Models\PurchaseNotification;
+use App\Models\PlotSalesOfficer;
 use Illuminate\Support\Facades\Validator;
 
 class PlotInstallmentRepo
 {
     protected $model;
+    protected $client;
+    protected $clientNotification;
+    protected $plotSalesOfficer;
 
-    public function __construct(PlotInstallment $model)
+    public function __construct(PlotInstallment $model, Client $client, ClientNotification $clientNotification, PlotSalesOfficer $plotSalesOfficer)
     {
         $this->model = $model;
+        $this->client = $client;
+        $this->clientNotification = $clientNotification;
+        $this->plotSalesOfficer = $plotSalesOfficer;
     }
     public function find(int $id)
     {
@@ -81,13 +87,13 @@ class PlotInstallmentRepo
         $payment->save();
         // to delete the notification from the `client_notifications` table
 
-        ClientNotification::where('client_notification_id' , $paymentId)->delete();
+        $this->clientNotification::where('client_notification_id', $paymentId)->delete();
     }
 
     public function checkBalanceForInstallments($data, $id, $paymentField)
     {
         $installmentData = $data->all();
-        $client = Client::find($id);
+        $client = $this->client::find($id);
         $totalInstallments = $this->model::where('client_id', $id)
             ->selectRaw('COALESCE(SUM(cheque_installment_amount), 0) as cheque_sum, COALESCE(SUM(installment_payment), 0) as installment_sum')
             ->first();
@@ -148,5 +154,45 @@ class PlotInstallmentRepo
         $new->cheque_installment_due_date = $data['cheque_installment_due_date'];
         $new->save();
         return true;
+    }
+    public function calculateSalesOfficerCommission($id, $InstallmentPayment)
+    {
+
+        $getClientSalesOfficers = $this->plotSalesOfficer
+            ->where('client_id', $id)
+            ->select('client_id', 'sales_officer_id', 'commission_amount', \DB::raw('MAX(id) as id'))
+            ->with(['officer', 'client'])
+            ->groupBy('sales_officer_id', 'client_id', 'commission_amount')
+            ->get();
+
+        $uniqueSalesOfficerCount = $getClientSalesOfficers->count();
+
+        foreach ($getClientSalesOfficers as $getClientSalesOfficer) {
+            $clientId = $getClientSalesOfficer->client_id;
+            $officerId = $getClientSalesOfficer->sales_officer_id;
+            $commissionAmount = $getClientSalesOfficer->commission_amount;
+
+            $commissionGoingToTheSalesOfficers = ($commissionAmount / 100) * $InstallmentPayment;
+            $commissionGoingToTheOneSalesOfficer = $commissionGoingToTheSalesOfficers / $uniqueSalesOfficerCount;
+
+            $salesOfficer = [
+                "client_id" => $clientId,
+                "sales_officer_id" => $officerId,
+                "commission_type" => 'percent',
+                "commission_amount" => $commissionAmount,
+                "commission_received" => $commissionGoingToTheOneSalesOfficer,
+                "commission_received_status" => 'PENDING',
+                "is_installment" => true,
+            ];
+            $this->plotSalesOfficer->create($salesOfficer);
+        }
+
+    }
+    public function getAllInstallmentsForPrint($clientId)
+    {
+       return $this->model::where([
+        'client_id' => $clientId,
+        'status' => 'PAID',
+        ])->get();
     }
 }
