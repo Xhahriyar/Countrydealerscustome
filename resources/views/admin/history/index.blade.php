@@ -18,6 +18,7 @@
                                         <th>Employee Type</th>
                                         <th>Total Loan</th>
                                         <th>Loan Return</th>
+                                        <th>Remaining Loan</th>
                                         <th>Salary</th>
                                         <th>Other Allowances</th>
                                         <th>Net Salary</th>
@@ -34,6 +35,7 @@
                                             <td>{{ $data->employee_type }}</td>
                                             <td>{{ $data->loan_amount }}</td>
                                             <td>{{ $data->loan_return }}</td>
+                                            <td>{{ $data->loan_amount - $data->sum('loan_return') }}</td>
                                             <td>{{ $data->salary }}</td>
                                             <td>{{ $data->other_allowance }}</td>
                                             <td>{{ $data->salary - $data->loan_return + $data->other_allowance }}</td>

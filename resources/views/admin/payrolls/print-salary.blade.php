@@ -22,6 +22,9 @@
                 <div>
                     <a href="javascript:;" class="btn btn-sm btn-primary" id="print">Print</a>
                 </div>
+                <div class="logo d-flex justify-content-end">
+                    <img src="{{ asset('assets/images/COUNTRY DEALERS LOGO AZ.svg') }}" alt="Logo Image" height="50px">
+                </div>
                 <div class="col-md-12">
                     <div class="text-center lh-1 mb-4">
                         <h6 class="fw-bold">Payslip</h6> <span class="fw-normal">Payment slip for the month of
@@ -66,18 +69,27 @@
                         <table class="mt-4 table table-bordered">
                             <thead class="bg-dark text-white">
                                 <tr>
-                                    <th scope="col">Earnings</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Deductions</th>
-                                    <th scope="col">Amount</th>
+                                    <tr>
+                                        <th scope="col">Net Salary</th>
+                                        <th scope="col">Loan Deductions</th>
+                                        <th scope="col">Total Loan</th>
+                                        <th scope="col">Total Paid Loan</th>
+                                        <th scope="col">Remaining Loan</th>
+                                        <th scope="col">Month</th>
+                                    </tr>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th scope="row">Salary</th>
+                                    @php
+                                      $totalpaidLoan =   App\Services\CountService::getLoanDetailsOfEmployee($data->employee_id)
+                                    @endphp
                                     <td>{{$data->salary}}.00</td>
-                                    <td>Loan Return</td>
                                     <td>{{$data->loan_return}}.00</td>
+                                    <td>{{$data->loan_amount}}.00</td>
+                                    <td>{{$totalpaidLoan}}.00</td>
+                                    <td>{{$data->loan_amount - $totalpaidLoan}}.00</td>
+                                    <td>{{ Carbon\Carbon::parse($data->created_at)->format('M Y') }}</td>
                                 </tr>
                             </tbody>
                         </table>
