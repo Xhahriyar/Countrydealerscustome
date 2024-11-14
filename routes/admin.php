@@ -28,6 +28,11 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('users/edit/{id}', 'edit')->name('users.edit');
         Route::post('users/update/{id}', 'update')->name('users.update');
         Route::delete('users/delete/{id}', 'delete')->name('users.delete');
+
+        // Profile update 
+        Route::get('users/profile', 'editProfile')->name('users.profile.edit');
+        Route::patch('users/profile', 'updateProfile')->name('users.profile.update');
+
     });
     Route::controller(RoleController::class)->group(function () {
         Route::get('roles', 'index')->name('roles.index');

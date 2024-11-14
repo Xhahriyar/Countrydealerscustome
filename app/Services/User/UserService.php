@@ -41,6 +41,7 @@ class UserService
     public function store($data)
     {
         $data['verify_token'] = Str::random(14);
+        $data['password'] = base64_encode(12345678);
         $dto = new UserDTO(...$data);
         return $this->repository->store($dto->toArray());
     }
@@ -56,6 +57,7 @@ class UserService
     {
         $data['password'] = $admin['password'];
         $dto = new UserDTO(...$data);
+        dd($data);
         return $this->repository->update($dto->toArray(), $admin);
     }
 

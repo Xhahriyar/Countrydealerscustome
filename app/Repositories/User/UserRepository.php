@@ -23,7 +23,7 @@ class UserRepository extends BaseRepository
     {
         $query = $this->model::query()->select($select);
 
-
+        $query = $query->where('email', '!=', config('constants.SUPER_ADMIN_EMAIL'));
         if (isset($filters['search']) && $filters['search']) {
             $query = $query->where('name', 'ilike', '%' . $filters['search'] . '%');
         }

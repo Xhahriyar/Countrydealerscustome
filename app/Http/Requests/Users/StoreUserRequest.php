@@ -4,7 +4,7 @@ namespace App\Http\Requests\Users;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Http\Request;
 
 class StoreUserRequest extends FormRequest
 {
@@ -21,8 +21,9 @@ class StoreUserRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
+        // dd($request->all());
         return [
             'first_name' => ['required', 'string', 'max:50'],
             'last_name' => ['required', 'string', 'max:50'],
