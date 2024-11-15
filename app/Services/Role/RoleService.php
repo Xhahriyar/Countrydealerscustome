@@ -75,17 +75,16 @@ class RoleService
      */
     public function updatePermissions($role, $permissions): void
     {
-        $permissionHeaders = [];
-        foreach ($permissions as $permission) {
-            $header = explode('-', $permission)[0];
-            // $header_check[] = $header;
-            if (! in_array($header, $permissionHeaders)) {
-                $permissionHeaders[] = $header;
-            }
-        }
-        // dd($header_check);
-        $permissions = array_merge($permissions, $permissionHeaders);
-        // dd($permissions);
+        // $permissionHeaders = [];
+        // foreach ($permissions as $permission) {
+        //     $header = explode('-', $permission)[0];
+        //     $header_check[] = $header;
+        //     if (! in_array($header, $permissionHeaders)) {
+        //         $permissionHeaders[] = $header;
+        //     }
+        // }
+        // // dd($header_check);
+        // $permissions = array_merge($permissions, $permissionHeaders);
 
         $this->repository->updatePermissions(new RoleDTO($role->name), $permissions);
     }
