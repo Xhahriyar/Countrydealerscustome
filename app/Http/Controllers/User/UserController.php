@@ -14,7 +14,6 @@ use App\Services\Role\RoleService;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Users\StoreUserRequest;
-use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
@@ -47,8 +46,6 @@ class UserController extends Controller
      */
     public function getUser(Request $request)
     {
-        $this->authorize(PermissionEnum::USER_LIST(), [User::class]);
-
         $filters = $request->all();
         $users = $this->service->getAll($filters);
         $userCount = $users->total();
@@ -73,17 +70,15 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $this->authorize(PermissionEnum::USER_STORE(), [User::class]);
-
         $user = $this->service->store($request->validated());
         if ($user) {
             if ($request->filled('role')) {
                 $this->service->updateRole($user, $request->input('role'));
             }
 
-            return Redirect::route('users.index')->with('success', Config('flashMessagesConstants.user.success.created'));
+            return Redirect::route('users.index')->with("success","Record Added Successfully");;
         }
-        return Redirect::route('users.index')->with('error', Config('flashMessagesConstants.user.error.created'));
+        return Redirect::route('users.index')->with("error","Error in Adding Record");;
     }
 
     /**
@@ -109,7 +104,6 @@ class UserController extends Controller
     //  */
     // public function update(UpdateAdminRequest $request, $id)
     // {
-    //     $this->authorize(PermissionEnum::USER_UPDATE(), [User::class]);
 
     //     $admin = $this->service->getOne($id);
     //     $this->service->update($request->validated(), $admin);
@@ -129,7 +123,7 @@ class UserController extends Controller
         $admin = $this->service->getOne($id);
         $this->service->destroy($admin);
         $admin->syncRoles([]); // removing all roles assigned
-        return Redirect::route('users.index')->with('success', Config('flashMessagesConstants.admin.success.deleted'));
+        return Redirect::route('users.index')->with("success","Record Deleted Successfully");;
     }
 
 
@@ -139,7 +133,6 @@ class UserController extends Controller
     public function editProfile(Request $request)
     {
         $user = $request->user();
-        $user->password = base64_decode($user->password);
         return view('profile.edit', ['data' => $user]);
     }
 
@@ -149,6 +142,6 @@ class UserController extends Controller
     public function updateProfile(ProfileUpdateRequest $request)
     {
         $this->service->update($request->validated(), $request->user());
-        return redirect()->back()->with('status', 'Profile updated successfully!');
+        return redirect()->back()->with("success","Profile Updated Successfully");
     }
 }

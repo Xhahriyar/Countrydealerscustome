@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-sm btn-primary"><i class="fas fa-filter"></i></button>
-                    @can('role-list')
+                    @can('role-view')
                         <a href="{{ route('roles.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                     @endcan
                 </div>
@@ -83,8 +83,8 @@
                                             <td>{{ $key += 1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td>{{ $role->created_at }}</td>
-                                            {{-- <td>
-                                                @can('role-delete')
+                                            <td>
+                                                {{-- @can('role-delete')
                                                 <form id="delete-form"
                                                     action="{{ route('roles.delete', $role->id) }}"
                                                     method="POST">
@@ -95,8 +95,8 @@
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </form>
-                                            @endcan
-                                            </td> --}}
+                                            @endcan --}}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

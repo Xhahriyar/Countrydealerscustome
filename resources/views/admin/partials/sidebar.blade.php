@@ -4,11 +4,11 @@
             <div class="nav-link">
                 <div class="profile-name">
                     <p class="name">
-                        Welcome Jane
+                        Welcome {{ request()->user()->first_name . ' ' . request()->user()->last_name }}
                     </p>
-                    <p class="designation">
-                        Super Admin
-                    </p>
+                    {{-- <p class="designation">
+                        {{request()->user()->role}}
+                    </p> --}}
                 </div>
             </div>
         </li>
@@ -21,7 +21,7 @@
             @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/office/employee/index') ? 'active' : '' }}">
-            @can('employee-list')
+            @can('employee')
                 <a class="nav-link" href="{{ route('employee.office.index') }}">
                     <i class="fa-solid fa-user menu-icon"></i>
                     <span class="menu-title">Employees</span>
@@ -29,13 +29,16 @@
             @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/payroll') ? 'active' : '' }}">
+            @can('payroll')
+
             <a class="nav-link" href="{{ route('payroll.index') }}">
                 <i class="fa-solid fa-dollar-sign menu-icon"></i>
-                <span class="menu-title">Payrolls</span>
+                <span class="menu-title">Payroll</span>
             </a>
+            @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/client') ? 'active' : '' }}">
-            @can('client-list')
+            @can('client')
                 <a class="nav-link" href="{{ route('client.index') }}">
                     <i class="fa-solid fa-user menu-icon"></i>
                     <span class="menu-title">Client</span>
@@ -43,7 +46,7 @@
             @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/purchase') ? 'active' : '' }}">
-            @can('purchase-list')
+            @can('purchase')
                 <a class="nav-link" href="{{ route('purchase.index') }}">
                     <i class="fa-solid fa-cart-shopping menu-icon"></i>
                     <span class="menu-title">Purchase</span>
@@ -51,7 +54,7 @@
             @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/expense') ? 'active' : '' }}">
-            @can('expense-list')
+            @can('expense')
                 <a class="nav-link" href="{{ route('expense.index') }}">
                     <i class="fa-solid fa-dollar-sign menu-icon"></i>
                     <span class="menu-title">Expense</span>
@@ -59,29 +62,31 @@
             @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/sales/officer') ? 'active' : '' }}">
+            @can('sales_officer')
             <a class="nav-link" href="{{ route('sales.officer.index') }}">
                 <i class="fa-solid fa-user menu-icon"></i>
                 <span class="menu-title">Sales Officer</span>
             </a>
-        </li>
-        <li class="nav-item {{ Request::is('admin/roles') ? 'active' : '' }}">
-            @can('role-list')
-                <a class="nav-link" href="{{ route('roles.index') }}">
-                    <i class="fa-solid fa-user menu-icon"></i>
-                    <span class="menu-title">Roles</span>
-                </a>
             @endcan
         </li>
         <li class="nav-item {{ Request::is('admin/users') ? 'active' : '' }}">
-            @can('user-list')
+            @can('user')
                 <a class="nav-link" href="{{ route('users.index') }}">
                     <i class="fa-solid fa-user menu-icon"></i>
                     <span class="menu-title">Users</span>
                 </a>
             @endcan
         </li>
+        <li class="nav-item {{ Request::is('admin/roles') ? 'active' : '' }}">
+            @can('role')
+                <a class="nav-link" href="{{ route('roles.index') }}">
+                    <i class="fa-solid fa-user menu-icon"></i>
+                    <span class="menu-title">Roles</span>
+                </a>
+            @endcan
+        </li>
         <li class="nav-item {{ Request::is('settings') ? 'active' : '' }}">
-            @can('user-list')
+            @can('settings')
                 <a class="nav-link" href="{{ route('settings') }}">
                     <i class="fa-solid fa-gear menu-icon"></i>
                     <span class="menu-title">Categories</span>
