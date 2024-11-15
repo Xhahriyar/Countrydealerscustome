@@ -13,6 +13,8 @@ use App\Services\Role\RoleService;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Users\StoreUserRequest;
+use App\Http\Requests\Users\UpdateAdminRequest;
+
 class UserController extends Controller
 {
     protected $dashboardRepository;
@@ -24,7 +26,7 @@ class UserController extends Controller
         )
     {
         $this->dashboardRepository = $dashboardRepository;
-        
+
     }
     public function index(ExpenseChart $expenseChart , Purchase $purchaseChart)
     {
