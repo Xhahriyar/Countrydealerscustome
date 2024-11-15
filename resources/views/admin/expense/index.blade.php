@@ -11,7 +11,9 @@
             <h3 class="page-title">
                 Expenses
             </h3>
-            <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#expenseModal">+ New</a>
+            @can('expense-create')
+                <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#expenseModal">+ New</a>
+            @endcan
         </div>
         <div class="row grid-margin">
             <div class="col-12">
@@ -23,14 +25,14 @@
                                     <i class="icon-sm fas fa-hourglass-half mr-2"></i>
                                     Total Count
                                 </p>
-                                <h2>{{$count[0]}}</h2>
+                                <h2>{{ $count[0] }}</h2>
                             </div>
                             <div class="statistics-item">
                                 <p>
                                     <i class="icon-sm fas fa-check-circle mr-2"></i>
                                     Total Expences
                                 </p>
-                                <h2>{{$count[1]}}</h2>
+                                <h2>{{ $count[1] }}</h2>
                             </div>
                         </div>
                     </div>
@@ -87,7 +89,9 @@
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-sm btn-primary"><i class="fas fa-filter"></i></button>
-                    <a href="{{ route('expense.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                    @can('expense-list')
+                        <a href="{{ route('expense.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                    @endcan
                 </div>
             </div>
         </form>
@@ -123,12 +127,14 @@
                                             <td>{{ $expense->amount }}</td>
                                             <td>{{ $expense->expense_type }}</td>
                                             <td>{{ $expense->expense_category }}</td>
-                                            <td>{{ $expense->description }}</td>
+                                            <td>{{ \Illuminate\Support\Str::words($expense->description, 5, '...') }}</td>
                                             <td>
-                                                <a href="javascript:;" class="btn btn-danger"
-                                                    onclick="confirmAction('{{ route('expense.delete', $expense->id) }}')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
+                                                @can('expense-delete')
+                                                    <a href="javascript:;" class="btn btn-danger"
+                                                        onclick="confirmAction('{{ route('expense.delete', $expense->id) }}')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

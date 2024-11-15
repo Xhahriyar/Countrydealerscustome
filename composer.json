@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "archtechx/enums": "^1.1",
         "arielmejiadev/larapex-charts": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
@@ -13,7 +14,11 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.5",
         "maatwebsite/excel": "^3.1",
+<<<<<<< HEAD
         "facebook/php-business-sdk": "^8.0.3"
+=======
+        "spatie/laravel-permission": "^6.10"
+>>>>>>> 5aa3b75886e058b716705ca6a628b904c7f3fc0c
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

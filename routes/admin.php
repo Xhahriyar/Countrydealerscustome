@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\EmployeePayrollController;
 use App\Http\Controllers\Admin\ExpenseController;
@@ -99,16 +98,4 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('type/store', 'store')->name('type.store');
         Route::get('type/delete/{id}', 'delete')->name('type.delete');
     });
-
-    Route::controller(CampaignController::class)->group(function(){
-        Route::get('campaigns' , 'getAdCampaigns');
-    });
 });
-
-
-//
-// 964510758871867 // AppId
-// 4f4694053740cc18c4e7d08669532f1e // AppSecret
-// 507433474365021 // Ad Account
-// EAANtN6kqIzsBO2FJrk2MLDJXxg8MfAMGOaFpwUfymBX3mLL0YR9ZBrNEo4SfeJFYDNS9SK0XaUDWRPkYsvPKdjvhMsgnzTZBh27t8ezzGJ22zEV0Qpfj1ZC3cCe7Ti7aOvSuFwqPZBaqDePGHlJz0xOBhgZCdyta7j7n9pdSq3pv7xi2vUz8ZCeUHBQxGGmPitJGw3 // Access Token
-##
