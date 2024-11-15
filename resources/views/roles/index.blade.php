@@ -82,8 +82,8 @@
                                             <td>{{ $key += 1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td>{{ $role->created_at }}</td>
-                                            <td>
-                                                {{-- @can('role-delete')
+                                            {{-- <td>
+                                                @can('role-delete')
                                                 <form id="delete-form"
                                                     action="{{ route('roles.delete', $role->id) }}"
                                                     method="POST">
@@ -94,8 +94,9 @@
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </form>
-                                            @endcan --}}
-                                            </td>
+                                            @endcan 
+                                            </td> --}}
+
                                         </tr>
                                     @endforeach
                                 </tbody>

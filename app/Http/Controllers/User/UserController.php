@@ -124,6 +124,7 @@ class UserController extends Controller
         $this->service->destroy($admin);
         $admin->syncRoles([]); // removing all roles assigned
         return Redirect::route('users.index')->with("success","Record Deleted Successfully");;
+
     }
 
 
@@ -133,6 +134,7 @@ class UserController extends Controller
     public function editProfile(Request $request)
     {
         $user = $request->user();
+
         return view('profile.edit', ['data' => $user]);
     }
 
@@ -142,6 +144,7 @@ class UserController extends Controller
     public function updateProfile(ProfileUpdateRequest $request)
     {
         $this->service->update($request->validated(), $request->user());
+
         return redirect()->back()->with("success","Profile Updated Successfully");
     }
 }

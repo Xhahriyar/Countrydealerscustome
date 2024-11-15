@@ -85,13 +85,14 @@
             </li>
         @endcan
         @can('settings')
-            <li class="nav-item {{ Request::is('settings') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('settings') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('settings') }}">
                     <i class="fa-solid fa-gear menu-icon"></i>
                     <span class="menu-title">Categories</span>
                 </a>
             </li>
         @endcan
+
         {{-- 
                   <li class="nav-item dropdown d-none d-lg-flex">
             <div class="nav-link">

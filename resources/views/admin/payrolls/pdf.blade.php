@@ -15,7 +15,7 @@
 
             /* Ensure the table fits within the print area */
             table {
-                width: 150%;
+                width: 100%;
                 table-layout: fixed;
                 /* Ensures fixed width for all columns */
                 border-collapse: collapse;
