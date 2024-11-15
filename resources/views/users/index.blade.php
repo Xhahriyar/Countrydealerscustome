@@ -46,7 +46,8 @@
             <div class="row mb-3">
                 <div class="col-2">
                     <div class="d-flex justify-content-center align-items-center">
-                        <input type="text" class="form-control" placeholder="search by name" name="search" value="" />
+                        <input type="text" class="form-control" placeholder="search by name" name="search"
+                            value="" />
                     </div>
                 </div>
                 <div class="col-2">
@@ -57,9 +58,7 @@
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-sm btn-primary"><i class="fas fa-filter"></i></button>
-                    @can('role-list')
-                        <a href="{{ route('users.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    @endcan
+                    <a href="{{ route('users.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                 </div>
             </div>
         </form>
@@ -89,17 +88,16 @@
                                             <td>{{ $user->created_at }}</td>
                                             <td>
                                                 @can('user-delete')
-                                                <form id="delete-form"
-                                                    action="{{ route('users.delete', $user->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" onclick="confirmDelete()"
-                                                        class="btn btn-sm btn-danger">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            @endcan
+                                                    <form id="delete-form" action="{{ route('users.delete', $user->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" onclick="confirmDelete()"
+                                                            class="btn btn-sm btn-danger">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

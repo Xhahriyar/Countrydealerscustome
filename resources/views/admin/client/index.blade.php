@@ -64,7 +64,7 @@
                 <div class="col-md-2">
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="btn btn-sm btn-primary mr-1"><i class="fas fa-filter"></i></button>
-                        @can('client-list')
+                        @can('client-view')
                             <a href="{{ route('client.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                         @endcan
                     </div>
