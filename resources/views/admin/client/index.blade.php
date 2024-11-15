@@ -3,7 +3,7 @@
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
-                Clients
+                Sales
             </h3>
             <div class="d-flex">
                 @can('client-create')

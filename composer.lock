@@ -2205,16 +2205,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.59",
+            "version": "3.1.60",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
-                "reference": "b4d8b877e31998811700283d91292ab2b9a4970d"
+                "reference": "4906dc57fbe6a41c405a77e1f7cac9078982c9c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/b4d8b877e31998811700283d91292ab2b9a4970d",
-                "reference": "b4d8b877e31998811700283d91292ab2b9a4970d",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/4906dc57fbe6a41c405a77e1f7cac9078982c9c7",
+                "reference": "4906dc57fbe6a41c405a77e1f7cac9078982c9c7",
                 "shasum": ""
             },
             "require": {
@@ -2222,7 +2222,7 @@
                 "ext-json": "*",
                 "illuminate/support": "5.8.*||^6.0||^7.0||^8.0||^9.0||^10.0||^11.0",
                 "php": "^7.0||^8.0",
-                "phpoffice/phpspreadsheet": "^1.29.2",
+                "phpoffice/phpspreadsheet": "^1.29.4",
                 "psr/simple-cache": "^1.0||^2.0||^3.0"
             },
             "require-dev": {
@@ -2270,7 +2270,7 @@
             ],
             "support": {
                 "issues": "https://github.com/SpartnerNL/Laravel-Excel/issues",
-                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.59"
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.60"
             },
             "funding": [
                 {
@@ -2282,7 +2282,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-25T15:40:14+00:00"
+            "time": "2024-11-11T12:27:45+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -7370,16 +7370,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.38",
+            "version": "10.5.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a86773b9e887a67bc53efa9da9ad6e3f2498c132"
+                "reference": "c7cffa0efa2b70c22366523e6d804c9419eb2400"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a86773b9e887a67bc53efa9da9ad6e3f2498c132",
-                "reference": "a86773b9e887a67bc53efa9da9ad6e3f2498c132",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c7cffa0efa2b70c22366523e6d804c9419eb2400",
+                "reference": "c7cffa0efa2b70c22366523e6d804c9419eb2400",
                 "shasum": ""
             },
             "require": {
@@ -7467,7 +7467,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-28T13:06:21+00:00"
+            "time": "2024-10-19T13:03:41+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -8896,5 +8896,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
