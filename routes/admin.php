@@ -10,13 +10,15 @@ use App\Http\Controllers\Admin\PayrollHistoryControlelr;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SalesOfficerController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 
 
 
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
-    Route::controller(AdminController::class)->group(function () {
+    Route::controller(UserController::class)->group(function () {
         Route::get('/dashboard', 'index')->name('admin.index');
     });
 
@@ -30,7 +32,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('users/update/{id}', 'update')->name('users.update');
         Route::delete('users/delete/{id}', 'destroy')->name('users.delete');
 
-        // Profile update 
+        // Profile update
         Route::get('users/profile', 'editProfile')->name('users.profile.edit');
         Route::post('users/profile', 'updateProfile')->name('users.profile.update');
 
