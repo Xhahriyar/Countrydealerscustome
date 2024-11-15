@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\EmployeePayrollController;
 use App\Http\Controllers\Admin\ExpenseController;
@@ -9,16 +10,15 @@ use App\Http\Controllers\Admin\PayrollHistoryControlelr;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SalesOfficerController;
 use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Role\RoleController;
-use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 
 
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
-    Route::controller(UserController::class)->group(function () {
+    Route::controller(AdminController::class)->group(function () {
         Route::get('/dashboard', 'index')->name('admin.index');
     });
+
     // Users
     Route::controller(UserController::class)->group(function () {
         Route::get('users', 'getUser')->name('users.index');
