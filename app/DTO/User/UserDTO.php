@@ -10,7 +10,8 @@ class UserDTO
      * @param $name
      */
     public function __construct(
-        public string $name,
+        public string $first_name,
+        public string $last_name,
         public string $email,
         public ?string $role = null,
         public ?string $password = null,

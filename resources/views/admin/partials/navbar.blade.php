@@ -83,9 +83,9 @@
                         style="width: 20px;border-radius: 50%;" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="{{ route('settings') }}">
-                        <i class="fas fa-cog text-primary"></i>
-                        Settings
+                    <a class="dropdown-item" href="{{ route('users.profile.update') }}">
+                        <i class="fa-solid fa-user menu-icon"></i>
+                        Profile Update
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" id="logoutBtn" style="cursor: pointer">
