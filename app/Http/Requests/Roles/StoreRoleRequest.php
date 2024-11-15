@@ -23,8 +23,6 @@ class StoreRoleRequest extends FormRequest
      */
     public function rules(Request $request): array
     {
-        // dd($request->all());
-
         return [
             'name' => [
                 'required',

@@ -72,7 +72,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
                                         <th>Email</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
@@ -82,16 +83,23 @@
                                     @foreach ($users as $key => $user)
                                         <tr>
                                             <td>{{ $key += 1 }}</td>
-                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->first_name }}</td>
+                                            <td>{{ $user->last_name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->created_at }}</td>
                                             <td>
-                                                @can('users-delete')
-                                                    <a href="javascript:;" class="btn btn-danger"
-                                                        onclick="confirmAction('{{ route('users.delete', $user->id) }}')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                @endcan
+                                                @can('user-delete')
+                                                <form id="delete-form"
+                                                    action="{{ route('users.delete', $user->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" onclick="confirmDelete()"
+                                                        class="btn btn-sm btn-danger">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                             </td>
                                         </tr>
                                     @endforeach

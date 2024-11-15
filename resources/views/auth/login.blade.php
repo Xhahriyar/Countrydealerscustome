@@ -61,7 +61,7 @@
                                 <button class="btn btn-block btn-primary btn-lg auth-form-btn">LOGIN</button>
                             </div>
                             <div class="text-center mt-4 font-weight-light">
-                                Don't have an account? <a href="{{ route('register') }}" class="text-primary">Create</a>
+                                {{-- Don't have an account? <a href="{{ route('register') }}" class="text-primary">Create</a> --}}
                             </div>
                         </form>
                     </div>

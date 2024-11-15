@@ -83,14 +83,20 @@
                                             <td>{{ $key += 1 }}</td>
                                             <td>{{ $role->name }}</td>
                                             <td>{{ $role->created_at }}</td>
-                                            <td>
-                                                @can('roles-delete')
-                                                    <a href="javascript:;" class="btn btn-danger"
-                                                        onclick="confirmAction('{{ route('roles.delete', $role->id) }}')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                @endcan
-                                            </td>
+                                            {{-- <td>
+                                                @can('role-delete')
+                                                <form id="delete-form"
+                                                    action="{{ route('roles.delete', $role->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" onclick="confirmDelete()"
+                                                        class="btn btn-sm btn-danger">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
+                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -37,22 +37,16 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    {{-- <div class="col-md-6">
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Select Role <sup class="text-danger">*</sup></label>
+            <label class="col-sm-3 col-form-label">Password <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
-                <select class="form-control" name="role">
-                    <option disabled selected>-- select an option --</option>
-                    @foreach ($roles as $role)
-                        <option value="{{ $role->name }}" @if (!empty($data->role) && $data->role == $role->id) selected @endif>
-                            {{ $role->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('role')
+                <input type="text" class="form-control" name="password" value="{{ $data['password'] ?? '' }}"
+                    placeholder="Password address here">
+                @error('password')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
