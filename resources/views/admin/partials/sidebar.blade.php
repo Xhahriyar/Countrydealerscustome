@@ -79,7 +79,16 @@
                     <span class="menu-title">Users</span>
                 </a>
             @endcan
-        {{-- </li>
+        </li>
+        <li class="nav-item {{ Request::is('settings') ? 'active' : '' }}">
+            @can('user-list')
+                <a class="nav-link" href="{{ route('settings') }}">
+                    <i class="fa-solid fa-gear menu-icon"></i>
+                    <span class="menu-title">Categories</span>
+                </a>
+            @endcan
+        </li>
+        {{-- 
                   <li class="nav-item dropdown d-none d-lg-flex">
             <div class="nav-link">
               <span class="dropdown-toggle btn btn-outline-dark" id="languageDropdown" data-toggle="dropdown">English</span>

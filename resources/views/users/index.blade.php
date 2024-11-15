@@ -88,12 +88,18 @@
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->created_at }}</td>
                                             <td>
-                                                @can('users-delete')
-                                                    <a href="javascript:;" class="btn btn-danger"
-                                                        onclick="confirmAction('{{ route('users.delete', $user->id) }}')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                @endcan
+                                                @can('user-delete')
+                                                <form id="delete-form"
+                                                    action="{{ route('users.delete', $user->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" onclick="confirmDelete()"
+                                                        class="btn btn-sm btn-danger">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                             </td>
                                         </tr>
                                     @endforeach

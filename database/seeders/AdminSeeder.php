@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
             'first_name' => 'super',
             'last_name' => 'admin',
             'email' => 'superadmin@admin.com',
-            'password' => base64_encode('12345678'),
+            'password' => Hash::make('12345678'),
             'is_admin' => 1,
         ]);
     }

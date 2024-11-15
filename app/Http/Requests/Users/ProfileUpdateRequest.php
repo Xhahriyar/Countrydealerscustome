@@ -15,12 +15,11 @@ class ProfileUpdateRequest extends FormRequest
     
     public function rules(Request $request): array
     {
-        dd($request->all());
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . \Auth::user()->id],
-            'password' => ['required', 'string', 'min:8'],
+            // 'password' => ['required', 'string', 'min:8'],
         ];
     }
     /**

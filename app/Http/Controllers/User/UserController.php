@@ -125,11 +125,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         $this->authorize(PermissionEnum::USER_DELETE(), [User::class]);
-
+        
         $admin = $this->service->getOne($id);
         $this->service->destroy($admin);
         $admin->syncRoles([]); // removing all roles assigned
-        return Redirect::route('admins.index')->with('success', Config('flashMessagesConstants.admin.success.deleted'));
+        return Redirect::route('users.index')->with('success', Config('flashMessagesConstants.admin.success.deleted'));
     }
 
 

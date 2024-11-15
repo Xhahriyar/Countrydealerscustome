@@ -9,9 +9,8 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form action="{{route('users.profile.update')}}" method="POST">
+                <form action="{{route('users.profile.update')}}" method="post">
                     @csrf
-                    @method('PATCH')
                     @include('profile.fields')
                     <div class="col-md-12">
                         <div class="form-group row">

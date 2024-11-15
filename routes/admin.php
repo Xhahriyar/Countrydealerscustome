@@ -27,11 +27,11 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('users/show/{id}', 'show')->name('users.show');
         Route::get('users/edit/{id}', 'edit')->name('users.edit');
         Route::post('users/update/{id}', 'update')->name('users.update');
-        Route::delete('users/delete/{id}', 'delete')->name('users.delete');
+        Route::delete('users/delete/{id}', 'destroy')->name('users.delete');
 
         // Profile update 
         Route::get('users/profile', 'editProfile')->name('users.profile.edit');
-        Route::patch('users/profile', 'updateProfile')->name('users.profile.update');
+        Route::post('users/profile', 'updateProfile')->name('users.profile.update');
 
     });
     Route::controller(RoleController::class)->group(function () {
@@ -41,7 +41,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('roles/show/{id}', 'show')->name('roles.show');
         Route::get('roles/edit/{id}', 'edit')->name('roles.edit');
         Route::post('roles/update/{id}', 'update')->name('roles.update');
-        Route::get('roles/delete/{id}', 'delete')->name('roles.delete');
+        Route::delete('roles/delete/{id}', 'delete')->name('roles.delete');
     });
 
     Route::controller(OfficeEmployeeController::class)->group(function () {
