@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\EmployeePayrollController;
 use App\Http\Controllers\Admin\ExpenseController;
@@ -15,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('/dashboard', 'index')->name('admin.index');
     });
+
     // Users
     Route::controller(UserController::class)->group(function () {
         Route::get('users', 'getUser')->name('users.index');
@@ -28,8 +31,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('users/edit/{id}', 'edit')->name('users.edit');
         Route::post('users/update/{id}', 'update')->name('users.update');
         Route::delete('users/delete/{id}', 'destroy')->name('users.delete');
-
-        // Profile update 
+        // Profile 
         Route::get('users/profile', 'editProfile')->name('users.profile.edit');
         Route::post('users/profile', 'updateProfile')->name('users.profile.update');
 

@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Crypt;
 class AdminSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Seed the application's database. User::create
+
      */
     public function run(): void
     {
