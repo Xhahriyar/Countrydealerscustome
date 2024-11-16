@@ -89,9 +89,7 @@
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-sm btn-primary"><i class="fas fa-filter"></i></button>
-                    @can('expense-view')
-                        <a href="{{ route('expense.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    @endcan
+                    <a href="{{ route('expense.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                 </div>
             </div>
         </form>

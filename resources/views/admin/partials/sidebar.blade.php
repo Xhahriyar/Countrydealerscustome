@@ -4,11 +4,10 @@
             <div class="nav-link">
                 <div class="profile-name">
                     <p class="name">
-                        Welcome {{ request()->user()->first_name . ' ' . request()->user()->last_name }}
+                        Welcome
                     </p>
-                    {{-- <p class="designation">
-                        {{request()->user()->role}}
-                    </p> --}}
+                    <p class="designation">
+                        {{ request()->user()->first_name . ' ' . request()->user()->last_name }}                    </p>
                 </div>
             </div>
         </li>

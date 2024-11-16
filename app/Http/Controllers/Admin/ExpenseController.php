@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExpenseRequest;
+use App\Models\Expense;
 use App\Services\CountService;
 use Illuminate\Http\Request;
 use App\Repositories\ExpenseRepository;
@@ -16,6 +18,8 @@ class ExpenseController extends Controller
     }
     public function index(Request $request)
     {
+        $this->authorize(PermissionEnum::EXPENSE(), [Expense::class]);
+
         if ($request->has('query')) {
             $searchData = $request->all();
             $data = $this->expenseRepository->search($searchData);
@@ -33,6 +37,8 @@ class ExpenseController extends Controller
     }
     public function delete($id)
     {
+        $this->authorize(PermissionEnum::EXPENSE_DELETE(), [Expense::class]);
+
         $this->expenseRepository->delete($id);
         return redirect()->back()->with('success', 'Record Deleted Successfully.');
     }

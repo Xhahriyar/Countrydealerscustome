@@ -8,8 +8,10 @@
             <h3 class="page-title">
                 Cash Installment Details
             </h3>
-            <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#installmentModal">+
-                New</a>
+            @can('purchase_cash_installment-add')
+                <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#installmentModal">+
+                    New</a>
+            @endcan
         </div>
         <div class="row">
             <div class="col-lg-12">
@@ -53,10 +55,12 @@
                                                     <i class="fas fa-solid fa-print"></i>
                                                 </a>
                                             @else
-                                                <a href="javascript:;" class="btn btn-outline-success btn-sm"
-                                                    onclick="confirmAction('{{ route('purchase.installment.status.update', $installment->id) }}')">
-                                                    <i class="fas fa-regular fa-check"></i>
-                                                </a>
+                                                @can('purchase_installment_status-edit')
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
+                                                        onclick="confirmAction('{{ route('purchase.installment.status.update', $installment->id) }}')">
+                                                        <i class="fas fa-regular fa-check"></i>
+                                                    </a>
+                                                @endcan
                                             @endif
                                         </td>
                                     </tr>
@@ -73,8 +77,10 @@
             <h3 class="page-title">
                 Cheque Installment Details
             </h3>
-            <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal"
-                data-target="#chequechequeInstallmentModal">+ New</a>
+            @can('purchase_check_installment-add')
+                <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#chequechequeInstallmentModal">+ New</a>
+            @endcan
         </div>
         <div class="row">
             <div class="col-lg-12">
@@ -122,9 +128,11 @@
                                                     <i class="fas fa-solid fa-print"></i>
                                                 </a>
                                             @else
-                                                <a href="javascript:;" class="btn btn-outline-success btn-sm"
-                                                    onclick="confirmAction('{{ route('purchase.installment.status.update', $installment->id) }}')">
-                                                    <i class="fas fa-regular fa-check"></i></a>
+                                                @can('purchase_installment_status-edit')
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
+                                                        onclick="confirmAction('{{ route('purchase.installment.status.update', $installment->id) }}')">
+                                                        <i class="fas fa-regular fa-check"></i></a>
+                                                @endcan
                                             @endif
                                         </td>
                                     </tr>

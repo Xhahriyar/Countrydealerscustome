@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use App\Repositories\SalesOfficerRepo;
 use App\Repositories\purchase\PurchaseRepository;
@@ -27,6 +29,8 @@ class PurchaseController extends Controller
     }
     public function index(Request $request)
     {
+        $this->authorize(PermissionEnum::PURCHASE(), [Purchase::class]);
+
         if ($request->has('query')) {
             $searchData = $request->all();
             $data = $this->PurchaseRepository->search($searchData);
@@ -40,6 +44,8 @@ class PurchaseController extends Controller
 
     public function create()
     {
+        $this->authorize(PermissionEnum::PURCHASE_CREATE(), [Purchase::class]);
+
         $oldPlots = $this->clientRepository->getOldPlots();
         // dd($oldPlots);
         $salesOfficers = $this->SalesOfficerRepo->all();
@@ -47,6 +53,8 @@ class PurchaseController extends Controller
     }
     public function show($id)
     {
+        $this->authorize(PermissionEnum::PURCHASE_VIEW(), [Purchase::class]);
+
         $data = $this->PurchaseRepository->show($id);
         return view('admin.purchase.show', compact('data'));
     }
@@ -57,6 +65,8 @@ class PurchaseController extends Controller
     }
     public function edit($id)
     {
+        $this->authorize(PermissionEnum::PURCHASE_EDIT(), [Purchase::class]);
+
         $data = $this->PurchaseRepository->show($id);
         return view('admin.purchase.edit', compact('data'));
     }
@@ -68,6 +78,8 @@ class PurchaseController extends Controller
     }
     public function delete($id)
     {
+        $this->authorize(PermissionEnum::PURCHASE_DELETE(), [Purchase::class]);
+
         $this->PurchaseRepository->delete($id);
         return redirect()->back()->with('success', 'Record Deleted Successfully.');
     }
@@ -75,6 +87,8 @@ class PurchaseController extends Controller
     // purchase installments
     public function getInstallments($id)
     {
+        $this->authorize(PermissionEnum::PURCHASE_INSTALLMENT_VIEW(), [Purchase::class]);
+
         $data = $this->PurchaseRepository->getCashInstallments($id);
         $chequeInstallments = $data[1];
         $cashInstallments = $data[0];
@@ -83,6 +97,8 @@ class PurchaseController extends Controller
 
     public function addNewCashInstallment(Request $data, $id)
     {
+        $this->authorize(PermissionEnum::PURCHASE_CASH_INSTALLMENT_ADD(), [Purchase::class]);
+
         $customCashInstallment = $this->PurchasePlotInstallmentRepo->addCustomCashInstallment($data, $id);
         if ($customCashInstallment == false) {
             return redirect()->back()->with('error', 'Installment Amount Is More Than Total Amount.');
@@ -92,6 +108,8 @@ class PurchaseController extends Controller
     }
     public function addNewChequeInstallment(Request $data, $id)
     {
+        $this->authorize(PermissionEnum::PURCHASE_CHECK_INSTALLMENT_ADD(), [Purchase::class]);
+
         $customChequeInstallment = $this->PurchasePlotInstallmentRepo->addCustomChequeInstallment($data, $id);
         if ($customChequeInstallment == false) {
             return redirect()->back()->with('error', 'Installment Amount Is More Than Total Amount.');
@@ -101,6 +119,8 @@ class PurchaseController extends Controller
     }
     public function installmentUpdate($id)
     {
+        $this->authorize(PermissionEnum::PURCHASE_INSTALLMENT_STATUS_EDIT(), [Purchase::class]);
+   
         $data = $this->PurchasePlotInstallmentRepo->updateInstallmentStatus($id);
         return redirect()->back()->with('success', 'Status Update Successfully.');
     }

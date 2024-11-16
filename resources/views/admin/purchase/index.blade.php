@@ -5,7 +5,9 @@
             <h3 class="page-title">
                 Purchases
             </h3>
-            <a href="{{route('purchase.create')}}" class="btn btn-sm btn-primary">+ New</a>
+            @can('purchase-create')
+                <a href="{{ route('purchase.create') }}" class="btn btn-sm btn-primary">+ New</a>
+            @endcan
         </div>
         {{-- count sectionm --}}
         @include('admin.partials.count', [
@@ -60,7 +62,8 @@
                 <div class="col-md-2">
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="btn btn-sm btn-primary mr-1"><i class="fas fa-filter"></i></button>
-                        <a href="{{ route('purchase.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                        <a href="{{ route('purchase.index') }}" class="btn btn-sm btn-danger"><i
+                                class="fas fa-times"></i></a>
                     </div>
                 </div>
             </div>
@@ -89,34 +92,49 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $key => $data)
-                                    <tr>
-                                        <td>{{ $key += 1 }}</td>
-                                        <td>{{ $data->name }}</td>
-                                        <td>{{ $data->father_or_husband_name }}</td>
-                                        <td>{{ $data->sale_type }}</td>
-                                        <td>{{ $data->client_type }}</td>
-                                        <td>{{ $data->plot_sale_price }}</td>
-                                        <td>{{ $data->plot_size }}</td>
-                                        <td>{{$data->adjustment_price + $data->advance_payment + $data->installments->where('status' , 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status' , 'PAID')->sum('installment_payment')}}</td>
-                                        <td>{{ $data->plot_sale_price - ($data->adjustment_price + $data->advance_payment + $data->installments->where('status' , 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status' , 'PAID')->sum('installment_payment')) }}</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <a href="javascript:;" class="btn btn-danger btn-sm" onclick="confirmAction('{{ route('purchase.delete', $data->id) }}')">
-                                                    <i class="fas fa-regular fa-trash"></i>
-                                                </a>
-                                                <a href="{{ route('purchase.show', $data->id) }}"
-                                                    class="btn btn-warning btn-sm mx-1"><i class="fas fa-regular fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('purchase.edit', $data->id) }}"
-                                                    class="btn btn-primary btn-sm"><i class="fas fa-regular fa-pencil"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td><a href="{{ route('purchase.installments', $data->id) }}"
-                                                class="btn btn-success btn-sm"><i
-                                                    class="fas fa-regular fa-dollar"></i></a></td>
-                                    </tr>
-                                @endforeach
+                                        <tr>
+                                            <td>{{ $key += 1 }}</td>
+                                            <td>{{ $data->name }}</td>
+                                            <td>{{ $data->father_or_husband_name }}</td>
+                                            <td>{{ $data->sale_type }}</td>
+                                            <td>{{ $data->client_type }}</td>
+                                            <td>{{ $data->plot_sale_price }}</td>
+                                            <td>{{ $data->plot_size }}</td>
+                                            <td>{{ $data->adjustment_price + $data->advance_payment + $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment') }}
+                                            </td>
+                                            <td>{{ $data->plot_sale_price - ($data->adjustment_price + $data->advance_payment + $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) }}
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    @can('purchase-delete')
+                                                        <a href="javascript:;" class="btn btn-danger btn-sm"
+                                                            onclick="confirmAction('{{ route('purchase.delete', $data->id) }}')">
+                                                            <i class="fas fa-regular fa-trash"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('purchase-view')
+                                                        <a href="{{ route('purchase.show', $data->id) }}"
+                                                            class="btn btn-warning btn-sm mx-1"><i
+                                                                class="fas fa-regular fa-eye"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('purchase-edit')
+                                                        <a href="{{ route('purchase.edit', $data->id) }}"
+                                                            class="btn btn-primary btn-sm"><i
+                                                                class="fas fa-regular fa-pencil"></i>
+                                                        </a>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @can('purchase_installment-view')
+                                                    <a href="{{ route('purchase.installments', $data->id) }}"
+                                                        class="btn btn-success btn-sm"><i
+                                                            class="fas fa-regular fa-dollar"></i></a>
+                                                @endcan
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

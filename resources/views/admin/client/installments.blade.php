@@ -8,8 +8,12 @@
                 Cash Installment Details
             </h3>
             <div>
-                <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#installmentModal">+ New</a>
-                <a href="{{route('print.all.installments' , $id)}}" class="btn btn-primary btn-sm" target="_blank">Print All</a>
+                @can('client_cash_installment-add')
+                    <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#installmentModal">+
+                        New</a>
+                @endcan
+                <a href="{{ route('print.all.installments', $id) }}" class="btn btn-primary btn-sm" target="_blank">Print
+                    All</a>
             </div>
         </div>
         <div class="row">
@@ -40,8 +44,8 @@
                                         <td>{{ Carbon\Carbon::parse($installment->payment_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
-                                            @if($installment->status == 'PAID')
-                                            {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
+                                            @if ($installment->status == 'PAID')
+                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -60,10 +64,12 @@
                                                     <i class="fas fa-solid fa-print"></i>
                                                 </a>
                                             @else
-                                                <a href="javascript:;" class="btn btn-outline-success btn-sm"
-                                                    onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
-                                                    <i class="fas fa-regular fa-check"></i>
-                                                </a>
+                                                @can('client_installment-status')
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
+                                                        onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
+                                                        <i class="fas fa-regular fa-check"></i>
+                                                    </a>
+                                                @endcan
                                             @endif
                                         </td>
                                     </tr>
@@ -80,8 +86,10 @@
             <h3 class="page-title">
                 Cheque Installment Details
             </h3>
-            <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal"
-                data-target="#chequechequeInstallmentModal">+ New</a>
+            @can('client_check_installment-add')
+                <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal"
+                    data-target="#chequechequeInstallmentModal">+ New</a>
+            @endcan
         </div>
         <div class="row">
             <div class="col-lg-12">
@@ -116,8 +124,8 @@
                                         <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
-                                            @if($installment->status == 'PAID')
-                                            {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
+                                            @if ($installment->status == 'PAID')
+                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -135,9 +143,11 @@
                                                     <i class="fas fa-solid fa-print"></i>
                                                 </a>
                                             @else
-                                                <a href="javascript:;" class="btn btn-outline-success btn-sm"
-                                                    onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
-                                                    <i class="fas fa-regular fa-check"></i></a>
+                                                @can('client_installment-status')
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
+                                                        onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
+                                                        <i class="fas fa-regular fa-check"></i></a>
+                                                @endcan
                                             @endif
                                         </td>
                                     </tr>

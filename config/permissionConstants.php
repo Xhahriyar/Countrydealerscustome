@@ -22,12 +22,12 @@ return [
             'is_visible' => true,
             'sort_order' => 150
         ],
-        [
-            'name' => PermissionEnum::USER_EDIT(),
-            'label' => 'Edit',
-            'is_visible' => true,
-            'sort_order' => 200
-        ],
+        // [
+        //     'name' => PermissionEnum::USER_EDIT(),
+        //     'label' => 'Edit',
+        //     'is_visible' => true,
+        //     'sort_order' => 200
+        // ],
         [
             'name' => PermissionEnum::USER_DELETE(),
             'label' => 'Delete',
@@ -54,12 +54,12 @@ return [
             'is_visible' => true,
             'sort_order' => 2150
         ],
-        [
-            'name' => PermissionEnum::ROLE_EDIT(),
-            'label' => 'Edit',
-            'is_visible' => true,
-            'sort_order' => 2200
-        ],
+        // [
+        //     'name' => PermissionEnum::ROLE_EDIT(),
+        //     'label' => 'Edit',
+        //     'is_visible' => true,
+        //     'sort_order' => 2200
+        // ],
         [
             'name' => PermissionEnum::ROLE_DELETE(),
             'label' => 'Delete',
@@ -177,24 +177,24 @@ return [
             'is_visible' => false,
             'sort_order' => 10050
         ],
-        [
-            'name' => PermissionEnum::EXPENSE_VIEW(),
-            'label' => 'View',
-            'is_visible' => true,
-            'sort_order' => 10100
-        ],
+        // [
+        //     'name' => PermissionEnum::EXPENSE_VIEW(),
+        //     'label' => 'View',
+        //     'is_visible' => true,
+        //     'sort_order' => 10100
+        // ],
         [
             'name' => PermissionEnum::EXPENSE_CREATE(),
             'label' => 'Create',
             'is_visible' => true,
             'sort_order' => 10150
         ],
-        [
-            'name' => PermissionEnum::EXPENSE_EDIT(),
-            'label' => 'Edit',
-            'is_visible' => true,
-            'sort_order' => 10200
-        ],
+        // [
+        //     'name' => PermissionEnum::EXPENSE_EDIT(),
+        //     'label' => 'Edit',
+        //     'is_visible' => true,
+        //     'sort_order' => 10200
+        // ],
         [
             'name' => PermissionEnum::EXPENSE_DELETE(),
             'label' => 'Delete',
@@ -271,6 +271,12 @@ return [
             'is_visible' => true,
             'sort_order' => 14100
         ],
+        [
+            'name' => PermissionEnum::PAYROLL_CREATE(),
+            'label' => 'Create',
+            'is_visible' => true,
+            'sort_order' => 14150
+        ],
     ],
     'sales_officer' => [
         [
@@ -311,7 +317,7 @@ return [
         ],
         [
             'name' => PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_CREATE(),
-            'label' => 'Commission Installment View',
+            'label' => 'Commission Installment Create',
             'is_visible' => true,
             'sort_order' => 16350
         ],
@@ -327,15 +333,15 @@ return [
             'is_visible' => true,
             'sort_order' => 16450
         ],
+        // [
+        //     'name' => PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_EDIT(),
+        //     'label' => 'Commisssion Installment Edit',
+        //     'is_visible' => true,
+        //     'sort_order' => 16500
+        // ],
         [
-            'name' => PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_EDIT(),
-            'label' => 'Commisssion Installment Edit',
-            'is_visible' => true,
-            'sort_order' => 16500
-        ],
-        [
-            'name' => PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_DELETE(),
-            'label' => 'Commisssion Installment Delete',
+            'name' => PermissionEnum::SALES_OFFICER_COMMISSION_DELETE(),
+            'label' => 'Commisssion Delete',
             'is_visible' => true,
             'sort_order' => 16550
         ],
@@ -343,7 +349,7 @@ return [
     'setting' => [
         [
             'name' => PermissionEnum::SETTINGS(),
-            'label' => 'Expense',
+            'label' => 'Setting',
             'is_visible' => false,
             'sort_order' => 18050
         ],

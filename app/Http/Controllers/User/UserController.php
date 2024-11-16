@@ -28,6 +28,8 @@ class UserController extends Controller
     }
     public function index(ExpenseChart $expenseChart, Purchase $purchaseChart)
     {
+        $this->authorize(PermissionEnum::DASHBOARD(), [User::class]);
+
         $salesCount = $this->dashboardRepository->totalSales();
         $totalSalesAmount = $this->dashboardRepository->totalSalesAmount();
         $expensesCount = $this->dashboardRepository->expenses();
@@ -38,6 +40,8 @@ class UserController extends Controller
     }
     public function dashboard()
     {
+        $this->authorize(PermissionEnum::DASHBOARD_VIEW(), [User::class]);
+
         return view("admin.dashboard");
     }
 
@@ -46,6 +50,8 @@ class UserController extends Controller
      */
     public function getUser(Request $request)
     {
+        $this->authorize(PermissionEnum::USER(), [User::class]);
+
         $filters = $request->all();
         $users = $this->service->getAll($filters);
         $userCount = $users->total();

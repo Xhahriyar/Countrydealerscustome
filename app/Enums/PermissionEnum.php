@@ -12,14 +12,14 @@ enum PermissionEnum: string
     case USER = 'user';
     case USER_VIEW = 'user-view';
     case USER_CREATE = 'user-create';
-    case USER_EDIT = 'user-edit';
+    // case USER_EDIT = 'user-edit';
     case USER_DELETE = 'user-delete';
 
         // ROLE
     case ROLE = 'role';
     case ROLE_VIEW = 'role-view';
     case ROLE_CREATE = 'role-create';
-    case ROLE_EDIT = 'role-edit';
+    // case ROLE_EDIT = 'role-edit';
     case ROLE_DELETE = 'role-delete';
 
         // DASHBOARD
@@ -46,9 +46,9 @@ enum PermissionEnum: string
 
         // EXPENSE
     case EXPENSE = 'expense';
-    case EXPENSE_VIEW = 'expense-view';
+    // case EXPENSE_VIEW = 'expense-view';
     case EXPENSE_CREATE = 'expense-create';
-    case EXPENSE_EDIT = 'expense-edit';
+    // case EXPENSE_EDIT = 'expense-edit';
     case EXPENSE_DELETE = 'expense-delete';
 
         // PURCHASE
@@ -64,6 +64,7 @@ enum PermissionEnum: string
         // PAYROLLS
     case PAYROLL = 'payroll';
     case PAYROLL_VIEW = 'payroll-view';
+    case PAYROLL_CREATE = 'payroll-create';
 
         // SALES OFFICER
     case SALES_OFFICER = 'sales_officer';
@@ -75,8 +76,8 @@ enum PermissionEnum: string
     case SALES_OFFICER_COMMISSION_INSTALLMENT_CREATE = 'sales_officer_commission_installment-create';
     case SALES_OFFICER_COMMISSION_STATUS = 'sales_officer_commission-status';
     case SALES_OFFICER_COMMISSION_INSTALLMENT_STATUS = 'sales_officer_commission_installment-status';
-    case SALES_OFFICER_COMMISSION_INSTALLMENT_EDIT = 'sales_officer_commission_installment-edit';
-    case SALES_OFFICER_COMMISSION_INSTALLMENT_DELETE = 'sales_officer_commission_installment-delete';
+    // case SALES_OFFICER_COMMISSION_INSTALLMENT_EDIT = 'sales_officer_commission_installment-edit';
+    case SALES_OFFICER_COMMISSION_DELETE = 'sales_officer_commission-delete';
 
         // SETTINGS
     case SETTINGS = 'settings';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Type;
@@ -9,6 +10,8 @@ class SettingsController extends Controller
 {
     public function index()
     {
+        $this->authorize(PermissionEnum::SETTINGS(), [Type::class]);
+
         $data = Type::all();
         return view('admin.settings.settings'  ,compact('data'));
     }
@@ -25,6 +28,8 @@ class SettingsController extends Controller
     }
     public function delete($id)
     {
+        $this->authorize(PermissionEnum::SETTINGS_TYPE_DELETE(), [Type::class]);
+
         Type::find($id)->delete();
         return redirect()->back()->with('success' , 'Record Deleted Successfully.');
     }

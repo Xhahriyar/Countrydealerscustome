@@ -84,14 +84,18 @@
                                             <td>{{ $data->commission_received - App\Services\CountService::getCommissionDetailsForOneDeal($id, $data->client->id) }}
                                             </td>
                                             <td>
-                                                <a href="{{ route('sales.officer.commission.installments', ['salesOfficerId' => $id, 'clientId' => $data->client->id]) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="javascript:;" class="btn btn-sm btn-danger"
-                                                    onclick="confirmAction('{{ route('sales.officer.commission.delete', $data->id) }}')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
+                                                @can('sales_officer_commission_installment-view')
+                                                    <a href="{{ route('sales.officer.commission.installments', ['salesOfficerId' => $id, 'clientId' => $data->client->id]) }}"
+                                                        class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('sales_officer_commission-delete')
+                                                    <a href="javascript:;" class="btn btn-sm btn-danger"
+                                                        onclick="confirmAction('{{ route('sales.officer.commission.delete', $data->id) }}')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
