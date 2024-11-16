@@ -7,7 +7,9 @@
                 Settings
             </h3>
             <div class="d-flex">
-                <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#typeModal">+ New</a>
+                @can('settings_type-create')
+                    <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#typeModal">+ New</a>
+                @endcan
             </div>
         </div>
         <div class="card">
@@ -31,10 +33,12 @@
                                             <td>{{ $record->name }}</td>
                                             <td>{{ $record->type_category }}</td>
                                             <td>
-                                                <a href="javascript:;" class="btn btn-danger btn-sm"
-                                                    onclick="confirmAction('{{ route('type.delete', $record->id) }}')">
-                                                    <i class="fas fa-regular fa-trash"></i>
-                                                </a>
+                                                @can('settings_type-delete')
+                                                    <a href="javascript:;" class="btn btn-danger btn-sm"
+                                                        onclick="confirmAction('{{ route('type.delete', $record->id) }}')">
+                                                        <i class="fas fa-regular fa-trash"></i>
+                                                    </a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

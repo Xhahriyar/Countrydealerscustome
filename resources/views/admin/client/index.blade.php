@@ -64,9 +64,7 @@
                 <div class="col-md-2">
                     <div class="d-flex justify-content-center align-items-center">
                         <button class="btn btn-sm btn-primary mr-1"><i class="fas fa-filter"></i></button>
-                        @can('client-view')
-                            <a href="{{ route('client.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                        @endcan
+                        <a href="{{ route('client.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
                     </div>
                 </div>
             </div>
@@ -135,9 +133,11 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="{{ route('client.installments', $data->id) }}"
-                                                    class="btn btn-success btn-sm"><i class="fas fa-regular fa-dollar"></i>
-                                                </a>
+                                                @can('client_installment-view')
+                                                    <a href="{{ route('client.installments', $data->id) }}"
+                                                        class="btn btn-success btn-sm"><i class="fas fa-regular fa-dollar"></i>
+                                                    </a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

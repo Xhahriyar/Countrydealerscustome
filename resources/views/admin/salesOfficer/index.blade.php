@@ -5,7 +5,9 @@
             <h3 class="page-title">
                 Sales Officers
             </h3>
-            <a href="{{ route('sales.officer.create') }}" class="btn btn-sm btn-primary">+ New</a>
+            @can('sales_officer-create')
+                <a href="{{ route('sales.officer.create') }}" class="btn btn-sm btn-primary">+ New</a>
+            @endcan
         </div>
         {{-- count sectionm --}}
         @include('admin.partials.count', [
@@ -46,7 +48,10 @@
                                         @foreach ($data->deals as $deal)
                                             @if ($deal->commission_type == 'percent' && $deal->commission_received_status == 'PENDING')
                                                 @php
-                                                $remainingCommission = ($deal->commission_amount / 100) * $deal->client->plot_sale_price - $deal->commission_received;
+                                                    $remainingCommission =
+                                                        ($deal->commission_amount / 100) *
+                                                            $deal->client->plot_sale_price -
+                                                        $deal->commission_received;
                                                     $totalRemainingCommissions += $remainingCommission;
                                                 @endphp
                                             @endif
@@ -64,19 +69,23 @@
                                                 {{ App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] }}
                                             </td>
                                             <td class="d-flex">
-                                                <a href="{{ route('sales.officer.show', $data->id) }}"
-                                                    class="btn btn-warning btn-sm mr-2"><i
-                                                        class="fas fa-regular fa-eye"></i>
-                                                </a>
-                                                <form id="delete-form"
-                                                    action="{{ route('sales.officer.delete', $data->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" onclick="confirmDelete()"
-                                                        class="btn btn-sm btn-danger">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </button>
-                                                </form>
+                                                @can('sales_officer-view')
+                                                    <a href="{{ route('sales.officer.show', $data->id) }}"
+                                                        class="btn btn-warning btn-sm mr-2"><i
+                                                            class="fas fa-regular fa-eye"></i>
+                                                    </a>
+                                                @endcan
+                                                @can('sales_officer-delete')
+                                                    <form id="delete-form"
+                                                        action="{{ route('sales.officer.delete', $data->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" onclick="confirmDelete()"
+                                                            class="btn btn-sm btn-danger">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

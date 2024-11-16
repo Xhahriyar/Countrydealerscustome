@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
+use App\Models\Payroll;
 use App\Services\CountService;
 use App\Services\TypeService;
 use Illuminate\Http\Request;
@@ -17,6 +19,8 @@ class EmployeePayrollController extends Controller
     }
     public function index(Request $request)
     {
+        $this->authorize(PermissionEnum::PAYROLL(), [Payroll::class]);
+        
         if ($request->has('query')) {
             $data = $this->payrollRepository->search($request->all());
             $count = CountService::PayrollCount($data);

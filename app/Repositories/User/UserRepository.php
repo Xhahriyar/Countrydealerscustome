@@ -25,7 +25,7 @@ class UserRepository extends BaseRepository
 
         $query = $query->where('email', '!=', config('constants.SUPER_ADMIN_EMAIL'));
         if (isset($filters['search']) && $filters['search']) {
-            $query = $query->where('name', 'ilike', '%' . $filters['search'] . '%');
+            $query = $query->where(DB::raw("CONCAT(first_name, ' ', last_name)"), 'ilike', '%' . $filters['search'] . '%');
         }
         return $query->orderBy('id', 'desc')->paginate(Config('constants.PAGINATION_LIMIT'));
     }
