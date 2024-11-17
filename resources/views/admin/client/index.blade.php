@@ -84,7 +84,7 @@
                                         <th>Sale Officer</th>
                                         <th>Sale Type</th>
                                         <th>Plot Price</th>
-                                        <th>Plot Size</th>
+                                        <th>Plot Size (In Marla)</th>
                                         <th>Received</th>
                                         <th>Pending</th>
                                         <th>Actions</th>
@@ -92,55 +92,76 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $key => $data)
+                                    @foreach ($data as $key => $client)
+                                        @php
+                                            // Get unique sale officer names for each client, joined into a comma-separated string
+                                            $saleOfficerNames = $client->saleOfficers
+                                                ->pluck('officer.name')
+                                                ->unique()
+                                                ->implode(', ');
+
+                                            // Calculate sums for this client, ensuring no duplicates are included
+                                            $paidInstallmentSum = $client->installments
+                                                ->where('status', '=', 'PAID')
+                                                ->where('id', $client->id)
+                                                ->sum('installment_payment');
+                                            $paidChequeInstallmentSum = $client->installments
+                                                ->where('status', '=', 'PAID')
+                                                ->where('id', $client->id)
+                                                ->sum('cheque_installment_amount');
+
+                                            // Ensure that you get only the distinct sums for adjustment and advance payment
+                                            $adjustmentSum = $client->where('id', $client->id)->sum('adjustment_price'); // This might need a more specific filter if needed
+                                            $advancePaymentSum = $client
+                                                ->where('id', $client->id)
+                                                ->sum('advance_payment');
+                                        @endphp
                                         <tr>
-                                            <td>{{ $key += 1 }}</td>
-                                            <td>{{ $data->name }}</td>
-                                            <td>{{ $data->father_or_husband_name }}</td>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $client->name }}</td>
+                                            <td>{{ $client->father_or_husband_name }}</td>
+                                            <td>{{ $saleOfficerNames }}</td>
+                                            <!-- Officer names are now distinct and joined as a string -->
+                                            <td>{{ $client->sale_type }}</td>
+                                            <td>{{ $client->plot_sale_price }}</td>
+                                            <td>{{ $client->plot_size }}M</td>
                                             <td>
-                                                @foreach ($data->saleOfficers as $saleOfficer)
-                                                    {{ $saleOfficer->officer->name . ',' }}
-                                                @endforeach
+                                                {{ $paidInstallmentSum + $paidChequeInstallmentSum + $adjustmentSum + $advancePaymentSum }}
                                             </td>
-                                            <td>{{ $data->sale_type }}</td>
-                                            <td>{{ $data->plot_sale_price }}</td>
-                                            <td>{{ $data->plot_size }}</td>
                                             <td>
-                                                {{ $data->installments->where('status', '=', 'PAID')->sum('installment_payment') + $data->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount') + $data->sum('adjustment_price') + $data->sum('advance_payment') }}
-                                            </td>
-                                            <td>{{ $data->plot_sale_price - ($data->installments->where('status', '=', 'PAID')->sum('installment_payment') + $data->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount')) - ($data->sum('adjustment_price') + $data->sum('advance_payment')) }}
+                                                {{ $client->plot_sale_price - ($paidInstallmentSum + $paidChequeInstallmentSum) - ($adjustmentSum + $advancePaymentSum) }}
                                             </td>
                                             <td class="">
                                                 <div class="d-flex">
                                                     @can('client-delete')
                                                         <a href="javascript:;" class="btn btn-danger btn-sm"
-                                                            onclick="confirmAction('{{ route('client.delete', $data->id) }}')">
+                                                            onclick="confirmAction('{{ route('client.delete', $client->id) }}')">
                                                             <i class="fas fa-regular fa-trash"></i>
                                                         </a>
                                                     @endcan
                                                     @can('client-view')
-                                                        <a href="{{ route('client.show', $data->id) }}"
+                                                        <a href="{{ route('client.show', $client->id) }}"
                                                             class="btn btn-warning btn-sm mx-1"><i
-                                                                class="fas fa-regular fa-eye"></i>
-                                                        </a>
+                                                                class="fas fa-regular fa-eye"></i></a>
                                                     @endcan
                                                     @can('client-edit')
-                                                        <a href="{{ route('client.edit', $data->id) }}"
+                                                        <a href="{{ route('client.edit', $client->id) }}"
                                                             class="btn btn-primary btn-sm"><i
-                                                                class="fas fa-regular fa-pencil"></i>
-                                                        </a>
+                                                                class="fas fa-regular fa-pencil"></i></a>
                                                     @endcan
                                                 </div>
                                             </td>
                                             <td>
                                                 @can('client_installment-view')
-                                                    <a href="{{ route('client.installments', $data->id) }}"
-                                                        class="btn btn-success btn-sm"><i class="fas fa-regular fa-dollar"></i>
-                                                    </a>
+                                                    <a href="{{ route('client.installments', $client->id) }}"
+                                                        class="btn btn-success btn-sm"><i
+                                                            class="fas fa-regular fa-dollar"></i></a>
                                                 @endcan
                                             </td>
                                         </tr>
                                     @endforeach
+
+
                                 </tbody>
                             </table>
                         </div>

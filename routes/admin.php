@@ -31,7 +31,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('users/edit/{id}', 'edit')->name('users.edit');
         Route::post('users/update/{id}', 'update')->name('users.update');
         Route::delete('users/delete/{id}', 'destroy')->name('users.delete');
-        // Profile 
+        // Profile
         Route::get('users/profile', 'editProfile')->name('users.profile.edit');
         Route::post('users/profile', 'updateProfile')->name('users.profile.update');
 

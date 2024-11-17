@@ -22,17 +22,19 @@ class AddOfficeEmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "employee_type" => "required",
+            "joining_date" => "required",
             "first_name" => "required",
             "last_name" => "required",
             "bank_name" => "required",
             "account_number" => "required",
             "cnic" => "required",
-            "previous_experience" => "required",
             "salary" => "required",
             "designation" => "required",
             "department" => "required",
             "gender" => "required",
             "date_of_birth" => "required",
+            "address" => "required",
         ];
     }
 }

@@ -106,6 +106,7 @@ class ClientRepository
             "adjustment_price" => $data["adjustment_price"],
             "advance_payment" => $data["advance_payment"],
             "plot_size" => $data["plot_size"],
+            "due_date" => $data["due_date"],
         ];
         if (isset($data['adjustment_product']) && $data['adjustment_product']->isValid()) {
             $client['adjustment_product'] = $data['adjustment_product']->store('adjustmentproducts', 'public');
