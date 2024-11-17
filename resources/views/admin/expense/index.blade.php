@@ -122,7 +122,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $expense->name }}</td>
-                                            <td>{{ $expense->amount }}</td>
+                                            <td>{{number_format( $expense->amount) }}</td>
                                             <td>{{ $expense->expense_type }}</td>
                                             <td>{{ $expense->expense_category }}</td>
                                             <td>{{ \Illuminate\Support\Str::words($expense->description, 5, '...') }}</td>

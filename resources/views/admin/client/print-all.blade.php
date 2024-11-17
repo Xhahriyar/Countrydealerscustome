@@ -19,7 +19,10 @@
             <img src="{{ asset('assets/images/COUNTRY DEALERS LOGO AZ.svg') }}" alt="Logo Image" height="50px">
         </div>
         <h6 class="text-center"><u>Payment Receipt</u></h6>
-        <p class="text-end"> <u>Date:{{ date('d/m/y') }}</u> </p>
+        <p class="text-end"> <u>Date:(<input type="text" id="customDateInput"
+            style="width: 100px;border:none; background:transparent;outline: none;">
+        <span id="hiddenSpan" style="position: absolute; visibility: hidden; white-space: nowrap;"></span>
+        )</u> </p>
         <p> <u>Paid By : <input type="text" value="{{ $data->name }}"
                     style="border:none; border-bottom: 1px solid black; outline:none; background:transparent;outline: none;position: relative; bottom: 4px;">
             </u> </p>
@@ -29,7 +32,7 @@
         <div class="d-flex justify-content-center">
             <p style="width: 80%"> Dear Sir/Madam, <br>
                 This is here by acknowledge that Country Dealers & Developers has Received Rs./-
-                {{ $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment') }}
+                {{ number_format(  $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) }}
                 (<input type="text" id="dynamicInput"
                     style="width: 100px;border:none; background:transparent;outline: none;">
                 <span id="hiddenSpan" style="position: absolute; visibility: hidden; white-space: nowrap;"></span>
@@ -135,6 +138,12 @@
                 $(this).css('width', $('#hiddenSpan').width() + 5); // Add some padding (e.g., 20px)
             });
             $('#banknameInput').on('input', function() {
+                var inputVal = $(this).val();
+                $('#banknameInputSpan').text(inputVal);
+                // Adjust the input width based on the hidden span width
+                $(this).css('width', $('#banknameInputSpan').width() + 5); // Add some padding (e.g., 20px)
+            });
+            $('#customDateInput').on('input', function() {
                 var inputVal = $(this).val();
                 $('#banknameInputSpan').text(inputVal);
                 // Adjust the input width based on the hidden span width

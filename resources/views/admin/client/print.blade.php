@@ -20,9 +20,9 @@
         </div>
         <h6 class="text-center"><u>Payment Receipt</u></h6>
         <p class="text-end"> <u>Date: (<input type="text" id="customDateInput"
-            style="width: 100px;border:none; background:transparent;outline: none;">
-        <span id="hiddenSpan" style="position: absolute; visibility: hidden; white-space: nowrap;"></span>
-        )</u></p>
+                    style="width: 100px;border:none; background:transparent;outline: none;">
+                <span id="hiddenSpan" style="position: absolute; visibility: hidden; white-space: nowrap;"></span>
+                )</u></p>
         <p> <u>Paid By : <input type="text" value="{{ $data->name }}"
                     style="border:none; border-bottom: 1px solid black; outline:none; background:transparent;outline: none;position: relative; bottom: 4px;">
             </u> </p>
@@ -49,7 +49,7 @@
         </div>
         <div class="d-flex justify-content-center align-items-center flex-column">
             <div class="d-flex justify-content-between" style="width: 60%;border-bottom: 1px solid black">
-                <span> Total Price of Plot/Farm House/Hut:</span> <span>{{ $data->plot_sale_price }} </span>
+                <span> Total Price of Plot/Farm House/Hut:</span> <span>{{ number_format( $data->plot_sale_price) }} </span>
             </div>
             <div class="d-flex justify-content-between" style="width: 60%;border-bottom: 1px solid black">
                 <span>Previous Paid: </span> <span>
@@ -64,39 +64,41 @@
                             @endphp
                         @endif
                     @endforeach
-                    {{ $totalAmount }}
+                    {{number_format(  $totalAmount )}}
                 </span>
             </div>
             <div class="d-flex justify-content-between" style="width: 60%;border-bottom: 1px solid black">
                 <span> <b>Now Paid:</b> </span>
                 <span>
-                    <b>{{ $newInstallment->installment_payment }}</b>
+                    <b>{{number_format( $newInstallment->installment_payment) }}</b>
                 </span>
             </div>
             <div class="d-flex justify-content-between" style="width: 60%;border-bottom: 1px solid black">
                 <span>Total Paid (new): </span>
                 <span>
-                    {{ $newInstallment->installment_payment + $totalAmount }}
+                    {{number_format( $newInstallment->installment_payment + $totalAmount) }}
                 </span>
             </div>
             <div class="d-flex justify-content-between" style="width: 60%;border-bottom: 1px solid black">
                 <span> Total remaining Amount: </span>
                 <span>
-                    {{$data->plot_sale_price - ( $data->installments
-                        ->where('status', '=', 'PAID')
-                        ->sum('cheque_installment_amount') + $data->installments
-                                                ->where('status', '=', 'PAID')
-                                                ->sum('installment_payment') + $newInstallment->installment_payment )}}
+                    @php
+                        $remainingAMount = $data->plot_sale_price -
+                        ($data->installments->where('status', '=', 'PAID')->sum('cheque_installment_amount') +
+                            $data->installments->where('status', '=', 'PAID')->sum('installment_payment') +
+                            $newInstallment->installment_payment);
+                    @endphp
+                    {{ number_format($remainingAMount) }}
                 </span>
             </div>
             <div class="d-flex justify-content-between" style="width: 60%; border-bottom: 1px solid black;">
                 <span>Next Payment Due Date: </span>
-                <strong class="text-danger">{{Carbon\Carbon::parse($data->due_date)->format('D/M/Y')}}</strong>
+                <strong class="text-danger">{{ Carbon\Carbon::parse($data->due_date)->format('d-M-Y') }}</strong>
             </div>
             <div class="d-flex justify-content-between mb-1" style="width: 60%;border-bottom: 1px solid black">
                 <span> Properties/Vehicle Adjusted: </span>
                 <span>
-                    {{ $data->adjustment_price ?? 0 }}
+                    {{ number_format($data->adjustment_price) ?? 0 }}
                 </span>
             </div>
             <p style="font-size: 10px" class="p-0">Note: This is a Computer-Generated Receipt/Invoice. In Case of any
