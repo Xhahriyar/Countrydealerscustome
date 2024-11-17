@@ -36,9 +36,6 @@ class UpdateClientRequest extends FormRequest
             "plot_price" => "required",
             "plot_demand" => "required",
             "plot_sale_price" => "required",
-            "advance_payment" => "required",
-            "vehicles_adjustment" => "required",
-            "adjustment_price" => "required",
         ];
     }
 }

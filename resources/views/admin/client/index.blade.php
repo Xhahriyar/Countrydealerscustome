@@ -103,11 +103,9 @@
                                             // Calculate sums for this client, ensuring no duplicates are included
                                             $paidInstallmentSum = $client->installments
                                                 ->where('status', '=', 'PAID')
-                                                ->where('id', $client->id)
                                                 ->sum('installment_payment');
                                             $paidChequeInstallmentSum = $client->installments
                                                 ->where('status', '=', 'PAID')
-                                                ->where('id', $client->id)
                                                 ->sum('cheque_installment_amount');
 
                                             // Ensure that you get only the distinct sums for adjustment and advance payment
