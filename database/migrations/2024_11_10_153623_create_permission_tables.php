@@ -43,6 +43,10 @@ return new class extends Migration
             }
             $table->string('name');       // For MyISAM use string('name', 225); // (or 166 for InnoDB with Redundant/Compact row format)
             $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
+            $table->unsignedBigInteger('logged_in_id');
+            $table->string('logged_in_name');
+            $table->string('ip_address');
+            $table->string('user_agent');   
             $table->timestamps();
             if ($teams || config('permission.testing')) {
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);

@@ -25,18 +25,16 @@ class StoreClientRequest extends FormRequest
             "name" => "required",
             "plot_size" => "required",
             "cnic" => "required",
-            "email" => "required",
-            "number" => "required",
+            "email" => "nullable",
+            "contact_no" => "required",
             "father_or_husband_name" => "required",
             "paid_by" => "required",
             "plot_number" => "required",
-            "location" => "required",
-            "plot_price" => "required",
-            "plot_demand" => "required",
+            "address" => "required",
             "plot_sale_price" => "required",
             "client_type" => "required",
             "sale_type" => "required",
-            "agreement" => "accepted",
+            "date" => "required|date",
         ];
     }
 }

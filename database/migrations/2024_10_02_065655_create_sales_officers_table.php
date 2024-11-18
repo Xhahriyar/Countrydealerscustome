@@ -13,8 +13,19 @@ return new class extends Migration
     {
         Schema::create('sales_officers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('cnic')->nullable();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('contact_no');
+            $table->string('cnic');
+            $table->string('email')->nullable();
+            $table->date('joining_date')->nullable();
+            $table->string('officer_type')->nullable();
+            $table->string('officer_type')->nullable();
+            $table->string('designation')->nullable();
+            $table->unsignedBigInteger('logged_in_id');
+            $table->string('logged_in_name');
+            $table->string('ip_address');
+            $table->string('user_agent'); 
             $table->timestamps();
         });
     }
