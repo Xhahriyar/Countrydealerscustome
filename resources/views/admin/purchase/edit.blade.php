@@ -85,7 +85,8 @@
                                     <select class="form-control" name="client_type">
                                         <option disabled selected>-- select an option --</option>
                                         @foreach (App\Services\TypeService::getPurchaseTypes() as $clientType)
-                                            <option value="{{ $clientType->name }}" @if (!empty($data->clientType) && $data->clientType == $clientType) selected @endif>
+                                            <option value="{{ $clientType->name }}"
+                                                @if (!empty($data->clientType) && $data->clientType == $clientType) selected @endif>
                                                 {{ $clientType->name }}
                                             </option>
                                         @endforeach
@@ -254,13 +255,16 @@
                                     @enderror
                                 </div>
                             </div>
-                            @if(!empty($data['adjustment_product']))
-                            <img src="{{ Storage::url($data->adjustment_product) }}" alt="" width="200px">
+                            @if (!empty($data['adjustment_product']))
+                                <img src="{{ Storage::url($data->adjustment_product) }}" alt="" width="200px">
                             @endif
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group row my-2">
-                                <button class="btn btn-sm btn-primary">Submit</button>
+                            <div class="form-group mt-4 gap-2 d-flex justify-content-start">
+                                <button class="btn btn-warning text-decoration-none"> <a
+                                        href="{{ route('purchase.index') }}"
+                                        class="text-decoration-none underline-none text-light">Cancel</a> </button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </div>

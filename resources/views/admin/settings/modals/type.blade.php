@@ -30,6 +30,7 @@
                                 <label class="col-sm-3 col-form-label">Category Type</label>
                                 <div class="col-sm-9">
                                     <select name="type_category" id="" class="form-control">
+                                        <option value="">Chose the option</option>
                                         <option value="client">Client Type</option>
                                         <option value="purchase">Purchase Type</option>
                                         <option value="expense">Expense Type</option>

@@ -27,8 +27,10 @@
             @csrf
             @include('admin.client.fields' , ['type' => 'purchase'])
             <div class="col-md-12">
-                <div class="form-group row my-2">
-                    <button class="btn btn-sm btn-primary">Submit</button>
+                <div class="form-group mt-4 gap-2 d-flex justify-content-start">
+                    <button class="btn btn-warning text-decoration-none"> <a href="{{ route('purchase.index') }}"
+                            class="text-decoration-none underline-none text-light">Cancel</a> </button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </form>

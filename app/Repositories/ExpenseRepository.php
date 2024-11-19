@@ -49,10 +49,10 @@ class ExpenseRepository
             $expenses->where('name', 'like', '%' . $expenseName . '%');
         }
         if (!empty($fromDate)) {
-            $expenses->whereDate('created_at', '>=', $fromDate);
+            $expenses->whereDate('date', '>=', $fromDate);
         }
         if (!empty($toDate)) {
-            $expenses->whereDate('created_at', '<=', $toDate);
+            $expenses->whereDate('date', '<=', $toDate);
         }
 
         // Execute the query and get the results

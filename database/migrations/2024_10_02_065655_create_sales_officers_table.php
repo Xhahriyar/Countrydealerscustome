@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->date('joining_date')->nullable();
             $table->string('officer_type')->nullable();
-            $table->string('officer_type')->nullable();
             $table->string('designation')->nullable();
             $table->unsignedBigInteger('logged_in_id');
             $table->string('logged_in_name');

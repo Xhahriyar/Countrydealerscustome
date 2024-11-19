@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Email <sup class="text-danger">*</sup> </label>
+                    <label class="col-sm-3 col-form-label">Email</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" name="email"
                             value="{{ $data['email'] ?? old('email') }}" placeholder="Email Here">
@@ -44,10 +44,10 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Contact No <sup class="text-danger">*</sup></label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="number"
+                        <input type="text" class="form-control" name="contact_no"
                             value="{{ $data['contact_no'] ?? old('contact_no') }}" placeholder="Contact No Here">
                         @error('contact_no')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{{ $message }}</small    >
                         @enderror
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('client_type')
+                        @error('sale_type')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -169,8 +169,8 @@
                         Address<sup class="text-danger">*</sup>
                     </label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="location"
-                            value="{{ $data['address'] ?? old('address') }}" placeholder="address here">
+                        <input type="text" class="form-control" name="address"
+                            value="{{ $data['address'] ?? old('address') }}" placeholder="Address here">
                         @error('address')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -205,7 +205,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Date</label>
+                    <label class="col-sm-3 col-form-label">Date<sup class="text-danger">*</sup></label>
                     <div class="col-sm-9">
                         <input type="date" class="form-control mt-3 ml-1" name="date" id="date"
                             placeholder="date" value="{{ $data['date'] ?? old('date') }}">
@@ -238,7 +238,7 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Price of adjustment</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="adjustment_price"
+                        <input type="number" class="form-control" name="adjustment_price"
                             value="{{ $data['adjustment_price'] ?? old('adjustment_price') }}"
                             placeholder="Price Of Adjustment" id="adjustmentPrice">
                         @error('adjustment_price')
@@ -283,7 +283,7 @@
                                 <select name="sales_officer_id[]" id="" class="form-control">
                                     <option selected disabled>-- select sales officer --</option>
                                     @foreach ($salesOfficers as $salesOfficer)
-                                        <option value="{{ $salesOfficer->id }}">{{ $salesOfficer->name }}</option>
+                                        <option value="{{ $salesOfficer->id }}">{{ $salesOfficer->first_name .' '. $salesOfficer->last_name}}</option>
                                     @endforeach
                                 </select>
                             </div>

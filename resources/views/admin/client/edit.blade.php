@@ -52,11 +52,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Number</label>
+                                <label class="col-sm-3 col-form-label">Contact No</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="number"
-                                        value="{{ $data['number'] ?? old('number') }}" placeholder="Number Here">
-                                    @error('number')
+                                    <input type="text" class="form-control" name="contact_no"
+                                        value="{{ $data['contact_no'] ?? old('contact_no') }}"
+                                        placeholder="Contact No Here">
+                                    @error('contact_no')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -154,36 +155,11 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Location</label>
+                                <label class="col-sm-3 col-form-label">Address</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="location"
-                                        value="{{ $data['location'] ?? old('location') }}" placeholder="location here">
-                                    @error('location')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot Price</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="plot_price"
-                                        value="{{ $data['plot_price'] ?? old('plot_price') }}" placeholder="Plot price">
-                                    @error('plot_price')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot Demand</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="plot_demand"
-                                        value="{{ $data['plot_demand'] ?? old('plot_demand') }}"
-                                        placeholder="Plot Demand">
-                                    @error('plot_demand')
+                                    <input type="text" class="form-control" name="address"
+                                        value="{{ $data['address'] ?? old('address') }}" placeholder="Address here">
+                                    @error('address')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -210,6 +186,18 @@
                                         id="advancePayment" placeholder="Advance Payment"
                                         value="{{ $data['advance_payment'] ?? old('advance_payment') }}">
                                     @error('advance_payment')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Date<sup class="text-danger">*</sup></label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control mt-3 ml-1" name="date" id="date"
+                                        placeholder="date" value="{{ $data['date'] ?? old('date') }}">
+                                    @error('date')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -311,8 +299,11 @@
                             </div>
                         @endif --}}
                         <div class="col-md-12">
-                            <div class="form-group row my-2">
-                                <button class="btn btn-sm btn-primary">Submit</button>
+                            <div class="mt-4 gap-2 d-flex justify-content-start">
+                                <button class="btn btn-warning text-decoration-none"> <a
+                                        href="{{ route('client.index') }}"
+                                        class="text-decoration-none underline-none text-light">Cancel</a> </button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                 </form>

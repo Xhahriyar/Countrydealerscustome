@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('plot_size')->nullable();
             $table->string('paid_by')->nullable();
             $table->string('plot_number')->nullable();
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->integer('plot_sale_price')->nullable();
             $table->string('vehicles_adjustment')->nullable();
             $table->integer('adjustment_price')->nullable();

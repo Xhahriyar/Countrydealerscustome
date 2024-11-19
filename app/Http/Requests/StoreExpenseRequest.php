@@ -24,10 +24,11 @@ class StoreExpenseRequest extends FormRequest
         return [
             'name' => 'required',
             'date' => 'required|date',
-            'amount' => 'required',
-            'description' => 'required',
+            'amount' => 'required|integer',
+            'description' => 'nullable|max:255',
             'expense_type' => 'required',
             'expense_category' => 'required',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

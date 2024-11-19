@@ -73,6 +73,9 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('expense_type')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -89,6 +92,9 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('expense_category')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

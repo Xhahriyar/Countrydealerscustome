@@ -12,6 +12,7 @@ use App\Services\CountService;
 use Illuminate\Http\Request;
 use App\Repositories\ClientRepository;
 use App\Repositories\PlotInstallmentRepo;
+use Illuminate\Support\Facades\Redirect;
 
 class ClientController extends Controller
 {
@@ -52,8 +53,13 @@ class ClientController extends Controller
     }
     public function store(StoreClientRequest $request)
     {
-        $this->clientRepository->store($request->all());
-        return redirect()->back()->with("success", "Record Created Successfully.");
+        // dd('hjer');
+        $client =  $this->clientRepository->store($request->validated());
+
+        if ($client) {
+            return Redirect::route('client.index')->with("success", "Record Added Successfully");
+        }
+        return Redirect::route('client.index')->with("error", "Error in Adding Record ");
     }
     public function show($id)
     {
@@ -72,8 +78,11 @@ class ClientController extends Controller
     }
     public function update(UpdateClientRequest $request, $id)
     {
-        $this->clientRepository->update($request->all(), $id);
-        return redirect()->back()->with('success', 'Record Updated Successfully.');
+        $client = $this->clientRepository->update($request->validated(), $id);
+        if ($client) {
+            return Redirect::route('client.index')->with("success", "Record Updated Successfully");
+        }
+        return Redirect::route('client.index')->with("error", "Error in Updating Record ");
     }
     public function delete($id)
     {
