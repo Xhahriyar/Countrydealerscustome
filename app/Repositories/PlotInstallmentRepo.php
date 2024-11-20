@@ -7,10 +7,12 @@ use App\Models\Client;
 use App\Models\ClientNotification;
 use App\Models\PlotInstallment;
 use App\Models\PlotSalesOfficer;
+use App\Trait\SetLoggedUserDataTrait;
 use Illuminate\Support\Facades\Validator;
 
 class PlotInstallmentRepo
 {
+    use SetLoggedUserDataTrait;
     protected $model;
     protected $client;
     protected $clientNotification;
@@ -92,11 +94,16 @@ class PlotInstallmentRepo
 
     public function checkBalanceForInstallments($data, $id, $paymentField)
     {
+        
         $installmentData = $data->all();
         $client = $this->client::find($id);
         $totalInstallments = $this->model::where('client_id', $id)
-            ->selectRaw('COALESCE(SUM(cheque_installment_amount), 0) as cheque_sum, COALESCE(SUM(installment_payment), 0) as installment_sum')
-            ->first();
+        ->selectRaw('
+            COALESCE(SUM(CAST(cheque_installment_amount AS NUMERIC)), 0) as cheque_sum, 
+            COALESCE(SUM(CAST(installment_payment AS NUMERIC)), 0) as installment_sum
+        ')
+        ->first();
+    
         $finalTotal = $totalInstallments->cheque_sum + $totalInstallments->installment_sum;
         $remainingBalance = $client->plot_sale_price - ($client->adjustment_price + $client->advance_payment + $finalTotal);
         // dd((int) $remainingBalance);
@@ -127,6 +134,9 @@ class PlotInstallmentRepo
         $new->payment_method = 'cash';
         $new->installment_payment = $data['installment_payment'];
         $new->payment_installment_due_date = $data['payment_installment_due_date'];
+        $new->date = date('Y-m-d');
+        $loggedData = $this->setLoggedUserData($new->toArray());
+        $new->fill($loggedData);
         $new->save();
         return true;
     }
@@ -152,7 +162,15 @@ class PlotInstallmentRepo
         $new->cheque_image = $imagePath;
         $new->cheque_installment_amount = $data['cheque_installment_amount'];
         $new->cheque_installment_due_date = $data['cheque_installment_due_date'];
+        $new->date = date('Y-m-d');
+        
+        // Update the model data with the logged user info
+        $loggedData = $this->setLoggedUserData($new->toArray());
+        
+        // Convert the array back to the model and save
+        $new->fill($loggedData);
         $new->save();
+        
         return true;
     }
     public function calculateSalesOfficerCommission($id, $InstallmentPayment)
