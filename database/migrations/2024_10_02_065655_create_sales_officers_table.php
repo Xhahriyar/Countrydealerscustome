@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('sales_officers', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name',50);
+            $table->string('last_name',50);
             $table->string('contact_no');
             $table->string('cnic');
             $table->string('email')->nullable();
-            $table->date('joining_date')->nullable();
-            $table->string('officer_type')->nullable();
-            $table->string('designation')->nullable();
+            $table->date('joining_date');
+            $table->string('officer_type');
+            $table->string('designation');
             $table->unsignedBigInteger('logged_in_id');
             $table->string('logged_in_name');
             $table->string('ip_address');

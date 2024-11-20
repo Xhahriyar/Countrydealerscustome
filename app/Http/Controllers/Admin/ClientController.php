@@ -53,7 +53,6 @@ class ClientController extends Controller
     }
     public function store(StoreClientRequest $request)
     {
-        // dd('hjer');
         $client =  $this->clientRepository->store($request->validated());
 
         if ($client) {

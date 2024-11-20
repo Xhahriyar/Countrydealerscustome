@@ -150,7 +150,7 @@ class ClientRepository
         if (isset($data['adjustment_product']) && $data['adjustment_product']->isValid()) {
             $client['adjustment_product'] = $data['adjustment_product']->store('adjustmentproducts', 'public');
         }
-        $record->update($client);
+        return $record->update($client);
     }
     public function delete($id)
     {

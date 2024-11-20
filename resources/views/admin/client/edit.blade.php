@@ -182,7 +182,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Advance Payment</label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control mt-3 ml-1" name="advance_payment"
+                                    <input type="number" class="form-control" name="advance_payment"
                                         id="advancePayment" placeholder="Advance Payment"
                                         value="{{ $data['advance_payment'] ?? old('advance_payment') }}">
                                     @error('advance_payment')
@@ -195,7 +195,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Date<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control mt-3 ml-1" name="date" id="date"
+                                    <input type="date" class="form-control" name="date" id="date"
                                         placeholder="date" value="{{ $data['date'] ?? old('date') }}">
                                     @error('date')
                                         <small class="text-danger">{{ $message }}</small>

@@ -29,7 +29,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Date</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control mt-3 ml-1" name="date" id="date"
+                                    <input type="date" class="form-control" name="date" id="date"
                                         placeholder="date" value="{{ $data['date'] ?? old('date') }}">
                                     @error('date')
                                         <small class="text-danger">{{ $message }}</small>

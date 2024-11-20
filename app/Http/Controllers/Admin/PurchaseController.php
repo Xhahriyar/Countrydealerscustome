@@ -13,6 +13,7 @@ use App\Repositories\purchase\PurchaseRepository;
 use App\Repositories\purchase\PurchasePlotInstallmentRepo;
 use App\Repositories\ClientRepository;
 use App\Services\CountService;
+use Illuminate\Support\Facades\Redirect;
 
 class PurchaseController extends Controller
 {
@@ -39,7 +40,7 @@ class PurchaseController extends Controller
         }
         $data = $this->PurchaseRepository->all();
         $count = CountService::purchaseCount($data);
-        return view("admin.purchase.index", compact("data" , "count"));
+        return view("admin.purchase.index", compact("data", "count"));
     }
 
     public function create()
@@ -60,8 +61,11 @@ class PurchaseController extends Controller
     }
     public function store(StorePurchaseRequest $request)
     {
-        $this->PurchaseRepository->store($request->all());
-        return redirect()->back()->with('success', 'Record Created Successfully.');
+        $purchase = $this->PurchaseRepository->store($request->all());
+        if ($purchase) {
+            return Redirect::route('purchase.index')->with("success", "Record Added Successfully");
+        }
+        return Redirect::route('purchase.index')->with("error", "Error in Adding Record ");
     }
     public function edit($id)
     {
@@ -73,8 +77,11 @@ class PurchaseController extends Controller
 
     public function update(UpdatePurchaseRequest $request, $id)
     {
-        $this->PurchaseRepository->update($request->all(), $id);
-        return redirect()->back()->with('success', 'Record Updated Successfully.');
+        $purchase = $this->PurchaseRepository->update($request->all(), $id);
+        if ($purchase) {
+            return Redirect::route('purchase.index')->with("success", "Record Updated Successfully");
+        }
+        return Redirect::route('purchase.index')->with("error", "Error in Updating Record ");
     }
     public function delete($id)
     {
@@ -120,7 +127,7 @@ class PurchaseController extends Controller
     public function installmentUpdate($id)
     {
         $this->authorize(PermissionEnum::PURCHASE_INSTALLMENT_STATUS_EDIT(), [Purchase::class]);
-   
+
         $data = $this->PurchasePlotInstallmentRepo->updateInstallmentStatus($id);
         return redirect()->back()->with('success', 'Status Update Successfully.');
     }

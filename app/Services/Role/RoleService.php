@@ -4,9 +4,11 @@ namespace App\Services\Role;
 
 use App\DTO\Roles\RoleDTO;
 use App\Repositories\Role\RoleRepository;
+use App\Trait\SetLoggedUserDataTrait;
 
 class RoleService
 {
+    use SetLoggedUserDataTrait;
     /**
      * @param RoleRepository $repository
      */
@@ -42,7 +44,8 @@ class RoleService
         // dd($data);
         $data['guard_name'] = auth()->guard()->name;
         $dto = new RoleDTO(...$data);
-        return $this->repository->store($dto->toArray());
+        $data = $this->setLoggedUserData($dto);
+        return $this->repository->store($data);
     }
 
     /**
