@@ -32,7 +32,8 @@ class TypeService
     }
     public static function getExpenseNames()
     {
-        return Expense::pluck('name');
+        return Expense::select('name')->distinct()->get();
     }
+
 
 }

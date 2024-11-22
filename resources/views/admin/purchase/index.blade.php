@@ -98,11 +98,12 @@
                                             <td>{{ $data->father_or_husband_name }}</td>
                                             <td>{{ $data->sale_type }}</td>
                                             <td>{{ $data->client_type }}</td>
-                                            <td>{{ $data->plot_sale_price }}</td>
+                                            <td>{{number_format( $data->plot_sale_price) }}</td>
                                             <td>{{ $data->plot_size }}</td>
-                                            <td>{{ $data->adjustment_price + $data->advance_payment + $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment') }}
+                                            <td>{{number_format( $data->adjustment_price + $data->advance_payment + $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) }}
                                             </td>
-                                            <td>{{ $data->plot_sale_price - ($data->adjustment_price + $data->advance_payment + $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) }}
+                                            <td>{{number_format(
+                                                $data->plot_sale_price - ($data->adjustment_price + $data->advance_payment + $data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) )}}
                                             </td>
                                             <td>
                                                 <div class="d-flex">

@@ -36,6 +36,7 @@ class StoreClientRequest extends FormRequest
             "plot_sale_price" => "required",
             "client_type" => "required",
             "sale_type" => "required",
+            "due_date" => "required",
             "agreement" => "accepted",
         ];
     }

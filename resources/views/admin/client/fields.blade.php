@@ -145,7 +145,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Plot Size <sup class="text-danger">*</sup></label>
+                    <label class="col-sm-3 col-form-label">Plot Size (In Marla) <sup class="text-danger">*</sup></label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" name="plot_size"
                             value="{{ $data['plot_size'] ?? old('plot_size') }}" placeholder="Plot Size">
@@ -224,6 +224,18 @@
                     <div class="">
                         <input type="checkbox" class="form-control mt-3 ml-1" name="agreement" value="1">
                         @error('agreement')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Installment Due Date <sup
+                            class="text-danger">*</sup></label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control mt-3 ml-1" name="due_date">
+                        @error('due_date')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
