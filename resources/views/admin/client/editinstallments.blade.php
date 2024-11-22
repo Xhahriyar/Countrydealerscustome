@@ -3,6 +3,7 @@
 @section('content')
     @include('admin.client.modals.installment')
     @include('admin.client.modals.chequeInstallment')
+    @include('admin.client.modals.confirmPaidInstallment')
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title">
@@ -46,7 +47,7 @@
                                         </td>
                                         <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->date)->format('D-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -66,9 +67,10 @@
                                                 </a>
                                             @else
                                                 @can('client_installment-status')
-                                                    <a href="{{ route('client.installment.status.edit', ['client_id' => $id, 'installment_id' => $installment->id]) }}"
-                                                        class="btn btn-outline-success btn-sm">
-                                                        <i class="fas fa-regular fa-check"></i></a>
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm" data-toggle="modal"
+                                                        data-target="#confirmPaidInstallmentModal"
+                                                        data-id="{{ $installment->id }}">
+                                                        Pay
                                                     </a>
                                                 @endcan
                                             @endif
@@ -140,7 +142,7 @@
                                         </td>
                                         <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->date)->format('D-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -159,10 +161,9 @@
                                                 </a>
                                             @else
                                                 @can('client_installment-status')
-                                                    <a href="{{ route('client.installment.status.edit', ['client_id' => $id, 'installment_id' => $installment->id]) }}"
-                                                        class="btn btn-outline-success btn-sm">
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
+                                                        onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
                                                         <i class="fas fa-regular fa-check"></i></a>
-                                                    </a>
                                                 @endcan
                                             @endif
                                             @can('client_installment-delete')
@@ -193,20 +194,13 @@
 
 @section('bottom-scripts')
     <script>
-        let cashInstallmentTable = new DataTable('#cashInstallmentTable');
-        let chequeInstallmentTable = new DataTable('#chequeInstallmentTable');
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById('confirmPaidInstallmentModal');
 
-        $(document).ready(function() {
-            // Attach event listener for when the modal is shown
-            $('#confirmPaidInstallmentModal').on('show.bs.modal', function(event) {
-                // Button that triggered the modal
-                let button = $(event.relatedTarget);
-                // Extract the installment ID from the button's data attribute
-                let installmentId = button.data('id');
-                // Find the form inside the modal
-                let form = $('#confirmInstallmentForm');
-                // Update the form's action attribute dynamically
-                form.attr('action', `/client/installment/status/update/${installmentId}`);
+            // Redirect to a specific route on modal close
+            modal.addEventListener('hidden.bs.modal', function() {
+                window.location.href =
+                "{{ route('client.installments', ['id' => $id]) }}"; // Replace with your desired route
             });
         });
     </script>

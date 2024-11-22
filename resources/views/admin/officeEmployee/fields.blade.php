@@ -115,6 +115,9 @@
             <label class="col-sm-3 col-form-label">Profile Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="image" accept="image/*">
+                @error('image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -125,6 +128,9 @@
             <label class="col-sm-3 col-form-label">CNIC Front Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="cnic_front_image" accept="image/*">
+                @error('cnic_front_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -133,6 +139,9 @@
             <label class="col-sm-3 col-form-label">CNIC Back Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="cnic_back_image" accept="image/*">
+                @error('cnic_back_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -143,6 +152,9 @@
             <label class="col-sm-3 col-form-label">Father CNIC Front Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="father_cnic_front_image" accept="image/*">
+                @error('father_cnic_front_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -151,6 +163,9 @@
             <label class="col-sm-3 col-form-label">Fatehr CNIC Back Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="father_cnic_back_image" accept="image/*">
+                @error('father_cnic_back_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -169,6 +184,9 @@
             <label class="col-sm-3 col-form-label">CV</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="cv" accept=".pdf , .txt , .docx">
+                @error('cv')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>

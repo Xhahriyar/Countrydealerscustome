@@ -160,8 +160,8 @@ class ClientRepository
     {
         return $this->plotInstallmentRepository->getCashInstallments($id);
     }
-    public function updateInstallmentStatus($id)
+    public function updateInstallmentStatus($id, $data)
     {
-        return $this->plotInstallmentRepository->updateInstallmentStatus($id);
+        return $this->plotInstallmentRepository->updateInstallmentStatus($id, $data);
     }
 }

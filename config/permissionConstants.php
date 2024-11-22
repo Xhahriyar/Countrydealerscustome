@@ -168,7 +168,13 @@ return [
             'is_visible' => true,
             'sort_order' => 8450
         ],
-        
+        [
+            'name' => PermissionEnum::CLIENT_INSTALLMENT_DELETE(),
+            'label' => 'Installment Delete',
+            'is_visible' => true,
+            'sort_order' => 8500
+        ],
+
     ],
     'expense' => [
         [
