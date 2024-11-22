@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Amount</label>
+                                <label class="col-sm-3 col-form-label">Amount <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="number" class="form-control" name="amount" placeholder="Amount here">
                                     @error('amount')
@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Expense Type</label>
+                                <label class="col-sm-3 col-form-label">Expense Type <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="expense_type">
                                         <option disabled selected>-- select an option --</option>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Expense Category</label>
+                                <label class="col-sm-3 col-form-label">Expense Category <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="expense_category">
                                         <option disabled selected>-- select an option --</option>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Description</label>
+                                <label class="col-sm-3 col-form-label">Description <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-12">
                                     <textarea name="description" id="" cols="30" rows="10" class="form-control"
                                         placeholder="Enter Expense Details"></textarea>

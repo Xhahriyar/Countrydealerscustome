@@ -74,8 +74,8 @@
                         <select class="form-control mx-1" name="name">
                             <option disabled selected>-- Filter By Name --</option>
                             @foreach (App\Services\TypeService::getExpenseNames() as $clientType)
-                                <option value="{{ $clientType }}">
-                                    {{ $clientType }}
+                                <option value="{{ $clientType->name }}">
+                                    {{ $clientType->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -122,7 +122,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $expense->name }}</td>
-                                            <td>{{ $expense->amount }}</td>
+                                            <td>{{number_format( $expense->amount) }}</td>
                                             <td>{{ $expense->expense_type }}</td>
                                             <td>{{ $expense->expense_category }}</td>
                                             <td>{{ \Illuminate\Support\Str::words($expense->description, 5, '...') }}</td>

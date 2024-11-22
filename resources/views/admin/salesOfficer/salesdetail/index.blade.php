@@ -78,10 +78,10 @@
                                             <td>{{ $data->officer->name }}</td>
                                             <td>{{ $data->client->name }}</td>
                                             <td>{{ $data->client->plot_number }}</td>
-                                            <td>{{ $data->commission_received }}</td>
-                                            <td>{{ App\Services\CountService::getCommissionDetailsForOneDeal($id, $data->client->id) }}
+                                            <td>{{ number_format( $data->commission_received) }}</td>
+                                            <td>{{  number_format(App\Services\CountService::getCommissionDetailsForOneDeal($id, $data->client->id)) }}
                                             </td>
-                                            <td>{{ $data->commission_received - App\Services\CountService::getCommissionDetailsForOneDeal($id, $data->client->id) }}
+                                            <td>{{ number_format( $data->commission_received - App\Services\CountService::getCommissionDetailsForOneDeal($id, $data->client->id)) }}
                                             </td>
                                             <td>
                                                 @can('sales_officer_commission_installment-view')

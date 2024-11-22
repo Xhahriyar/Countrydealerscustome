@@ -42,6 +42,7 @@ class ClientController extends Controller
             return view("admin.client.index", compact("data", "salesOfficers", "searcData", "count"));
         }
         $data = $this->clientRepository->all();
+        // dd($data);
         $count = CountService::clientCount($data);
         return view("admin.client.index", compact("data", "salesOfficers", "count"));
     }

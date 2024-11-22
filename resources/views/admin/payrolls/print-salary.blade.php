@@ -84,11 +84,11 @@
                                     @php
                                       $totalpaidLoan =   App\Services\CountService::getLoanDetailsOfEmployee($data->employee_id)
                                     @endphp
-                                    <td>{{$data->salary}}.00</td>
-                                    <td>{{$data->loan_return}}.00</td>
-                                    <td>{{$data->loan_amount}}.00</td>
-                                    <td>{{$totalpaidLoan}}.00</td>
-                                    <td>{{$data->loan_amount - $totalpaidLoan}}.00</td>
+                                    <td>{{number_format($data->salary)}}</td>
+                                    <td>{{number_format($data->loan_return)}}</td>
+                                    <td>{{number_format($data->loan_amount)}}</td>
+                                    <td>{{number_format($totalpaidLoan)}}</td>
+                                    <td>{{number_format($data->loan_amount - $totalpaidLoan)}}</td>
                                     <td>{{ Carbon\Carbon::parse($data->created_at)->format('M Y') }}</td>
                                 </tr>
                             </tbody>
