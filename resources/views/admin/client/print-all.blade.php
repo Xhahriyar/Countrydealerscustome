@@ -223,7 +223,7 @@
             <div class="d-flex justify-content-center">
                 <p style="width: 90%;"> Dear Sir/Madam, <br>
                     This is here by acknowledge that Country Dealers & Developers has Received Rs.
-                    {{ number_format($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) }}/-
+                    {{ formatNumberWithCurrencyExtension($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) }}/-
                     to Country Dealers
                     as
                     payment against Plot No. ({{ $data->plot_number }}) as
@@ -248,7 +248,7 @@
                                     <tr>
                                         <td scope="row" c>{{ $key + 1 }}</td>
                                         <td class="text-end">
-                                            {{ number_format($installment->cheque_installment_amount ?? $installment->installment_payment, 2) }}
+                                            {{ formatNumberWithCurrencyExtension($installment->cheque_installment_amount ?? $installment->installment_payment, 2) }}
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($installment->updated_at)->format('d-M-Y') }}</td>
                                     </tr>
@@ -259,24 +259,24 @@
                             <tr class="table-secondary">
                                 <th colspan="2" class="text-end">Plot Price</th>
                                 <th class="text-end" style="padding-right:0;">
-                                    {{ number_format($data->plot_sale_price, 2) }}</th>
+                                    {{ formatNumberWithCurrencyExtension($data->plot_sale_price, 2) }}</th>
                             </tr>
                             <tr class="table-secondary">
                                 <th colspan="2" class="text-end" style="font-weight: bold;">Total Paid</th>
                                 <th class="text-end" style="padding-right:0;">
-                                    {{ number_format($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment'), 2) }}
+                                    {{ formatNumberWithCurrencyExtension($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment'), 2) }}
                                 </th>
                             </tr>
                             <tr class="table-secondary">
                                 <th colspan="2" class="text-end">Adjustment / Advance payments</th>
                                 <th class="text-end" style="padding-right:0;">
-                                    {{ number_format($data->advance_payment + $data->adjustment_price, 2) }}
+                                    {{ formatNumberWithCurrencyExtension($data->advance_payment + $data->adjustment_price, 2) }}
                                 </th>
                             </tr>
                             <tr class="table-secondary">
                                 <th colspan="2" class="text-end">Remaining</th>
                                 <th class="text-end" style="padding-right:0;">
-                                    {{ number_format($data->plot_sale_price - ($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) - ($data->advance_payment + $data->adjustment_price), 2) }}
+                                    {{ formatNumberWithCurrencyExtension($data->plot_sale_price - ($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) - ($data->advance_payment + $data->adjustment_price), 2) }}
                                 </th>
                             </tr>
                         </tfoot>

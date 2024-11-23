@@ -32,7 +32,7 @@
                                     <i class="icon-sm fas fa-check-circle mr-2"></i>
                                     Total Expences
                                 </p>
-                                <h2>{{ $count[1] }}</h2>
+                                <h2>{{ formatNumberWithCurrencyExtension($count[1]) }}</h2>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $expense->name }}</td>
-                                            <td>{{number_format( $expense->amount) }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($expense->amount) }}</td>
                                             <td>{{ $expense->expense_type }}</td>
                                             <td>{{ $expense->expense_category }}</td>
                                             <td>{{ \Illuminate\Support\Str::words($expense->description, 5, '...') }}</td>

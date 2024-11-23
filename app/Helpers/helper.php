@@ -9,3 +9,12 @@ function dateFormat($date, $format = 'd-m-Y'): string
     }
     return '00:00:0000';
 }
+
+function formatNumberWithCurrencyExtension($number) {
+    if (!is_numeric($number) || $number == 0) {
+        return '0';
+    }
+
+    $formattedNumber = number_format((int)$number);
+    return $formattedNumber . ' PKR';
+}

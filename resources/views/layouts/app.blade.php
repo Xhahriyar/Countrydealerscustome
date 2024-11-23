@@ -96,6 +96,7 @@
     <link rel="stylesheet" href="assets/dist/jquery.toast.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="icon" href="assets/images/COUNTRY DEALERS LOGO AZ.svg" type="image/x-icon">
 
     <!-- endinject -->
     <!-- plugin css for this page -->

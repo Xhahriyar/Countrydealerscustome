@@ -16,7 +16,7 @@
                                 <select name="" id="get_old_plot_data" class="form-control">
                                     <option selected disabled>-- select plot number --</option>
                                     @foreach ($oldPlots as $oldPlot)
-                                        <option value="{{ $oldPlot->id }}">{{ $oldPlot->number }}</option>
+                                        <option value="{{ $oldPlot->id }}">{{ $oldPlot->plot_number }}</option>
                                     @endforeach
                                 </select>
                             </div>

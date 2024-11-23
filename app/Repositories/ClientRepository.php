@@ -85,7 +85,7 @@ class ClientRepository
     }
     public function getOldPlots()
     {
-        return $this->model->select('id')->get();
+        return $this->model->select('id','plot_number')->get();
     }
     public function store($data)
     {

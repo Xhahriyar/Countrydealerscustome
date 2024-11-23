@@ -62,9 +62,9 @@
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->officer_type }}</td>
                                             {{-- <td>{{ $data->cnic }}</td> --}}
-                                            <td>{{ number_format(App\Services\CountService::getCommissionDetails($data->id)[0]) }}</td>
-                                            <td>{{ number_format( App\Services\CountService::getCommissionDetails($data->id)[1] )}}</td>
-                                            <td>{{  number_format(App\Services\CountService::getCommissionDetails($data->id)[2] )}}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension(App\Services\CountService::getCommissionDetails($data->id)[0]) }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension( App\Services\CountService::getCommissionDetails($data->id)[1] )}}</td>
+                                            <td>{{  formatNumberWithCurrencyExtension(App\Services\CountService::getCommissionDetails($data->id)[2] )}}</td>
                                             <td>
                                                 {{ number_format( App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] )}}
                                             </td>

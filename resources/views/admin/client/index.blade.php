@@ -121,13 +121,13 @@
                                             <td>{{ $saleOfficerNames }}</td>
                                             <!-- Officer names are now distinct and joined as a string -->
                                             <td>{{ $client->sale_type }}</td>
-                                            <td>{{number_format( $client->plot_sale_price) }}</td>
+                                            <td>{{formatNumberWithCurrencyExtension( $client->plot_sale_price) }}</td>
                                             <td>{{ $client->plot_size }}M</td>
                                             <td>
-                                                {{ number_format($paidInstallmentSum + $paidChequeInstallmentSum + $adjustmentSum + $advancePaymentSum) }}
+                                                {{ formatNumberWithCurrencyExtension($paidInstallmentSum + $paidChequeInstallmentSum + $adjustmentSum + $advancePaymentSum) }}
                                             </td>
                                             <td>
-                                                {{ number_format($client->plot_sale_price - ($paidInstallmentSum + $paidChequeInstallmentSum) - ($adjustmentSum + $advancePaymentSum)) }}
+                                                {{ formatNumberWithCurrencyExtension($client->plot_sale_price - ($paidInstallmentSum + $paidChequeInstallmentSum) - ($adjustmentSum + $advancePaymentSum)) }}
                                             </td>
                                             <td class="">
                                                 <div class="d-flex">

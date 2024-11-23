@@ -36,7 +36,7 @@
                                         <td>{{ $installment->payment_type === 'yes' ? 'Full Payment' : 'Installment' }}
                                         </td>
                                         <td>{{ $installment->payment_method }}</td>
-                                        <td>{{ number_format($installment->installment_payment) }}</td>
+                                        <td>{{ formatNumberWithCurrencyExtension($installment->installment_payment) }}</td>
                                         <td>{{ Carbon\Carbon::parse($installment->payment_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
@@ -109,7 +109,7 @@
                                         <td><a href="{{ Storage::url($installment->cheque_image) }}" target="_blank"><img
                                                     src="{{ Storage::url($installment->cheque_image) }}" alt="Cheque Image"
                                                     height="20px"></a></td>
-                                        <td>{{ number_format($installment->cheque_installment_amount) }}</td>
+                                        <td>{{ formatNumberWithCurrencyExtension($installment->cheque_installment_amount) }}</td>
                                         <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
