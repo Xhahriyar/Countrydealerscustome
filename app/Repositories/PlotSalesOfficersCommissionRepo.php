@@ -21,7 +21,6 @@ class PlotSalesOfficersCommissionRepo
             'commission_type' => 'required',
             'commission_amount' => 'required',
         ];
-
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {
             return redirect()

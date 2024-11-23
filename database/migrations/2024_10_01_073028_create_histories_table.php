@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')
-            ->constrained('admin_office_employees')
-            ->cascadeOnDelete();
+                ->constrained('admin_office_employees')
+                ->cascadeOnDelete();
             $table->string('first_name', 100); // First Name
             $table->string('last_name', 100); // Last Name
             $table->string('gender');
@@ -34,9 +34,13 @@ return new class extends Migration
             $table->integer('loan_amount')->nullable();
             $table->integer('loan_return')->nullable();
             $table->integer('other_allowance')->nullable();
-            $table->integer('cnic')->nullable();
+            $table->string('cnic')->nullable();
             $table->integer('loan_duration')->nullable();
             $table->string('employee_type')->nullable();
+            $table->unsignedBigInteger('logged_in_id');
+            $table->string('logged_in_name');
+            $table->string('ip_address');
+            $table->string('user_agent');
             $table->timestamps();
         });
     }

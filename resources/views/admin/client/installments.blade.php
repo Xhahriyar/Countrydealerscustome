@@ -1,4 +1,5 @@
 @extends('admin.app')
+
 @section('content')
     @include('admin.client.modals.installment')
     @include('admin.client.modals.chequeInstallment')
@@ -27,6 +28,7 @@
                                     <th>Payment Type</th>
                                     <th>Payment Method</th>
                                     <th>Installment Payment</th>
+                                    <th>Receipt Image</th>
                                     <th>Due Date</th>
                                     <th>Paid Date</th>
                                     <th>Status</th>
@@ -40,12 +42,22 @@
                                         <td>{{ $installment->payment_type === 'yes' ? 'Full Payment' : 'Installment' }}
                                         </td>
                                         <td>{{ $installment->payment_method }}</td>
-                                        <td>{{ number_format( $installment->installment_payment )}}</td>
+                                        <td>{{ number_format($installment->installment_payment) }}</td>
+                                        <td>
+                                            @if ($installment->receipt_image)
+                                                <a href="{{ Storage::url($installment->receipt_image) }}" target="_blank">
+                                                    <img src="{{ Storage::url($installment->receipt_image) }}"
+                                                        alt="" width="20px">
+                                                </a>
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
                                         <td>{{ Carbon\Carbon::parse($installment->payment_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->date)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -65,12 +77,26 @@
                                                 </a>
                                             @else
                                                 @can('client_installment-status')
-                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
-                                                        onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
-                                                        <i class="fas fa-regular fa-check"></i>
+                                                    <a href="{{ route('client.installment.status.edit', ['client_id' => $id, 'installment_id' => $installment->id]) }}"
+                                                        class="btn btn-outline-success btn-sm">
+                                                        <i class="fas fa-regular fa-check"></i></a>
                                                     </a>
                                                 @endcan
                                             @endif
+                                            @can('client_installment-delete')
+                                                @if ($installment->status != 'PAID')
+                                                    <form id="delete-form"
+                                                        action="{{ route('client.installment.delete', $installment->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" onclick="confirmDelete()"
+                                                            class="btn btn-sm btn-danger ml-2">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
@@ -103,6 +129,7 @@
                                     <th>Payment Method</th>
                                     <th>Cheque Image</th>
                                     <th>Installment Amount</th>
+                                    <th>Receipt Image</th>
                                     <th>Due Date</th>
                                     <th>Paid Date</th>
                                     <th>Status</th>
@@ -120,12 +147,18 @@
                                                     src="{{ Storage::url($installment->cheque_image) }}" alt="Cheque Image"
                                                     height="20px"></a>
                                         </td>
-                                        <td>{{ number_format( $installment->cheque_installment_amount )}}</td>
+                                        <td>{{ number_format($installment->cheque_installment_amount) }}</td>
                                         <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
+                                            <a href="{{ Storage::url($installment->receipt_image) }}" target="_blank">
+                                                <img src="{{ Storage::url($installment->receipt_image) }}" alt=""
+                                                    width="20px">
+                                            </a>
+                                        </td>
+                                        <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->date)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -144,11 +177,26 @@
                                                 </a>
                                             @else
                                                 @can('client_installment-status')
-                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
-                                                        onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
+                                                    <a href="{{ route('client.installment.status.edit', ['client_id' => $id, 'installment_id' => $installment->id]) }}"
+                                                        class="btn btn-outline-success btn-sm">
                                                         <i class="fas fa-regular fa-check"></i></a>
+                                                    </a>
                                                 @endcan
                                             @endif
+                                            @can('client_installment-delete')
+                                                @if ($installment->status != 'PAID')
+                                                    <form id="delete-form"
+                                                        action="{{ route('client.installment.delete', $installment->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" onclick="confirmDelete()"
+                                                            class="btn btn-sm btn-danger ml-2">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
@@ -165,5 +213,19 @@
     <script>
         let cashInstallmentTable = new DataTable('#cashInstallmentTable');
         let chequeInstallmentTable = new DataTable('#chequeInstallmentTable');
+
+        $(document).ready(function() {
+            // Attach event listener for when the modal is shown
+            $('#confirmPaidInstallmentModal').on('show.bs.modal', function(event) {
+                // Button that triggered the modal
+                let button = $(event.relatedTarget);
+                // Extract the installment ID from the button's data attribute
+                let installmentId = button.data('id');
+                // Find the form inside the modal
+                let form = $('#confirmInstallmentForm');
+                // Update the form's action attribute dynamically
+                form.attr('action', `/client/installment/status/update/${installmentId}`);
+            });
+        });
     </script>
 @endsection

@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Name</label>
+                                <label class="col-sm-3 col-form-label">Name <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="name"
                                         value="{{ $data['name'] ?? old('name') }}" placeholder="Name Here">
@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">CNIC</label>
+                                <label class="col-sm-3 col-form-label">CNIC<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="cnic"
                                         value="{{ $data['cnic'] ?? old('cnic') }}" placeholder="CNIC Here">
@@ -52,11 +52,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Number</label>
+                                <label class="col-sm-3 col-form-label">Contact No<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="number"
-                                        value="{{ $data['number'] ?? old('number') }}" placeholder="Number Here">
-                                    @error('number')
+                                    <input type="text" class="form-control" name="contact_no"
+                                        value="{{ $data['contact_no'] ?? old('contact_no') }}"
+                                        placeholder="Contact No Here">
+                                    @error('contact_no')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -64,7 +65,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Fatehr/Husband Name</label>
+                                <label class="col-sm-3 col-form-label">Fatehr/Husband Name<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="father_or_husband_name"
                                         value="{{ $data['father_or_husband_name'] ?? old('father_or_husband_name') }}"
@@ -80,12 +81,13 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Client Type</label>
+                                <label class="col-sm-3 col-form-label">Client Type<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="client_type">
                                         <option disabled selected>-- select an option --</option>
                                         @foreach (App\Services\TypeService::getPurchaseTypes() as $clientType)
-                                            <option value="{{ $clientType->name }}" @if (!empty($data->clientType) && $data->clientType == $clientType) selected @endif>
+                                            <option value="{{ $clientType->name }}"
+                                                @if (!empty($data->client_type) && $data->client_type == $clientType->name) selected @endif>
                                                 {{ $clientType->name }}
                                             </option>
                                         @endforeach
@@ -98,7 +100,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Sale Type</label>
+                                <label class="col-sm-3 col-form-label">Sale Type<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="sale_type">
                                         <option disabled selected>-- select an option --</option>
@@ -117,7 +119,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Paid By</label>
+                                <label class="col-sm-3 col-form-label">Paid By<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="paid_by"
                                         value="{{ $data['paid_by'] ?? old('paid_by') }}" placeholder="Paid by">
@@ -129,7 +131,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot #</label>
+                                <label class="col-sm-3 col-form-label">Plot No <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="plot_number"
                                         value="{{ $data['plot_number'] ?? old('plot_number') }}" placeholder="Plot Number">
@@ -141,7 +143,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot Size</label>
+                                <label class="col-sm-3 col-form-label">Plot Size <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="plot_size"
                                         value="{{ $data['plot_size'] ?? old('plot_size') }}" placeholder="Plot Size">
@@ -153,11 +155,11 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Location</label>
+                                <label class="col-sm-3 col-form-label">Address<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="location"
-                                        value="{{ $data['location'] ?? old('location') }}" placeholder="location here">
-                                    @error('location')
+                                    <input type="text" class="form-control" name="address"
+                                        value="{{ $data['address'] ?? old('address') }}" placeholder="Address here">
+                                    @error('address')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -165,32 +167,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot Price</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="plot_price"
-                                        value="{{ $data['plot_price'] ?? old('plot_price') }}" placeholder="Plot price">
-                                    @error('plot_price')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot Demand</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="plot_demand"
-                                        value="{{ $data['plot_demand'] ?? old('plot_demand') }}"
-                                        placeholder="Plot Demand">
-                                    @error('plot_demand')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot Sale Price</label>
+                                <label class="col-sm-3 col-form-label">Plot Sale Price<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="number" class="form-control" name="plot_sale_price"
                                         value="{{ $data['plot_sale_price'] ?? old('plot_sale_price') }}"
@@ -205,10 +182,22 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Advance Payment</label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control mt-3 ml-1" name="advance_payment"
+                                    <input type="number" class="form-control" name="advance_payment"
                                         id="advancePayment" placeholder="Advance Payment"
                                         value="{{ $data['advance_payment'] ?? old('advance_payment') }}">
                                     @error('advance_payment')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Date<sup class="text-danger">*</sup></label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control" name="date" id="date"
+                                        placeholder="date" value="{{ $data['date'] ?? old('date') }}">
+                                    @error('date')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -254,13 +243,16 @@
                                     @enderror
                                 </div>
                             </div>
-                            @if(!empty($data['adjustment_product']))
-                            <img src="{{ Storage::url($data->adjustment_product) }}" alt="" width="200px">
+                            @if (!empty($data['adjustment_product']))
+                                <img src="{{ Storage::url($data->adjustment_product) }}" alt="" width="200px">
                             @endif
                         </div>
                         <div class="col-md-12">
-                            <div class="form-group row my-2">
-                                <button class="btn btn-sm btn-primary">Submit</button>
+                            <div class="form-group mt-4 gap-2 d-flex justify-content-start">
+                                <button class="btn btn-warning text-decoration-none"> <a
+                                        href="{{ route('purchase.index') }}"
+                                        class="text-decoration-none underline-none text-light">Cancel</a> </button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </div>

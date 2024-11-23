@@ -19,6 +19,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(true);
+            $table->unsignedBigInteger('logged_in_id');
+            $table->string('logged_in_name');
+            $table->string('ip_address');
+            $table->string('user_agent');   
             $table->rememberToken();
             $table->timestamps();
         });

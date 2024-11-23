@@ -39,6 +39,11 @@ return new class extends Migration {
             $table->string('cnic')->nullable();
             $table->integer('loan_duration')->nullable();
             $table->string('employee_type')->nullable();
+            $table->date('date');
+            $table->unsignedBigInteger('logged_in_id');
+            $table->string('logged_in_name');
+            $table->string('ip_address');
+            $table->string('user_agent');
             $table->timestamps();
         });
     }

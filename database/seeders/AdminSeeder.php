@@ -23,6 +23,10 @@ class AdminSeeder extends Seeder
             'email' => 'superadmin@admin.com',
             'password' => Hash::make('12345678'),
             'is_admin' => 1,
+            'logged_in_id' => 0,
+            'logged_in_name' => 'default',
+            'ip_address' => 'default',
+            'user_agent' => 'default',
         ]);
     }
 }

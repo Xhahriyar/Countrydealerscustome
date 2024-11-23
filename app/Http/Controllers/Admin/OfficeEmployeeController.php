@@ -8,6 +8,7 @@ use App\Http\Requests\AddOfficeEmployeeRequest;
 use App\Models\AdminOfficeEMployee;
 use Illuminate\Http\Request;
 use App\Repositories\EmployeeRepository;
+use Illuminate\Support\Facades\Redirect;
 
 class OfficeEmployeeController extends Controller
 {
@@ -21,7 +22,7 @@ class OfficeEmployeeController extends Controller
         $this->authorize(PermissionEnum::EMPLOYEE(), [AdminOfficeEMployee::class]);
 
         $data = $this->employeeRepository->all();
-        return view("admin.officeEmployee.index" , compact("data"));
+        return view("admin.officeEmployee.index", compact("data"));
     }
     public function create()
     {
@@ -31,8 +32,11 @@ class OfficeEmployeeController extends Controller
     }
     public function store(AddOfficeEmployeeRequest $request)
     {
-        $this->employeeRepository->create($request->all());
-        return redirect()->back()->with('success', 'Record Created Successfully.');
+        $employee = $this->employeeRepository->create($request->all());
+        if ($employee) {
+            return Redirect::route('employee.office.index')->with("success", "Record Added Successfully");
+        }
+        return Redirect::route('employee.office.index')->with("error", "Error in Adding Record ");
     }
 
     public function show($id)
@@ -49,10 +53,13 @@ class OfficeEmployeeController extends Controller
         $data = $this->employeeRepository->find($id);
         return view("admin.officeEmployee.edit", data: compact(var_name: 'data'));
     }
-    public function update(AddOfficeEmployeeRequest $request , $id)
+    public function update(AddOfficeEmployeeRequest $request, $id)
     {
-        $this->employeeRepository->update($id , $request->all());
-        return redirect()->back()->with('success', 'Record Updated Successfully.');
+        $employee = $this->employeeRepository->update($id, $request->all());
+        if ($employee) {
+            return Redirect::route('employee.office.index')->with("success", "Record Updated Successfully");
+        }
+        return Redirect::route('employee.office.index')->with("error", "Error in Updating Record ");
     }
 
     public function delete($id)
@@ -63,5 +70,4 @@ class OfficeEmployeeController extends Controller
         $employee->delete();
         return redirect()->back()->with('success', 'Record Deleted Successfully.');
     }
-
 }

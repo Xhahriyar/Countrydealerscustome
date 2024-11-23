@@ -77,7 +77,9 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::get('client/edit/{id}', 'edit')->name('client.edit');
         Route::post('client/update/{id}', 'update')->name('client.update');
         Route::get('client/installments/{id}', 'getInstallments')->name('client.installments');
-        Route::get('client/installment/status/update/{id}', 'installmentUpdate')->name('client.installment.status.update');
+        Route::get('client/installments/status/edit/{client_id}/{installment_id}', 'installmentEdit')->name('client.installment.status.edit');
+        Route::delete('client/installment/delete/{id}', 'deleteInstallment')->name('client.installment.delete');
+        Route::post('client/installment/status/update/{id}', 'installmentUpdate')->name('client.installment.status.update');
         Route::post('add/custom/cash/installment/{id}', 'addNewCashInstallment')->name('add.custom.cash.installment');
         Route::post('add/custom/cheque/installment/{id}', 'addNewChequeInstallment')->name('add.custom.cheque.installment');
         Route::get('client/delete/{id}', 'delete')->name('client.delete');

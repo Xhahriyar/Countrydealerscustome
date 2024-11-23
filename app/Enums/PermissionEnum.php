@@ -43,6 +43,7 @@ enum PermissionEnum: string
     case CLIENT_CASH_INSTALLMENT_ADD = 'client_cash_installment-add';
     case CLIENT_CHECK_INSTALLMENT_ADD = 'client_check_installment-add';
     case CLIENT_INSTALLMENT_STATUS = 'client_installment-status';
+    case CLIENT_INSTALLMENT_DELETE = 'client_installment-delete';
 
         // EXPENSE
     case EXPENSE = 'expense';
