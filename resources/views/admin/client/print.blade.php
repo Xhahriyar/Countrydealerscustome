@@ -54,6 +54,7 @@
         width: 70%;
         border-bottom: 2px solid black;
         text-align: right;
+        padding: 4px 0 0 0;
     }
 
     .receipt-row span {
