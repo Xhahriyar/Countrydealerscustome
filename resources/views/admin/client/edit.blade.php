@@ -8,7 +8,8 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('client.update', $data->id) }}" id="formWithAmountInputsFields" method="post" enctype="multipart/form-data">
+                <form action="{{ route('client.update', $data->id) }}" id="formWithAmountInputsFields" method="post"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12 my-2">
@@ -203,6 +204,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Last Date to Clear Payment<sup
+                                        class="text-danger">*</sup></label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control" name="last_date_to_clear_payment"
+                                        id="last_date_to_clear_payment" placeholder="Last date to clear payment here"
+                                        value="{{ $data['last_date_to_clear_payment'] ?? old('last_date_to_clear_payment') }}">
+                                    @error('last_date_to_clear_payment')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12 my-2">
                             <h5 class="">Adjustment Info</h5>
                         </div>
@@ -300,8 +315,7 @@
                         @endif --}}
                         <div class="col-md-12">
                             <div class="mt-4 gap-2 d-flex justify-content-start">
-                                <button class="btn btn-light text-decoration-none"> <a
-                                        href="{{ route('client.index') }}"
+                                <button class="btn btn-light text-decoration-none"> <a href="{{ route('client.index') }}"
                                         class="text-decoration-none underline-none text-dark">Cancel</a> </button>
                                 <button type="submit" class="btn btn-success">Update</button>
                             </div>

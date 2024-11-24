@@ -207,7 +207,8 @@
                 </div>
                 <div class="info-row">
                     <span class="label">Plot Size:</span>
-                    <span class="value">{{ $data->plot_size }} ( {{ convertMarlaToSqFt($data->plot_size) }} Sq. Ft )</span>
+                    <span class="value">{{ $data->plot_size }} ( {{ convertMarlaToSqFt($data->plot_size) }} Sq. Ft
+                        )</span>
                 </div>
                 <div class="info-row">
                     <span class="label">Plot No:</span>
@@ -235,7 +236,7 @@
             <div class="d-flex justify-content-center align-items-center flex-column">
                 <div class="table-responsive" style="width: 70%;">
                     <table class="table ">
-                        <thead class="table-primary">
+                        <thead class="">
                             <tr>
                                 <th scope="col" style="width: 10%;">#</th>
                                 <th scope="col" style="width: 45%;">Amount</th>
@@ -256,27 +257,33 @@
                             @endforeach
                         </tbody>
                         <tfoot>
-                            <tr class="table-secondary">
-                                <th colspan="2" class="text-end">Plot Price</th>
+                            <tr class="">
+                                <th colspan="2" class="text-end">Plot Price:</th>
                                 <th class="text-end" style="padding-right:0;">
                                     {{ formatNumberWithCurrencyExtension($data->plot_sale_price, 2) }}</th>
                             </tr>
-                            <tr class="table-secondary">
-                                <th colspan="2" class="text-end" style="font-weight: bold;">Total Paid</th>
+                            <tr class="">
+                                <th colspan="2" class="text-end" style="font-weight: bold;">Total Paid:</th>
                                 <th class="text-end" style="padding-right:0;">
                                     {{ formatNumberWithCurrencyExtension($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment'), 2) }}
                                 </th>
                             </tr>
-                            <tr class="table-secondary">
-                                <th colspan="2" class="text-end">Adjustment / Advance payments</th>
-                                <th class="text-end" style="padding-right:0;">
-                                    {{ formatNumberWithCurrencyExtension($data->advance_payment + $data->adjustment_price, 2) }}
-                                </th>
-                            </tr>
-                            <tr class="table-secondary">
-                                <th colspan="2" class="text-end">Remaining</th>
+                            <tr class="">
+                                <th colspan="2" class="text-end">Remaining:</th>
                                 <th class="text-end" style="padding-right:0;">
                                     {{ formatNumberWithCurrencyExtension($data->plot_sale_price - ($data->installments->where('status', 'PAID')->sum('cheque_installment_amount') + $data->installments->where('status', 'PAID')->sum('installment_payment')) - ($data->advance_payment + $data->adjustment_price), 2) }}
+                                </th>
+                            </tr>
+                            <tr class="">
+                                <th colspan="2" class="text-end">Last Date to Clear Payment:</th>
+                                <th class="text-end text-danger fw-bold" style="padding-right:0;">
+                                    {{ Carbon\Carbon::parse($data->last_date_to_clear_payment)->format('d-M-Y') }}
+                                </th>
+                            </tr>
+                            <tr class="">
+                                <th colspan="2" class="text-end">Adjustment / Advance payments:</th>
+                                <th class="text-end" style="padding-right:0;">
+                                    {{ formatNumberWithCurrencyExtension($data->advance_payment + $data->adjustment_price, 2) }}
                                 </th>
                             </tr>
                         </tfoot>

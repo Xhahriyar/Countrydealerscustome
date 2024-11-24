@@ -35,6 +35,7 @@ class StorePurchaseRequest extends FormRequest
             "address" => "required",
             "plot_sale_price" => "required|integer|min:0",
             "date" => "required|date",
+            "last_date_to_clear_payment" => "required|date",
             "vehicles_adjustment" => "nullable|string",
             "adjustment_price" => "nullable|integer|min:0",
             "advance_payment" => "nullable|integer|min:0",

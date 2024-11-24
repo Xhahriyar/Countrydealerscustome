@@ -59,8 +59,7 @@
 
                                         <tr>
                                             <td>{{ $key += 1 }}</td>
-                                            <td>{{ $data->first_name . ' ' $data->last_name }}</td>
-                                            <td>{{ $data->officer_type }}</td>
+                                            <td>{{ $data->first_name . ' '. $data->last_name }}</td>                                            <td>{{ $data->officer_type }}</td>
                                             {{-- <td>{{ $data->cnic }}</td> --}}
                                             <td>{{ formatNumberWithCurrencyExtension(App\Services\CountService::getCommissionDetails($data->id)[0]) }}</td>
                                             <td>{{ formatNumberWithCurrencyExtension( App\Services\CountService::getCommissionDetails($data->id)[1] )}}</td>

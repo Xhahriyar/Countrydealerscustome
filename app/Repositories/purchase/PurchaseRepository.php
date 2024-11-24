@@ -57,6 +57,7 @@ class PurchaseRepository
             "advance_payment" => $data["advance_payment"],
             "plot_size" => $data["plot_size"],
             "date" => $data["date"],
+            "last_date_to_clear_payment" => $data["last_date_to_clear_payment"],
         ];
         if (isset($data['adjustment_product']) && $data['adjustment_product']->isValid()) {
             $client['adjustment_product'] = $data['adjustment_product']->store('adjustmentproducts', 'public');
