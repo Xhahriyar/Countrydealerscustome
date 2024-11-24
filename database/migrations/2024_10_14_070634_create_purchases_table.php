@@ -29,7 +29,7 @@ return new class extends Migration
             $table->integer('adjustment_price')->nullable();
             $table->integer('advance_payment')->nullable();
             $table->string('adjustment_product')->nullable();
-            $table->date('date');
+            $table->date('date'); 
             $table->date('last_date_to_clear_payment');
             $table->unsignedBigInteger('logged_in_id');
             $table->string('logged_in_name');
