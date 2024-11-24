@@ -44,7 +44,7 @@ class UserService
     public function store($data)
     {
         $data['verify_token'] = Str::random(14);
-        $data['password'] = Hash::make(12345678);
+        $data['password'] = Hash::make($data['password']);
         $dto = new UserDTO(...$data);
         $data = $this->setLoggedUserData($dto);
         return $this->repository->store($data);
