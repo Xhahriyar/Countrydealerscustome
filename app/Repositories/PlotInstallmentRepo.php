@@ -108,10 +108,7 @@ class PlotInstallmentRepo
         $installmentData = $data->all();
         $client = $this->client::find($id);
         $totalInstallments = $this->model::where('client_id', $id)
-            ->selectRaw('
-            COALESCE(SUM(CAST(cheque_installment_amount AS NUMERIC)), 0) as cheque_sum, 
-            COALESCE(SUM(CAST(installment_payment AS NUMERIC)), 0) as installment_sum
-        ')
+            ->selectRaw('COALESCE(SUM(cheque_installment_amount), 0) as cheque_sum, COALESCE(SUM(installment_payment), 0) as installment_sum')
             ->first();
 
         $finalTotal = $totalInstallments->cheque_sum + $totalInstallments->installment_sum;
