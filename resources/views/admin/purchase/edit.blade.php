@@ -207,6 +207,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Last Date to Clear Payment<sup
+                                        class="text-danger">*</sup></label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control" name="last_date_to_clear_payment"
+                                        id="last_date_to_clear_payment" placeholder="Last date to clear payment here"
+                                        value="{{ $data['last_date_to_clear_payment'] ?? old('last_date_to_clear_payment') }}">
+                                    @error('last_date_to_clear_payment')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12 my-2">
                             <h5 class="">Adjustment Info</h5>
                         </div>

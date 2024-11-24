@@ -164,7 +164,8 @@
                 </div>
                 <div class="info-row">
                     <span class="label">Plot Size:</span>
-                    <span class="value">{{ $data->plot_size }} ( {{ convertMarlaToSqFt($data->plot_size) }} Sq. Ft )</span>
+                    <span class="value">{{ $data->plot_size }} ( {{ convertMarlaToSqFt($data->plot_size) }} Sq. Ft
+                        )</span>
                 </div>
                 <div class="info-row">
                     <span class="label">Plot No:</span>
@@ -240,9 +241,9 @@
                         </span>
                     </div>
                     <div class="receipt-row">
-                        <span>Next Payment Due Date:</span>
+                        <span>Last Date to Clear Payment:</span>
                         <strong
-                            class="text-danger">{{ Carbon\Carbon::parse($data->due_date)->format('d-M-Y') }}</strong>
+                            class="text-danger">{{ Carbon\Carbon::parse($data->last_date_to_clear_payment)->format('d-M-Y') }}</strong>
                     </div>
                     <div class="receipt-row">
                         <span>Properties/Vehicle Adjusted:</span>
