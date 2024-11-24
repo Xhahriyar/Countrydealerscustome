@@ -155,7 +155,7 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Plot Size (In Marla) <sup class="text-danger">*</sup></label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="plot_size"
+                        <input type="number" class="form-control" name="plot_size"
                             value="{{ $data['plot_size'] ?? old('plot_size') }}" placeholder="Plot Size">
                         @error('plot_size')
                             <small class="text-danger">{{ $message }}</small>
@@ -181,9 +181,9 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Plot Sale Price <sup class="text-danger">*</sup></label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" name="plot_sale_price"
+                        <input type="text" class="form-control amount-field" name="plot_sale_price"
                             value="{{ $data['plot_sale_price'] ?? old('plot_sale_price') }}"
-                            placeholder="Plot Sale Price" id="plotSalePrice">
+                            placeholder="Plot Sale Price" id="plotSalePrice" >
                         @error('plot_sale_price')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -194,9 +194,9 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Advance Payment</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" name="advance_payment"
+                        <input type="text" class="form-control amount-field" name="advance_payment"
                             id="advancePayment" placeholder="Advance Payment"
-                            value="{{ $data['advance_payment'] ?? old('advance_payment') }}">
+                            value="{{ $data['advance_payment'] ?? old('advance_payment') }}" >
                         @error('advance_payment')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -210,18 +210,6 @@
                         <input type="date" class="form-control" name="date" id="date"
                             placeholder="date" value="{{ $data['date'] ?? old('date') }}">
                         @error('date')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Installment Due Date <sup
-                            class="text-danger">*</sup></label>
-                    <div class="col-sm-9">
-                        <input type="date" class="form-control mt-3 ml-1" name="due_date">
-                        @error('due_date')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -250,9 +238,9 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Price of adjustment</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" name="adjustment_price"
+                        <input type="text" class="form-control amount-field" name="adjustment_price"
                             value="{{ $data['adjustment_price'] ?? old('adjustment_price') }}"
-                            placeholder="Price Of Adjustment" id="adjustmentPrice">
+                            placeholder="Price Of Adjustment" id="adjustmentPrice" >
                         @error('adjustment_price')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -317,7 +305,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Commission</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" placeholder="Commission here"
+                                <input type="text" class="form-control amount-field" placeholder="Commission here" id="commissionAmount"
                                     name="commission_amount[]">
                             </div>
                         </div>

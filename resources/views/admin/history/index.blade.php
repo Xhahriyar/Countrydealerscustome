@@ -33,12 +33,12 @@
                                             <td>{{ $data->first_name }} {{ $data->last_name }}</td>
                                             <td>{{ $data->cnic }}</td>
                                             <td>{{ $data->employee_type }}</td>
-                                            <td>{{ number_format($data->loan_amount )}}</td>
-                                            <td>{{ number_format($data->loan_return )}}</td>
-                                            <td>{{ number_format($data->loan_amount - $data->sum('loan_return') ) }}</td>
-                                            <td>{{ number_format($data->salary) }}</td>
-                                            <td>{{ number_format($data->other_allowance )}}</td>
-                                            <td>{{ number_format($data->salary - $data->loan_return + $data->other_allowance) }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($data->loan_amount )}}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($data->loan_return )}}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($data->loan_amount - $data->sum('loan_return') ) }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($data->salary) }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($data->other_allowance )}}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($data->salary - $data->loan_return + $data->other_allowance) }}</td>
                                             <td>{{ $data->created_at->format('d-m-Y') }}</td>
                                             <td>
                                                 <a href="{{route('payroll.print' , $data->id)}}" class="btn btn-sm btn-primary" target="_blank"><i class="fas fa-print"></i></a>

@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('expense.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('expense.store') }}" id="formWithAmountInputsFields" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         @csrf
@@ -53,7 +53,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Amount <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="amount" placeholder="Amount here">
+                                    <input type="text" class="form-control" name="amount" id='amount'
+                                        placeholder="Amount here" oninput="formatAmount(this)"  onblur="formatAmount(this)">
                                     @error('amount')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -62,7 +63,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Expense Type <sup class="text-danger">*</sup></label>
+                                <label class="col-sm-3 col-form-label">Expense Type <sup
+                                        class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="expense_type">
                                         <option disabled selected>-- select an option --</option>
@@ -81,7 +83,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Expense Category <sup class="text-danger">*</sup></label>
+                                <label class="col-sm-3 col-form-label">Expense Category <sup
+                                        class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="expense_category">
                                         <option disabled selected>-- select an option --</option>
@@ -100,7 +103,8 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Description <sup class="text-danger">*</sup></label>
+                                <label class="col-sm-3 col-form-label">Description <sup
+                                        class="text-danger">*</sup></label>
                                 <div class="col-sm-12">
                                     <textarea name="description" id="" cols="30" rows="10" class="form-control"
                                         placeholder="Enter Expense Details"></textarea>

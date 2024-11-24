@@ -19,7 +19,7 @@
                                 <i class="icon-sm fas fa-check-circle mr-2"></i>
                                 {{ $label2 }}
                             </p>
-                            <label class="badge badge-outline-warning badge-pill">{{number_format( $val2) }}</label>
+                            <label class="badge badge-outline-warning badge-pill">{{formatNumberWithCurrencyExtension( $val2) }}</label>
                         </div>
                     @endisset
                     @isset($label3)
@@ -29,7 +29,7 @@
                                 {{ $label3 }}
                             </p>
                             <label class="badge badge-outline-danger badge-pill count-val3"
-                                id="countVal3">{{number_format( $val3) }}</label>
+                                id="countVal3">{{formatNumberWithCurrencyExtension( $val3) }}</label>
                         </div>
                     @endisset
                     @isset($label3)
@@ -39,7 +39,7 @@
                                 {{ $label4 }}
                             </p>
                             <label class="badge badge-outline-secondary badge-pill count-val3"
-                                id="countVal3">{{number_format( $val4) }}</label>
+                                id="countVal3">{{formatNumberWithCurrencyExtension( $val4) }}</label>
                         </div>
                     @endisset
                 </div>

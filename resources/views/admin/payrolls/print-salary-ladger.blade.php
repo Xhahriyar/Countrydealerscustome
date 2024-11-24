@@ -84,9 +84,9 @@
                                 @endphp
                                 @foreach ($data->histories as $history)
                                     <tr>
-                                        <td>{{number_format( $history->salary + $history->other_allowance )}}</td>
-                                        <td>{{number_format( $history->loan_return) }}</td>
-                                        <td>{{number_format( $history->loan_amount) }}</td>
+                                        <td>{{formatNumberWithCurrencyExtension( $history->salary + $history->other_allowance )}}</td>
+                                        <td>{{formatNumberWithCurrencyExtension( $history->loan_return) }}</td>
+                                        <td>{{formatNumberWithCurrencyExtension( $history->loan_amount) }}</td>
 
                                         {{-- Calculate and display the remaining loan balance --}}
                                         <td>
@@ -94,11 +94,11 @@
                                                 // Decrease the remaining loan balance by the loan return amount for the current month
                                                 $remainingLoan -= $history->loan_return;
                                             @endphp
-                                            {{ number_format($remainingLoan) }}
+                                            {{ formatNumberWithCurrencyExtension($remainingLoan) }}
 
                                         </td>
                                         <td>
-                                            {{ number_format($loanPermotn) }}
+                                            {{ formatNumberWithCurrencyExtension($loanPermotn) }}
                                             @php
                                                 $loanPermotn += $history->loan_return;
                                             @endphp

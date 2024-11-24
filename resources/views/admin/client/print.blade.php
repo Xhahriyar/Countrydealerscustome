@@ -164,7 +164,7 @@
                 </div>
                 <div class="info-row">
                     <span class="label">Plot Size:</span>
-                    <span class="value">{{ $data->plot_size }}</span>
+                    <span class="value">{{ $data->plot_size }} ( {{ convertMarlaToSqFt($data->plot_size) }} Sq. Ft )</span>
                 </div>
                 <div class="info-row">
                     <span class="label">Plot No:</span>
@@ -201,7 +201,7 @@
                 <div class="receipt-container">
                     <div class="receipt-row">
                         <span>Total Price of Plot/Farm House/Hut:</span>
-                        <span>{{ number_format($data->plot_sale_price) }}</span>
+                        <span>{{ formatNumberWithCurrencyExtension($data->plot_sale_price) }}</span>
                     </div>
                     <div class="receipt-row">
                         <span>Previous Paid:</span>
@@ -215,16 +215,16 @@
                                     @endphp
                                 @endif
                             @endforeach
-                            {{ number_format($totalAmount) }}
+                            {{ formatNumberWithCurrencyExtension($totalAmount) }}
                         </span>
                     </div>
                     <div class="receipt-row">
                         <span><b>Now Paid:</b></span>
-                        <span><b>{{ number_format($newInstallment->installment_payment) }}</b></span>
+                        <span><b>{{ formatNumberWithCurrencyExtension($newInstallment->installment_payment) }}</b></span>
                     </div>
                     <div class="receipt-row">
                         <span>Total Paid (new):</span>
-                        <span>{{ number_format($newInstallment->installment_payment + $totalAmount) }}</span>
+                        <span>{{ formatNumberWithCurrencyExtension($newInstallment->installment_payment + $totalAmount) }}</span>
                     </div>
                     <div class="receipt-row">
                         <span>Total Remaining Amount:</span>
@@ -236,7 +236,7 @@
                                         $data->installments->where('status', 'PAID')->sum('installment_payment') +
                                         $newInstallment->installment_payment);
                             @endphp
-                            {{ number_format($remainingAMount) }}
+                            {{ formatNumberWithCurrencyExtension($remainingAMount) }}
                         </span>
                     </div>
                     <div class="receipt-row">
@@ -246,7 +246,7 @@
                     </div>
                     <div class="receipt-row">
                         <span>Properties/Vehicle Adjusted:</span>
-                        <span>{{ number_format($data->adjustment_price) ?? 0 }}</span>
+                        <span>{{ formatNumberWithCurrencyExtension($data->adjustment_price) ?? 0 }}</span>
                     </div>
                 </div>
 
