@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('add.custom.cash.installment', $id) }}" method="post">
+            <form action="{{ route('add.custom.cash.installment', $id) }}" id="formWithAmountInputsFields" method="post">
                 <div class="modal-body">
                     <div class="row">
                         @csrf
@@ -17,7 +17,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Payment</label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="installment_payment"
+                                    <input type="text" class="form-control amount-field" name="installment_payment"
                                         placeholder="Installment Payment Here" value="{{old('installment_payment')}}">
                                         @error('installment_payment')
                                             <small class="text-danger">{{ $message }}</small>

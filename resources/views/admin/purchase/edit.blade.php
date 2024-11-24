@@ -8,7 +8,8 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('purchase.update', $data->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('purchase.update', $data->id) }}" method="post" id="formWithAmountInputsFields"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12 my-2">
@@ -65,7 +66,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Fatehr/Husband Name<sup class="text-danger">*</sup></label>
+                                <label class="col-sm-3 col-form-label">Fatehr/Husband Name<sup
+                                        class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="father_or_husband_name"
                                         value="{{ $data['father_or_husband_name'] ?? old('father_or_husband_name') }}"
@@ -134,7 +136,8 @@
                                 <label class="col-sm-3 col-form-label">Plot No <sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="plot_number"
-                                        value="{{ $data['plot_number'] ?? old('plot_number') }}" placeholder="Plot Number">
+                                        value="{{ $data['plot_number'] ?? old('plot_number') }}"
+                                        placeholder="Plot Number">
                                     @error('plot_number')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -167,9 +170,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Plot Sale Price<sup class="text-danger">*</sup></label>
+                                <label class="col-sm-3 col-form-label">Plot Sale Price<sup
+                                        class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="plot_sale_price"
+                                    <input type="text" class="form-control amount-field" name="plot_sale_price"
                                         value="{{ $data['plot_sale_price'] ?? old('plot_sale_price') }}"
                                         placeholder="Plot Sale Price" id="plotSalePrice">
                                     @error('plot_sale_price')
@@ -182,7 +186,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Advance Payment</label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="advance_payment"
+                                    <input type="text" class="form-control amount-field" name="advance_payment"
                                         id="advancePayment" placeholder="Advance Payment"
                                         value="{{ $data['advance_payment'] ?? old('advance_payment') }}">
                                     @error('advance_payment')
@@ -222,7 +226,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Price of adjustment</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="adjustment_price"
+                                    <input type="text" class="form-control amount-field" name="adjustment_price"
                                         value="{{ $data['adjustment_price'] ?? old('adjustment_price') }}"
                                         placeholder="Price Of Adjustment" id="adjustmentPrice">
                                     @error('adjustment_price')
@@ -249,10 +253,10 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group mt-4 gap-2 d-flex justify-content-start">
-                                <button class="btn btn-warning text-decoration-none"> <a
+                                <button class="btn btn-light text-decoration-none"> <a
                                         href="{{ route('purchase.index') }}"
-                                        class="text-decoration-none underline-none text-light">Cancel</a> </button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                        class="text-decoration-none underline-none text-dark">Cancel</a> </button>
+                                <button type="submit" class="btn btn-success">Update</button>
                             </div>
                         </div>
                     </div>
@@ -261,4 +265,49 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('bottom-scripts')
+    <script>
+        // Format the amount with commas
+        function formatAmount(input) {
+            const value = input.value.replace(/,/g, ''); // Remove commas
+            if (!isNaN(value) && value !== "") {
+                input.value = parseFloat(value).toLocaleString('en-US'); // Add commas
+            } else {
+                input.value = ""; // Clear invalid input
+            }
+        }
+        // Remove formatting (commas) when focusing or before submission
+        function removeFormatting(input) {
+            input.value = input.value.replace(/,/g, ''); // Remove commas
+        }
+
+        // Handle dynamic input formatting
+        document.addEventListener('input', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusin', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusout', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target); // Reapply formatting on blur
+            }
+        });
+
+        // Remove formatting before form submission
+        document.getElementById('formWithAmountInputsFields').addEventListener('submit', function(event) {
+            const amountFields = document.querySelectorAll('.amount-field');
+            amountFields.forEach(input => {
+                input.value = input.value.replace(/,/g, ''); // Remove commas before submission
+            });
+        });
+    </script>
 @endsection

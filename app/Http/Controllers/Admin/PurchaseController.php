@@ -105,7 +105,7 @@ class PurchaseController extends Controller
     public function addNewCashInstallment(Request $data, $id)
     {
         $this->authorize(PermissionEnum::PURCHASE_CASH_INSTALLMENT_ADD(), [Purchase::class]);
-
+        
         $customCashInstallment = $this->PurchasePlotInstallmentRepo->addCustomCashInstallment($data, $id);
         if ($customCashInstallment == false) {
             return redirect()->back()->with('error', 'Installment Amount Is More Than Total Amount.');

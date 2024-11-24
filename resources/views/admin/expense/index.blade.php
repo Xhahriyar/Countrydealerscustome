@@ -149,5 +149,21 @@
 @section('bottom-scripts')
     <script>
         let table = new DataTable('#myTable');
+
+        // Function to format the input with commas
+        function formatAmount(input) {
+            const value = input.value.replace(/,/g, ''); 
+            if (!isNaN(value) && value !== "") {
+                input.value = parseFloat(value).toLocaleString('en-US');
+            } else {
+                input.value = ""; 
+            }
+        }
+
+        // Remove formatting on form submission
+        document.getElementById('formWithAmountInputsFields').addEventListener('submit', function() {
+            const amountInput = document.getElementById('amount');
+            amountInput.value = amountInput.value.replace(/,/g, ''); 
+        });
     </script>
 @endsection

@@ -164,7 +164,7 @@
                 </div>
                 <div class="info-row">
                     <span class="label">Plot Size:</span>
-                    <span class="value">{{ $data->plot_size }}</span>
+                    <span class="value">{{ $data->plot_size }} ( {{ convertMarlaToSqFt($data->plot_size) }} Sq. Ft )</span>
                 </div>
                 <div class="info-row">
                     <span class="label">Plot No:</span>

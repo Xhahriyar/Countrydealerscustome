@@ -18,3 +18,11 @@ function formatNumberWithCurrencyExtension($number) {
     $formattedNumber = number_format((int)$number);
     return $formattedNumber . ' PKR';
 }
+
+function convertMarlaToSqFt($sqFt, $marlaSizeInSqFt = 225)
+{
+    if(is_numeric($sqFt)){
+        return $sqFt * $marlaSizeInSqFt;
+    }
+    return 'N/A';
+}

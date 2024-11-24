@@ -73,10 +73,10 @@
                 </div>
                 <div class="col-md-12">
                     <div class="my-4 gap-2 d-flex justify-content-end">
-                        <button class="btn btn-md btn-warning text-decoration-none"> <a
-                                href="{{ route('client.installments', ['id' => $id]) }}"
-                                class="text-decoration-none underline-none text-light">Cancel</a> </button>
                         <button class="btn btn-success btn-md" type="submit">Paid</button>
+                        <button class="btn btn-md btn-light text-decoration-none"> <a
+                                href="{{ route('client.installments', ['id' => $id]) }}"
+                                class="text-decoration-none underline-none text-dark">Cancel</a> </button>
                     </div>
                 </div>
             </form>

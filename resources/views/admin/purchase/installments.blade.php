@@ -109,7 +109,8 @@
                                         <td><a href="{{ Storage::url($installment->cheque_image) }}" target="_blank"><img
                                                     src="{{ Storage::url($installment->cheque_image) }}" alt="Cheque Image"
                                                     height="20px"></a></td>
-                                        <td>{{ formatNumberWithCurrencyExtension($installment->cheque_installment_amount) }}</td>
+                                        <td>{{ formatNumberWithCurrencyExtension($installment->cheque_installment_amount) }}
+                                        </td>
                                         <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
@@ -150,5 +151,54 @@
     <script>
         let cashInstallmentTable = new DataTable('#cashInstallmentTable');
         let chequeInstallmentTable = new DataTable('#chequeInstallmentTable');
+
+        // Format the amount with commas
+        function formatAmount(input) {
+            const value = input.value.replace(/,/g, ''); // Remove commas
+            if (!isNaN(value) && value !== "") {
+                input.value = parseFloat(value).toLocaleString('en-US'); // Add commas
+            } else {
+                input.value = ""; // Clear invalid input
+            }
+        }
+
+        // Remove formatting (commas) when focusing or before submission
+        function removeFormatting(input) {
+            input.value = input.value.replace(/,/g, ''); // Remove commas
+        }
+
+        // Handle dynamic input formatting
+        document.addEventListener('input', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusin', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusout', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target); // Reapply formatting on blur
+            }
+        });
+
+        // Remove formatting before form submission
+        document.getElementById('formWithAmountInputsFields').addEventListener('submit', function(event) {
+            const amountFields = document.querySelectorAll('.amount-field');
+            amountFields.forEach(input => {
+                input.value = input.value.replace(/,/g, ''); // Remove commas before submission
+            });
+        });
+        // Remove formatting before form submission
+        document.getElementById('formWithAmountInputsFields2').addEventListener('submit', function(event) {
+            const amountFields = document.querySelectorAll('.amount-field');
+            amountFields.forEach(input => {
+                input.value = input.value.replace(/,/g, ''); // Remove commas before submission
+            });
+        });
     </script>
 @endsection

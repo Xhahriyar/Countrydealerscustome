@@ -8,14 +8,14 @@
         </div>
         {{-- <div class="card"> --}}
         {{-- <div class="card-body"> --}}
-        <form action="{{ route('client.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('client.store') }}" id='formWithAmountInputsFields' method="post" enctype="multipart/form-data">
             @csrf
             @include('admin.client.fields', ['type' => 'client'])
             <div class="col-md-12">
                 <div class="form-group mt-4 gap-2 d-flex justify-content-start">
-                    <button class="btn btn-warning text-decoration-none"> <a href="{{ route('client.index') }}"
-                            class="text-decoration-none underline-none text-light">Cancel</a> </button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button class="btn btn-light text-decoration-none"> <a href="{{ route('client.index') }}"
+                            class="text-decoration-none underline-none text-dark">Cancel</a> </button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>
         </form>
@@ -311,5 +311,47 @@
             // })
 
         })
+
+        // Format the amount with commas
+        function formatAmount(input) {
+            const value = input.value.replace(/,/g, ''); // Remove commas
+            if (!isNaN(value) && value !== "") {
+                input.value = parseFloat(value).toLocaleString('en-US'); // Add commas
+            } else {
+                input.value = ""; // Clear invalid input
+            }
+        }
+
+        // Remove formatting (commas) when focusing or before submission
+        function removeFormatting(input) {
+            input.value = input.value.replace(/,/g, ''); // Remove commas
+        }
+
+        // Handle dynamic input formatting
+        document.addEventListener('input', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusin', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusout', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target); // Reapply formatting on blur
+            }
+        });
+
+        // Remove formatting before form submission
+        document.getElementById('formWithAmountInputsFields').addEventListener('submit', function(event) {
+            const amountFields = document.querySelectorAll('.amount-field');
+            amountFields.forEach(input => {
+                input.value = input.value.replace(/,/g, ''); // Remove commas before submission
+            });
+        });
     </script>
 @endsection
