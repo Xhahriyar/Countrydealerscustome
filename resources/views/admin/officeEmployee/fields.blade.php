@@ -116,6 +116,9 @@
             <label class="col-sm-3 col-form-label">Profile Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="image" accept="image/*">
+                @error('image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -126,6 +129,9 @@
             <label class="col-sm-3 col-form-label">CNIC Front Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="cnic_front_image" accept="image/*">
+                @error('cnic_front_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -134,6 +140,9 @@
             <label class="col-sm-3 col-form-label">CNIC Back Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="cnic_back_image" accept="image/*">
+                @error('cnic_back_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -144,14 +153,20 @@
             <label class="col-sm-3 col-form-label">Father CNIC Front Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="father_cnic_front_image" accept="image/*">
+                @error('father_cnic_front_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label">Fatehr CNIC Back Image</label>
+            <label class="col-sm-3 col-form-label">Father CNIC Back Image</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="father_cnic_back_image" accept="image/*">
+                @error('father_cnic_back_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -170,6 +185,9 @@
             <label class="col-sm-3 col-form-label">CV</label>
             <div class="col-sm-9">
                 <input type="file" class="form-control" name="cv" accept=".pdf , .txt , .docx">
+                @error('cv')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
     </div>
@@ -193,8 +211,9 @@
         <div class="form-group row">
             <label class="col-sm-3 col-form-label">Salary <sup class="text-danger">*</sup></label>
             <div class="col-sm-9">
-                <input type="number" class="form-control" name="salary" min="0"
-                    value="{{ $data['salary'] ?? old('salary') }}" placeholder="Salary here">
+                <input type="text" class="form-control" name="salary" min="0" id="salary"
+                    value="{{ $data['salary'] ?? old('salary') }}" placeholder="Salary here"
+                    oninput="formatAmount(this)" onfocus="removeFormatting(this)" onblur="formatAmount(this)">
                 @error('salary')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -243,8 +262,9 @@
         <div class="form-group row">
             <label class="col-sm-3 col-form-label">Loan Amount</label>
             <div class="col-sm-9">
-                <input type="number" class="form-control" name="loan_amount" min="0"
-                    value="{{ $data['loan_amount'] ?? old('loan_amount') }}" placeholder="Loan Amount here">
+                <input type="text" class="form-control" name="loan_amount" min="0" id='loanAmount'
+                    value="{{ $data['loan_amount'] ?? old('loan_amount') }}" placeholder="Loan Amount here"
+                    oninput="formatAmount(this)" onfocus="removeFormatting(this)" onblur="formatAmount(this)">
             </div>
         </div>
     </div>
@@ -254,9 +274,9 @@
         <div class="form-group row">
             <label class="col-sm-3 col-form-label">Loan Return (Monthly)</label>
             <div class="col-sm-9">
-                <input type="number" class="form-control" name="loan_return" min="0"
-                    value="{{ $data['loan_return'] ?? old('loan_return') }}"
-                    placeholder="Monthly Return Loan Amount">
+                <input type="text" class="form-control" name="loan_return" min="0" id="loanReturn"
+                    value="{{ $data['loan_return'] ?? old('loan_return') }}" placeholder="Monthly Return Loan Amount"
+                    oninput="formatAmount(this)" onfocus="removeFormatting(this)" onblur="formatAmount(this)">
             </div>
         </div>
     </div>
@@ -302,9 +322,10 @@
         <div class="form-group row">
             <label class="col-sm-3">Other Allowances</label>
             <div class="col-sm-12">
-                <input type="number" class="form-control" name="other_allowance" min="0"
-                    value="{{ $data['other_allowance'] ?? old('other_allowance') }}"
-                    placeholder="Other Allowances (eg : 10000)">
+                <input type="text" class="form-control" name="other_allowance" min="0"
+                    id='otherAllowance' value="{{ $data['other_allowance'] ?? old('other_allowance') }}"
+                    placeholder="Other Allowances (eg : 10000)" onfocus="removeFormatting(this)"
+                    oninput="formatAmount(this)" onblur="formatAmount(this)">
             </div>
         </div>
     </div>

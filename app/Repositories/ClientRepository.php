@@ -8,8 +8,11 @@ use App\Repositories\PlotPaymentRepository;
 use App\Repositories\PlotInstallmentRepo;
 use App\Repositories\PlotSalesOfficersCommissionRepo;
 use App\Repositories\OtherOwnersRepo;
+use App\Trait\SetLoggedUserDataTrait;
+
 class ClientRepository
 {
+    use SetLoggedUserDataTrait;
     protected $model;
     protected $plotRepository;
     protected $plotInstallmentRepository;
@@ -68,12 +71,12 @@ class ClientRepository
 
         // Filter by From Date if provided
         if ($fromDate) {
-            $clients->whereDate('created_at', '>=', $fromDate);
+            $clients->whereDate('date', '>=', $fromDate);
         }
 
         // Filter by To Date if provided
         if ($toDate) {
-            $clients->whereDate('created_at', '<=', $toDate);
+            $clients->whereDate('date', '<=', $toDate);
         }
 
         // Get the filtered clients
@@ -82,7 +85,7 @@ class ClientRepository
     }
     public function getOldPlots()
     {
-        return $this->model->select('id', 'number')->get();
+        return $this->model->select('id','plot_number')->get();
     }
     public function store($data)
     {
@@ -91,26 +94,25 @@ class ClientRepository
             "email" => $data["email"],
             "name" => $data["name"],
             "cnic" => $data["cnic"],
-            "number" => $data["number"],
+            "contact_no" => $data["contact_no"],
             "father_or_husband_name" => $data["father_or_husband_name"],
             "paid_by" => $data["paid_by"],
             "plot_number" => $data["plot_number"],
-            "location" => $data["location"],
-            "plot_price" => $data["plot_price"],
-            "plot_demand" => $data["plot_demand"],
+            "address" => $data["address"],
             "plot_sale_price" => $data["plot_sale_price"],
             "client_type" => $data["client_type"],
             "sale_type" => $data["sale_type"],
-            "agreement" => $data["agreement"],
             "vehicles_adjustment" => $data["vehicles_adjustment"],
             "adjustment_price" => $data["adjustment_price"],
             "advance_payment" => $data["advance_payment"],
             "plot_size" => $data["plot_size"],
-            "due_date" => $data["due_date"],
+            "date" => $data["date"],
+            "last_date_to_clear_payment" => $data["last_date_to_clear_payment"],
         ];
         if (isset($data['adjustment_product']) && $data['adjustment_product']->isValid()) {
             $client['adjustment_product'] = $data['adjustment_product']->store('adjustmentproducts', 'public');
         }
+        $client = $this->setLoggedUserData($client);
         $client = $this->model->create($client);
         $clientId = $client->id;
         if (!empty($data['sales_officer_id'])) {
@@ -119,6 +121,7 @@ class ClientRepository
         if (!empty($data['other_owner_name'])) {
             $this->otherOwnersRepo->store($data, $clientId);
         }
+        return $client;
     }
     public function show($Id)
     {
@@ -131,13 +134,11 @@ class ClientRepository
             "email" => $data["email"],
             "name" => $data["name"],
             "cnic" => $data["cnic"],
-            "number" => $data["number"],
+            "contact_no" => $data["contact_no"],
             "father_or_husband_name" => $data["father_or_husband_name"],
             "paid_by" => $data["paid_by"],
             "plot_number" => $data["plot_number"],
-            "location" => $data["location"],
-            "plot_price" => $data["plot_price"],
-            "plot_demand" => $data["plot_demand"],
+            "address" => $data["address"],
             "plot_sale_price" => $data["plot_sale_price"],
             "client_type" => $data["client_type"],
             "sale_type" => $data["sale_type"],
@@ -145,11 +146,13 @@ class ClientRepository
             "adjustment_price" => $data["adjustment_price"],
             "advance_payment" => $data["advance_payment"],
             "plot_size" => $data["plot_size"],
+            "date" => $data["date"],
+            "last_date_to_clear_payment" => $data["last_date_to_clear_payment"],
         ];
         if (isset($data['adjustment_product']) && $data['adjustment_product']->isValid()) {
             $client['adjustment_product'] = $data['adjustment_product']->store('adjustmentproducts', 'public');
         }
-        $record->update($client);
+        return $record->update($client);
     }
     public function delete($id)
     {
@@ -159,8 +162,8 @@ class ClientRepository
     {
         return $this->plotInstallmentRepository->getCashInstallments($id);
     }
-    public function updateInstallmentStatus($id)
+    public function updateInstallmentStatus($id, $data)
     {
-        return $this->plotInstallmentRepository->updateInstallmentStatus($id);
+        return $this->plotInstallmentRepository->updateInstallmentStatus($id, $data);
     }
 }

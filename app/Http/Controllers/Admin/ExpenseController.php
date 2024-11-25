@@ -9,8 +9,12 @@ use App\Models\Expense;
 use App\Services\CountService;
 use Illuminate\Http\Request;
 use App\Repositories\ExpenseRepository;
+use App\Trait\SetLoggedUserDataTrait;
+
 class ExpenseController extends Controller
 {
+    use SetLoggedUserDataTrait;
+
     protected $expenseRepository;
     public function __construct(ExpenseRepository $expenseRepository)
     {
@@ -32,7 +36,8 @@ class ExpenseController extends Controller
     }
     public function store(StoreExpenseRequest $request)
     {
-        $this->expenseRepository->store($request->all());
+        $data = $this->setLoggedUserData($request->validated());
+        $this->expenseRepository->store($data);
         return redirect()->back()->with('success', 'Record Created Successfully.');
     }
     public function delete($id)

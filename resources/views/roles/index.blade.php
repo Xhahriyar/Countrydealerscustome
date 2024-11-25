@@ -73,7 +73,7 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Created At</th>
-                                        <th>Actions</th>
+                                        {{-- <th>Actions</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>

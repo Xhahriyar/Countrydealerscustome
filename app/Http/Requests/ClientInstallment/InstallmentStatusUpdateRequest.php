@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\ClientInstallment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreExpenseRequest extends FormRequest
+class InstallmentStatusUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,9 @@ class StoreExpenseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
             'date' => 'required|date',
-            'amount' => 'required|integer',
-            'description' => 'nullable|max:255',
-            'expense_type' => 'required',
-            'expense_category' => 'required',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'payment_type' => 'nullable',
+            'receipt_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 }

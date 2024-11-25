@@ -59,14 +59,13 @@
 
                                         <tr>
                                             <td>{{ $key += 1 }}</td>
-                                            <td>{{ $data->name }}</td>
-                                            <td>{{ $data->officer_type }}</td>
+                                            <td>{{ $data->first_name . ' '. $data->last_name }}</td>                                            <td>{{ $data->officer_type }}</td>
                                             {{-- <td>{{ $data->cnic }}</td> --}}
-                                            <td>{{ App\Services\CountService::getCommissionDetails($data->id)[0] }}</td>
-                                            <td>{{ App\Services\CountService::getCommissionDetails($data->id)[1] }}</td>
-                                            <td>{{ App\Services\CountService::getCommissionDetails($data->id)[2] }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension(App\Services\CountService::getCommissionDetails($data->id)[0]) }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension( App\Services\CountService::getCommissionDetails($data->id)[1] )}}</td>
+                                            <td>{{  formatNumberWithCurrencyExtension(App\Services\CountService::getCommissionDetails($data->id)[2] )}}</td>
                                             <td>
-                                                {{ App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] }}
+                                                {{ number_format( App\Services\CountService::getCountDataForSalesOfficer($data->id)[0] )}}
                                             </td>
                                             <td class="d-flex">
                                                 @can('sales_officer-view')

@@ -6,7 +6,8 @@
                 Purchase
             </h3>
         </div>
-        <form action="{{ route('purchase.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('purchase.store') }}" method="post" id="formWithAmountInputsFields"
+            enctype="multipart/form-data">
             <div class="row mb-4">
                 <div class="card col-md-12">
                     <div class="col-md-6 mt-4">
@@ -16,7 +17,7 @@
                                 <select name="" id="get_old_plot_data" class="form-control">
                                     <option selected disabled>-- select plot number --</option>
                                     @foreach ($oldPlots as $oldPlot)
-                                        <option value="{{ $oldPlot->id }}">{{ $oldPlot->number }}</option>
+                                        <option value="{{ $oldPlot->id }}">{{ $oldPlot->plot_number }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -25,10 +26,12 @@
                 </div>
             </div>
             @csrf
-            @include('admin.client.fields' , ['type' => 'purchase'])
+            @include('admin.client.fields', ['type' => 'purchase'])
             <div class="col-md-12">
-                <div class="form-group row my-2">
-                    <button class="btn btn-sm btn-primary">Submit</button>
+                <div class="form-group mt-4 gap-2 d-flex justify-content-start">
+                    <button class="btn btn-light text-decoration-none"> <a href="{{ route('purchase.index') }}"
+                            class="text-decoration-none underline-none text-dark">Cancel</a> </button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>
         </form>
@@ -326,5 +329,46 @@
                 });
             })
         })
+
+        // Format the amount with commas
+        function formatAmount(input) {
+            const value = input.value.replace(/,/g, ''); // Remove commas
+            if (!isNaN(value) && value !== "") {
+                input.value = parseFloat(value).toLocaleString('en-US'); // Add commas
+            } else {
+                input.value = ""; // Clear invalid input
+            }
+        }
+        // Remove formatting (commas) when focusing or before submission
+        function removeFormatting(input) {
+            input.value = input.value.replace(/,/g, ''); // Remove commas
+        }
+
+        // Handle dynamic input formatting
+        document.addEventListener('input', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusin', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target);
+            }
+        });
+
+        document.addEventListener('focusout', function(event) {
+            if (event.target.classList.contains('amount-field')) {
+                formatAmount(event.target); // Reapply formatting on blur
+            }
+        });
+
+        // Remove formatting before form submission
+        document.getElementById('formWithAmountInputsFields').addEventListener('submit', function(event) {
+            const amountFields = document.querySelectorAll('.amount-field');
+            amountFields.forEach(input => {
+                input.value = input.value.replace(/,/g, ''); // Remove commas before submission
+            });
+        });
     </script>
 @endsection

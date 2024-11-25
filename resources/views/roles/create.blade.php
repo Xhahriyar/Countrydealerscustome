@@ -14,9 +14,9 @@
                     @include('roles.fields')
                     {{-- Submit & Cancel --}}
                     <div class="mt-4 d-flex justify-content-end gap-2">
-                        <button class="btn btn-warning text-decoration-none"> <a href="{{ route('roles.index') }}"
-                                class="text-decoration-none underline-none text-light">Cancel</a> </button> <button
-                            type="submit" class="btn btn-primary">Submit</button>
+                        <button class="btn btn-light text-decoration-none"> <a href="{{ route('roles.index') }}"
+                                class="text-decoration-none underline-none text-dark">Cancel</a> </button> <button
+                            type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </form>
             </div>

@@ -12,9 +12,9 @@
                     @csrf
                     @include('users.fields')
                     <div class="mt-4 gap-2 d-flex justify-content-end">
-                        <button class="btn btn-warning text-decoration-none"> <a href="{{ route('users.index') }}"
-                                class="text-decoration-none underline-none text-light">Cancel</a> </button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button class="btn btn-light text-decoration-none"> <a href="{{ route('users.index') }}"
+                                class="text-decoration-none underline-none text-dark">Cancel</a> </button>
                     </div>
                 </form>
             </div>

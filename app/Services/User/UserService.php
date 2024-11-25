@@ -5,12 +5,14 @@ namespace App\Services\User;
 use App\DTO\Roles\RoleDTO;
 use App\DTO\User\UserDTO;
 use App\Repositories\User\UserRepository;
+use App\Trait\SetLoggedUserDataTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
 class UserService
 {
+    use SetLoggedUserDataTrait;
     /**
      * @param  AdminRepository  $repository
      */
@@ -42,9 +44,10 @@ class UserService
     public function store($data)
     {
         $data['verify_token'] = Str::random(14);
-        $data['password'] = Hash::make(12345678);
+        $data['password'] = Hash::make($data['password']);
         $dto = new UserDTO(...$data);
-        return $this->repository->store($dto->toArray());
+        $data = $this->setLoggedUserData($dto);
+        return $this->repository->store($data);
     }
 
     /**

@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('add.custom.cheque.installment', $id) }}" method="post"
+            <form action="{{ route('add.custom.cheque.installment', $id) }}" id="formWithAmountInputsFields2" method="post"
                 enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
@@ -29,7 +29,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Amount</label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="cheque_installment_amount"
+                                    <input type="text" class="form-control amount-field" name="cheque_installment_amount"
                                         placeholder="Amount here">
                                         @error('cheque_installment_amount')
                                             <small class="text-danger">{{ $message }}</small>

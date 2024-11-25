@@ -93,17 +93,17 @@
                                                     <td>{{ $data->first_name }} {{ $data->last_name }}</td>
                                                     <td>{{ $data->cnic }}</td>
                                                     <td>{{ $data->employee_type }}</td>
-                                                    <td>{{ $data->loan_amount ?? 0 }}</td>
-                                                    <td>{{ $data->loan_return ?? 0 }}</td>
-                                                    <td>{{ $data->loan_amount > 0 && $data->loan_amount - $data->histories->sum('loan_return') >= 0 ? $data->loan_amount - $data->histories->sum('loan_return') : 0 }}
+                                                    <td>{{ formatNumberWithCurrencyExtension($data->loan_amount ?? 0) }}</td>
+                                                    <td>{{ formatNumberWithCurrencyExtension($data->loan_return ?? 0 )}}</td>
+                                                    <td>{{ formatNumberWithCurrencyExtension($data->loan_amount > 0 && $data->loan_amount - $data->histories->sum('loan_return') >= 0 ? $data->loan_amount - $data->histories->sum('loan_return') : 0 )}}
                                                     </td>
 
-                                                    <td>{{ $data->loan_amount > 0 ? $data->histories->sum('loan_return') : 0 }}
+                                                    <td>{{ formatNumberWithCurrencyExtension($data->loan_amount > 0 ? $data->histories->sum('loan_return') : 0) }}
                                                     </td>
 
-                                                    <td>{{ $data->salary ?? 0 }}</td>
-                                                    <td>{{ $data->other_allowance ?? 0 }}</td>
-                                                    <td>{{ $data->salary - $data->loan_return + $data->other_allowance ?? 0 }}
+                                                    <td>{{ formatNumberWithCurrencyExtension($data->salary ?? 0) }}</td>
+                                                    <td>{{ formatNumberWithCurrencyExtension($data->other_allowance ?? 0) }}</td>
+                                                    <td>{{ formatNumberWithCurrencyExtension($data->salary - $data->loan_return + $data->other_allowance ?? 0) }}
                                                     </td>
                                                 </tr>
                                             @empty

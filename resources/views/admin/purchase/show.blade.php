@@ -54,15 +54,15 @@
                     <div class="card-body d-flex justify-content-between">
                         <div class="col-md-4">
                             <p><strong for="">Plot Price</strong></p>
-                            <label for="">{{ $data->plot_price }}</label>
+                            <label for="">{{ formatNumberWithCurrencyExtension($data->plot_price) }}</label>
                         </div>
                         <div class="col-md-4">
                             <p><strong for="">Plot Demand</strong></p>
-                            <label for="">{{ $data->plot_demand }}</label>
+                            <label for="">{{ formatNumberWithCurrencyExtension($data->plot_demand) }}</label>
                         </div>
                         <div class="col-md-4">
                             <p><strong for="">Plot Sale Price</strong></p>
-                            <label for="">{{ $data->plot_sale_price }}</label>
+                            <label for="">{{ formatNumberWithCurrencyExtension($data->plot_sale_price) }}</label>
                         </div>
                     </div>
                     <div class="card-body d-flex justify-content-between">
@@ -72,11 +72,11 @@
                         </div>
                         <div class="col-md-3">
                             <p><strong for="">Adjustment Price</strong></p>
-                            <label for="">{{ $data->adjustment_price }}</label>
+                            <label for="">{{ formatNumberWithCurrencyExtension($data->adjustment_price) }}</label>
                         </div>
                         <div class="col-md-3">
                             <p><strong for="">Advance Payment</strong></p>
-                            <label for="">{{ $data->advance_payment }}</label>
+                            <label for="">{{ formatNumberWithCurrencyExtension($data->advance_payment) }}</label>
                         </div>
                         <div class="col-md-3">
                             <p><strong for="">Adjustment Product</strong></p>
@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <p><strong for="">Installment Payment</strong></p>
-                                        {{ $installment->installment_payment }}
+                                        {{ formatNumberWithCurrencyExtension($installment->installment_payment) }}
                                     </div>
                                     <div class="col-md-3">
                                         <p><strong for="">Payment Installment Due Date</strong></p>
@@ -140,7 +140,7 @@
                                 <div class="card-body d-flex">
                                     <div class="col-md-4">
                                         <p><strong for="">Cheque Installment Amount</strong></p>
-                                        {{ $installment->cheque_installment_amount }}
+                                        {{ formatNumberWithCurrencyExtension($installment->cheque_installment_amount) }}
                                     </div>
                                     <div class="col-md-4">
                                         <p><strong for="">Cheque Installment Due Date</strong></p>
@@ -180,7 +180,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <p><strong for="">Full Payment</strong></p>
-                                        {{ $payment->full_payment }}
+                                        {{ formatNumberWithCurrencyExtension($payment->full_payment) }}
                                     </div>
                             </div>
                         @else
@@ -201,7 +201,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <p><strong for="">Cheque Amount</strong></p>
-                                    {{ $payment->check_amount }}
+                                    {{ formatNumberWithCurrencyExtension($payment->check_amount) }}
                                 </div>
                                 <div class="col-md-2">
                                     <p><strong for="">Due Date</strong></p>

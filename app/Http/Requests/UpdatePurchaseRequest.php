@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UpdatePurchaseRequest extends FormRequest
 {
@@ -19,23 +20,28 @@ class UpdatePurchaseRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
             "name" => "required",
-            "plot_size" => "required",
-            "cnic" => "required",
-            "email" => "required",
-            "number" => "required",
+            "email" => "nullable|email",
+            "contact_no" => "required|string|min:11|max:20|regex:/^[0-9+\-\s()]+$/",
+            "cnic" => "nullable|digits:13|regex:/^[0-9]+$/",
             "father_or_husband_name" => "required",
-            "paid_by" => "required",
-            "plot_number" => "required",
-            "location" => "required",
-            "plot_price" => "required",
-            "plot_demand" => "required",
-            "plot_sale_price" => "required",
             "client_type" => "required",
             "sale_type" => "required",
+            "paid_by" => "required",
+            "plot_size" => "required",
+            "plot_number" => "required",
+            "address" => "required",
+            "plot_sale_price" => "required|integer|min:0",
+            "date" => "required|date",
+            "last_date_to_clear_payment" => "required|date",
+            "vehicles_adjustment" => "nullable|string",
+            "adjustment_price" => "nullable|integer|min:0",
+            "advance_payment" => "nullable|integer|min:0",
+            "adjustment_product" => "nullable|string",
+            "adjustment_product" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

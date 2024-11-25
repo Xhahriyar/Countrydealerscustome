@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\AdminOfficeEMployee;
+use App\Trait\SetLoggedUserDataTrait;
 
 class EmployeeRepository
 {
+    use SetLoggedUserDataTrait;
     protected $model;
 
     public function __construct(AdminOfficeEMployee $model)
@@ -42,6 +44,8 @@ class EmployeeRepository
     public function create(array $data)
     {
         $data = $this->handleFileUploads($data);
+        $data = $this->setLoggedUserData($data);
+        $data['date'] = date("Y-m-d");
         return $this->model->create($data);
     }
 

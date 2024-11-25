@@ -96,8 +96,11 @@
                                         @php
                                             // Get unique sale officer names for each client, joined into a comma-separated string
                                             $saleOfficerNames = $client->saleOfficers
-                                                ->pluck('officer.name')
+                                                ->pluck('officer')
                                                 ->unique()
+                                                ->map(function ($officer) {
+                                                    return $officer['first_name'] . ' ' . $officer['last_name'];
+                                                })
                                                 ->implode(', ');
 
                                             // Calculate sums for this client, ensuring no duplicates are included
@@ -118,16 +121,16 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $client->name }}</td>
                                             <td>{{ $client->father_or_husband_name }}</td>
-                                            <td>{{ $saleOfficerNames }}</td>
+                                            <td>{{ $saleOfficerNames ? $saleOfficerNames : 'N/A' }}</td>
                                             <!-- Officer names are now distinct and joined as a string -->
                                             <td>{{ $client->sale_type }}</td>
-                                            <td>{{ $client->plot_sale_price }}</td>
+                                            <td>{{ formatNumberWithCurrencyExtension($client->plot_sale_price) }}</td>
                                             <td>{{ $client->plot_size }}M</td>
                                             <td>
-                                                {{ $paidInstallmentSum + $paidChequeInstallmentSum + $adjustmentSum + $advancePaymentSum }}
+                                                {{ formatNumberWithCurrencyExtension($paidInstallmentSum + $paidChequeInstallmentSum + $adjustmentSum + $advancePaymentSum) }}
                                             </td>
                                             <td>
-                                                {{ $client->plot_sale_price - ($paidInstallmentSum + $paidChequeInstallmentSum) - ($adjustmentSum + $advancePaymentSum) }}
+                                                {{ formatNumberWithCurrencyExtension($client->plot_sale_price - ($paidInstallmentSum + $paidChequeInstallmentSum) - ($adjustmentSum + $advancePaymentSum)) }}
                                             </td>
                                             <td class="">
                                                 <div class="d-flex">

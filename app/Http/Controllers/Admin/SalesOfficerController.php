@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OfficerRerquest;
+use App\Http\Requests\SalesOfficer\StoreSalesOfficerRequest;
 use App\Models\SalesOfficer;
 use Illuminate\Http\Request;
 use App\Repositories\SalesOfficerRepo;
 use App\Models\Type;
+use Illuminate\Support\Facades\Redirect;
 
 class SalesOfficerController extends Controller
 {
@@ -23,42 +25,46 @@ class SalesOfficerController extends Controller
 
         $data = $this->SalesOfficerRepo->all();
         // dd($data);
-        return view("admin.salesOfficer.index" , compact("data"));
+        return view("admin.salesOfficer.index", compact("data"));
     }
     public function create()
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_CREATE(), [SalesOfficer::class]);
 
-        $salesOfficerTypes = Type::where('type_category' , 'sales officer')->get();
-        return view("admin.salesOfficer.create" , compact("salesOfficerTypes"));
+        $salesOfficerTypes = Type::where('type_category', 'sales officer')->get();
+        $salesOfficerDesignations = Type::where('type_category', 'employee designation')->get();
+        return view("admin.salesOfficer.create", compact("salesOfficerTypes", "salesOfficerDesignations"));
     }
-    public function store(OfficerRerquest $request)
+    public function store(StoreSalesOfficerRequest $request)
     {
-        $this->SalesOfficerRepo->store($request->all());
-        return redirect()->back()->with("success","Record Created Successfully");
+        $salesOfficer = $this->SalesOfficerRepo->store($request->validated());
+        if ($salesOfficer) {
+            return Redirect::route('sales.officer.index')->with("success", "Record Added Successfully");
+        }
+        return Redirect::route('sales.officer.index')->with("error", "Error in Adding Record ");
     }
     public function show($id)
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_VIEW(), [SalesOfficer::class]);
-        
+
         $data = $this->SalesOfficerRepo->getAllDealsDetails($id);
-        return view('admin.salesOfficer.salesdetail.index' , compact('data' , 'id'));
+        return view('admin.salesOfficer.salesdetail.index', compact('data', 'id'));
     }
-    public function installments($salesOfficerId , $clientId)
+    public function installments($salesOfficerId, $clientId)
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_VIEW(), [SalesOfficer::class]);
 
-        $data = $this->SalesOfficerRepo->getAllInstallmentsDetails($salesOfficerId , $clientId);
-        return view('admin.salesOfficer.salesdetail.installments' , compact('data' , 'salesOfficerId' , 'clientId'));
+        $data = $this->SalesOfficerRepo->getAllInstallmentsDetails($salesOfficerId, $clientId);
+        return view('admin.salesOfficer.salesdetail.installments', compact('data', 'salesOfficerId', 'clientId'));
     }
     public function status($id)
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_STATUS(), [SalesOfficer::class]);
 
         $data = $this->SalesOfficerRepo->updateCommissionStatus($id);
-        return redirect()->back()->with("success","Record Updated Successfully");
+        return redirect()->back()->with("success", "Record Updated Successfully");
     }
-    public function updateCommission(Request $request , $salesOfficerId , $clientId)
+    public function updateCommission(Request $request, $salesOfficerId, $clientId)
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_CREATE(), [SalesOfficer::class]);
 
@@ -67,27 +73,27 @@ class SalesOfficerController extends Controller
             'paid_by' => 'required',
             'paid_date' => 'required',
         ]);
-        $data = $this->SalesOfficerRepo->addCommissionDetails($request->all(),$salesOfficerId , $clientId);
-        return redirect()->back()->with('success' , 'Commission Added Successfully.');
+        $data = $this->SalesOfficerRepo->addCommissionDetails($request->all(), $salesOfficerId, $clientId);
+        return redirect()->back()->with('success', 'Commission Added Successfully.');
     }
-    public function InstallmentStatus($installmenId , $salesOfficerId , $clientId)
+    public function InstallmentStatus($installmenId, $salesOfficerId, $clientId)
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_COMMISSION_INSTALLMENT_STATUS(), [SalesOfficer::class]);
-        $data = $this->SalesOfficerRepo->updateInstallmentCommissionStatus($installmenId , $salesOfficerId , $clientId);
-        return redirect()->back()->with("success","Record Updated Successfully");
+        $data = $this->SalesOfficerRepo->updateInstallmentCommissionStatus($installmenId, $salesOfficerId, $clientId);
+        return redirect()->back()->with("success", "Record Updated Successfully");
     }
     public function delete($id)
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_DELETE(), [SalesOfficer::class]);
 
         $this->SalesOfficerRepo->delete($id);
-        return redirect()->back()->with("success","Record Deleted Successfully");
+        return redirect()->back()->with("success", "Record Deleted Successfully");
     }
     public function deleteCommission($id)
     {
         $this->authorize(PermissionEnum::SALES_OFFICER_COMMISSION_DELETE(), [SalesOfficer::class]);
 
         $this->SalesOfficerRepo->deleteCommission($id);
-        return redirect()->back()->with("success","Record Deleted Successfully");
+        return redirect()->back()->with("success", "Record Deleted Successfully");
     }
 }

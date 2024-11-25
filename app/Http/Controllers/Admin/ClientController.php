@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClientInstallment\InstallmentStatusUpdateRequest;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
@@ -12,6 +13,7 @@ use App\Services\CountService;
 use Illuminate\Http\Request;
 use App\Repositories\ClientRepository;
 use App\Repositories\PlotInstallmentRepo;
+use Illuminate\Support\Facades\Redirect;
 
 class ClientController extends Controller
 {
@@ -53,8 +55,12 @@ class ClientController extends Controller
     }
     public function store(StoreClientRequest $request)
     {
-        $this->clientRepository->store($request->all());
-        return redirect()->back()->with("success", "Record Created Successfully.");
+        $client =  $this->clientRepository->store($request->validated());
+
+        if ($client) {
+            return Redirect::route('client.index')->with("success", "Record Added Successfully");
+        }
+        return Redirect::route('client.index')->with("error", "Error in Adding Record ");
     }
     public function show($id)
     {
@@ -73,8 +79,11 @@ class ClientController extends Controller
     }
     public function update(UpdateClientRequest $request, $id)
     {
-        $this->clientRepository->update($request->all(), $id);
-        return redirect()->back()->with('success', 'Record Updated Successfully.');
+        $client = $this->clientRepository->update($request->validated(), $id);
+        if ($client) {
+            return Redirect::route('client.index')->with("success", "Record Updated Successfully");
+        }
+        return Redirect::route('client.index')->with("error", "Error in Updating Record ");
     }
     public function delete($id)
     {
@@ -92,12 +101,23 @@ class ClientController extends Controller
         $cashInstallments = $data[0];
         return view('admin.client.installments', compact('id', 'chequeInstallments', 'cashInstallments'));
     }
-    public function installmentUpdate($id)
+    public function installmentEdit($id, $installmentId)
+    {
+        // $this->authorize(PermissionEnum::CLIENT_INSTALLMENT_STATUS(), [Client::class]);
+        $data = $this->clientRepository->getCashInstallments($id);
+        $chequeInstallments = $data[1];
+        $cashInstallments = $data[0];
+        return view('admin.client.editinstallments', compact('id', 'installmentId', 'chequeInstallments', 'cashInstallments'));
+    }
+    public function installmentUpdate(InstallmentStatusUpdateRequest $request, $id)
     {
         $this->authorize(PermissionEnum::CLIENT_INSTALLMENT_STATUS(), [Client::class]);
+        $installment = $this->clientRepository->updateInstallmentStatus($id, $request->validated());
 
-        $data = $this->clientRepository->updateInstallmentStatus($id);
-        return redirect()->back()->with('success', 'Status Update Successfully.');
+        if ($installment) {
+            return Redirect::route('client.installments', ['id' => $request->id])->with("success", "Installment Status Updated Successfully");
+        }
+        return Redirect::route('client.installments', ['id' => $request->id])->with("error", "Error in Updating Installment Status. ");
     }
 
     public function addNewCashInstallment(Request $data, $id)
@@ -123,6 +143,13 @@ class ClientController extends Controller
         }
     }
 
+    public function deleteInstallment($id)
+    {
+        $this->authorize(PermissionEnum::CLIENT_INSTALLMENT_DELETE(), [Client::class]);
+
+        $this->plotInstallmentRepository->delete($id);
+        return redirect()->back()->with('success', 'Record Deleted Successfully.');
+    }
     public function print($client_id, $installment_id)
     {
         $data = $this->clientRepository->show($client_id);

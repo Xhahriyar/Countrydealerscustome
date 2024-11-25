@@ -17,6 +17,11 @@ return new class extends Migration
             $table->foreignId('sales_officer_id')->constrained('sales_officers')->cascadeOnDelete();
             $table->string('commission_type')->nullable();
             $table->integer('commission_amount')->nullable();
+            $table->string('commission_received')->nullable();
+            $table->string('commission_received_status')->nullable();
+            $table->string('paid_by')->nullable();
+            $table->date('paid_date')->nullable();
+            $table->boolean('is_installment')->default(false)->nullable();
             $table->timestamps();
         });
     }
