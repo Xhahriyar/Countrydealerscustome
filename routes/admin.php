@@ -102,9 +102,11 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
         Route::post('purchase/update/{id}', 'update')->name('purchase.update');
         Route::get('purchase/delete/{id}', 'delete')->name('purchase.delete');
         Route::get('purchase/installments/{id}', 'getInstallments')->name('purchase.installments');
+        Route::get('purchase/installments/status/edit/{purchase_id}/{installment_id}', 'installmentEdit')->name('purchase.installment.status.edit');
+        Route::delete('purchase/installment/delete/{id}', 'deleteInstallment')->name('purchase.installment.delete');
         Route::post('add/plot/cash/installment/{id}', 'addNewCashInstallment')->name('add.plot.cash.installment');
         Route::post('add/plot/cheque/installment/{id}', 'addNewChequeInstallment')->name('add.plot.cheque.installment');
-        Route::get('purchase/installment/status/update/{id}', 'installmentUpdate')->name('purchase.installment.status.update');
+        Route::post('purchase/installment/status/update/{id}', 'installmentUpdate')->name('purchase.installment.status.update');
         Route::get('purchase/print/{client_id}/{installment_id}', 'print')->name('purchase.print');
         Route::get('get/old/client/{id}', 'getOldClient')->name('get.old.client');
     });

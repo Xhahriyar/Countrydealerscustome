@@ -9,13 +9,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('add.plot.cash.installment', $id) }}" id="formWithAmountInputsFields" method="post">
+            <form action="{{ route('add.plot.cash.installment', $id) }}" id="formWithAmountInputsFields3" method="post">
                 <div class="modal-body">
                     <div class="row">
                         @csrf
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Payment</label>
+                                <label class="col-sm-3 col-form-label">Payment<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control amount-field" name="installment_payment"
                                         placeholder="Installment Payment Here" value="{{old('installment_payment')}}">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Due Date</label>
+                                <label class="col-sm-3 col-form-label">Due Date<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="date" class="form-control" name="payment_installment_due_date" value="{{old('payment_installment_due_date') }}">
                                         @error('payment_installment_due_date')

@@ -16,7 +16,7 @@
                         @csrf
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Picture of cheque</label>
+                                <label class="col-sm-3 col-form-label">Picture of cheque<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="file" class="form-control" name="cheque_image" accept="image/*">
                                     @error('cheque_image')
@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Amount</label>
+                                <label class="col-sm-3 col-form-label">Amount<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control amount-field" name="cheque_installment_amount"
                                         placeholder="Amount here">
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Due Date</label>
+                                <label class="col-sm-3 col-form-label">Due Date<sup class="text-danger">*</sup></label>
                                 <div class="col-sm-9">
                                     <input type="date" class="form-control" name="cheque_installment_due_date">
                                     @error('cheque_installment_due_date')

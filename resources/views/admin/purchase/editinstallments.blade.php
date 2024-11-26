@@ -1,17 +1,22 @@
 @extends('admin.app')
+
 @section('content')
     @include('admin.purchase.modals.installment')
     @include('admin.purchase.modals.chequeInstallment')
+    @include('admin.purchase.modals.confirmPaidInstallment')
     <div class="content-wrapper">
-
         <div class="page-header">
             <h3 class="page-title">
                 Cash Installment Details
             </h3>
-            @can('purchase_cash_installment-add')
-                <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#installmentModal">+
-                    New</a>
-            @endcan
+            <div>
+                @can('purchase_cash_installment-add')
+                    <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#installmentModal">+
+                        New</a>
+                @endcan
+                {{-- <a href="{{ route('print.all.installments', $id) }}" class="btn btn-primary btn-sm" target="_blank">Print
+                    All</a> --}}
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
@@ -24,7 +29,6 @@
                                     <th>Payment Type</th>
                                     <th>Payment Method</th>
                                     <th>Installment Payment</th>
-                                    <th>Receipt Image</th>
                                     <th>Due Date</th>
                                     <th>Paid Date</th>
                                     <th>Status</th>
@@ -38,22 +42,12 @@
                                         <td>{{ $installment->payment_type === 'yes' ? 'Full Payment' : 'Installment' }}
                                         </td>
                                         <td>{{ $installment->payment_method }}</td>
-                                        <td>{{ formatNumberWithCurrencyExtension($installment->installment_payment) }}</td>
-                                        <td>
-                                            @if ($installment->receipt_image)
-                                                <a href="{{ Storage::url($installment->receipt_image) }}" target="_blank">
-                                                    <img src="{{ Storage::url($installment->receipt_image) }}"
-                                                        alt="" width="20px">
-                                                </a>
-                                            @else
-                                                N/A
-                                            @endif
-                                        </td>
-                                        <td>{{ Carbon\Carbon::parse($installment->payment_installment_due_date)->format('d-M-Y') }}
+                                        <td>{{ $installment->installment_payment }}</td>
+                                        <td>{{ Carbon\Carbon::parse($installment->payment_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->date)->format('d-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -73,20 +67,21 @@
                                                 </a>
                                             @else
                                                 @can('purchase_installment-status')
-                                                    <a href="{{ route('purchase.installment.status.edit', ['purchase_id' => $id, 'installment_id' => $installment->id]) }}"
-                                                        class="btn btn-outline-success btn-sm">
-                                                        <i class="fas fa-regular fa-check"></i></a>
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm" data-toggle="modal"
+                                                        data-target="#confirmPaidInstallmentModal"
+                                                        data-id="{{ $installment->id }}">
+                                                        Pay
                                                     </a>
                                                 @endcan
                                             @endif
                                             @can('purchase_installment-delete')
                                                 @if ($installment->status != 'PAID')
-                                                    <form id="delete-form-cash"
+                                                    <form id="delete-form"
                                                         action="{{ route('purchase.installment.delete', $installment->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" onclick="confirmDeleteInstallment('delete-form-cash')"
+                                                        <button type="button" onclick="confirmDelete()"
                                                             class="btn btn-sm btn-danger ml-2">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
@@ -108,7 +103,7 @@
             <h3 class="page-title">
                 Cheque Installment Details
             </h3>
-            @can('purchase_check_installment-add')
+            @can('client_check_installment-add')
                 <a href="javascript:;" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#chequechequeInstallmentModal">+ New</a>
             @endcan
@@ -125,7 +120,6 @@
                                     <th>Payment Method</th>
                                     <th>Cheque Image</th>
                                     <th>Installment Amount</th>
-                                    <th>Receipt Image</th>
                                     <th>Due Date</th>
                                     <th>Paid Date</th>
                                     <th>Status</th>
@@ -141,24 +135,14 @@
                                         <td>{{ $installment->payment_method }}</td>
                                         <td><a href="{{ Storage::url($installment->cheque_image) }}" target="_blank"><img
                                                     src="{{ Storage::url($installment->cheque_image) }}" alt="Cheque Image"
-                                                    height="20px"></a></td>
-                                        <td>{{ formatNumberWithCurrencyExtension($installment->cheque_installment_amount) }}
+                                                    height="20px"></a>
                                         </td>
-                                        <td>
-                                            @if ($installment->receipt_image)
-                                                <a href="{{ Storage::url($installment->receipt_image) }}" target="_blank">
-                                                    <img src="{{ Storage::url($installment->receipt_image) }}"
-                                                        alt="" width="20px">
-                                                </a>
-                                            @else
-                                                N/A
-                                            @endif
-                                        </td>
-                                        <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('d-M-Y') }}
+                                        <td>{{ $installment->cheque_installment_amount }}</td>
+                                        <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('D-M-Y') }}
                                         </td>
                                         <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->date)->format('d-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->updated_at)->format('D-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -170,28 +154,26 @@
                                         </td>
                                         <td class="d-flex">
                                             @if ($installment->status == 'PAID')
-                                                <button class="btn btn-sm btn-success mr-1" disabled>Paid</button>
-                                                {{-- this id is client id --}}
-                                                <a href="{{ route('purchase.print', ['client_id' => $id, 'installment_id' => $installment->id]) }}"
-                                                    class="btn btn-outline-primary btn-sm" target="_blank">
+                                                <button class="btn btn-sm btn-success" disabled>Paid</button>
+                                                <a href="{{ route('client.print', ['client_id' => $id, 'installment_id' => $installment->id]) }}"
+                                                    class="btn btn-outline-primary btn-sm ml-1" target="_blank">
                                                     <i class="fas fa-solid fa-print"></i>
                                                 </a>
                                             @else
-                                                @can('purchase_installment-status')
-                                                    <a href="{{ route('purchase.installment.status.edit', ['purchase_id' => $id, 'installment_id' => $installment->id]) }}"
-                                                        class="btn btn-outline-success btn-sm">
+                                                @can('client_installment-status')
+                                                    <a href="javascript:;" class="btn btn-outline-success btn-sm"
+                                                        onclick="confirmAction('{{ route('client.installment.status.update', $installment->id) }}')">
                                                         <i class="fas fa-regular fa-check"></i></a>
-                                                    </a>
                                                 @endcan
                                             @endif
                                             @can('purchase_installment-delete')
                                                 @if ($installment->status != 'PAID')
-                                                    <form id="delete-form-check"
+                                                    <form id="delete-form"
                                                         action="{{ route('purchase.installment.delete', $installment->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" onclick="confirmDeleteInstallment('delete-form-check')"
+                                                        <button type="button" onclick="confirmDelete()"
                                                             class="btn btn-sm btn-danger ml-2">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
@@ -212,90 +194,13 @@
 
 @section('bottom-scripts')
     <script>
-        let cashInstallmentTable = new DataTable('#cashInstallmentTable');
-        let chequeInstallmentTable = new DataTable('#chequeInstallmentTable');
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById('confirmPaidInstallmentModal');
 
-        function confirmDeleteInstallment(formId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Submit the form if confirmed
-                    document.getElementById(formId).submit();
-
-                    // Show success toast after submission
-                    $.toast({
-                        heading: 'Success',
-                        text: 'Item deleted successfully!',
-                        icon: 'success',
-                        position: 'top-right',
-                        stack: false
-                    });
-                } else {
-                    // Show cancellation toast
-                    $.toast({
-                        heading: 'Cancelled',
-                        text: 'Delete operation was cancelled.',
-                        icon: 'info',
-                        position: 'top-right',
-                        stack: false
-                    });
-                }
-            });
-        }
-
-        // Format the amount with commas
-        function formatAmount(input) {
-            const value = input.value.replace(/,/g, ''); // Remove commas
-            if (!isNaN(value) && value !== "") {
-                input.value = parseFloat(value).toLocaleString('en-US'); // Add commas
-            } else {
-                input.value = ""; // Clear invalid input
-            }
-        }
-
-        // Remove formatting (commas) when focusing or before submission
-        function removeFormatting(input) {
-            input.value = input.value.replace(/,/g, ''); // Remove commas
-        }
-
-        // Handle dynamic input formatting
-        document.addEventListener('input', function(event) {
-            if (event.target.classList.contains('amount-field')) {
-                formatAmount(event.target);
-            }
-        });
-
-        document.addEventListener('focusin', function(event) {
-            if (event.target.classList.contains('amount-field')) {
-                formatAmount(event.target);
-            }
-        });
-
-        document.addEventListener('focusout', function(event) {
-            if (event.target.classList.contains('amount-field')) {
-                formatAmount(event.target); // Reapply formatting on blur
-            }
-        });
-
-        // Remove formatting before form submission
-        document.getElementById('formWithAmountInputsFields3').addEventListener('submit', function(event) {
-            const amountFields = document.querySelectorAll('.amount-field');
-            amountFields.forEach(input => {
-                input.value = input.value.replace(/,/g, ''); // Remove commas before submission
-            });
-        });
-        // Remove formatting before form submission
-        document.getElementById('formWithAmountInputsFields4').addEventListener('submit', function(event) {
-            const amountFields = document.querySelectorAll('.amount-field');
-            amountFields.forEach(input => {
-                input.value = input.value.replace(/,/g, ''); // Remove commas before submission
+            // Redirect to a specific route on modal close
+            modal.addEventListener('hidden.bs.modal', function() {
+                window.location.href =
+                "{{ route('client.installments', ['id' => $id]) }}"; // Replace with your desired route
             });
         });
     </script>

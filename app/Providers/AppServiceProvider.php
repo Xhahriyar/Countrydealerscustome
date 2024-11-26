@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\PlotInstallment;
+use App\Models\PurchasePlotInstallments;
 use App\Observers\PlotInstallmentObserver;
+use App\Observers\PurchasePlotInstallmentObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         PlotInstallment::observe(PlotInstallmentObserver::class);
+        PurchasePlotInstallments::observe(PurchasePlotInstallmentObserver::class);
 
     }
 }

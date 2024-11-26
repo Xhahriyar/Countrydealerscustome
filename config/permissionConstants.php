@@ -169,10 +169,16 @@ return [
             'sort_order' => 8450
         ],
         [
+            'name' => PermissionEnum::CLIENT_INSTALLMENT_EDIT(),
+            'label' => 'Installment Status',
+            'is_visible' => true,
+            'sort_order' => 8500
+        ],
+        [
             'name' => PermissionEnum::CLIENT_INSTALLMENT_DELETE(),
             'label' => 'Installment Delete',
             'is_visible' => true,
-            'sort_order' => 8500
+            'sort_order' => 8550
         ],
 
     ],
@@ -258,10 +264,16 @@ return [
             'sort_order' => 12400
         ],
         [
-            'name' => PermissionEnum::PURCHASE_INSTALLMENT_STATUS_EDIT(),
-            'label' => 'Installment Status Edit',
+            'name' => PermissionEnum:: PURCHASE_INSTALLMENT_EDIT(),
+            'label' => 'Installment Status',
             'is_visible' => true,
-            'sort_order' => 12450
+            'sort_order' => 8500
+        ],
+        [
+            'name' => PermissionEnum:: PURCHASE_INSTALLMENT_DELETE(),
+            'label' => 'Installment Delete',
+            'is_visible' => true,
+            'sort_order' => 8550
         ],
     ],
     'payroll' => [

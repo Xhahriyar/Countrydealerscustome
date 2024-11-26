@@ -7,9 +7,11 @@ use App\Models\ClientNotification;
 use App\Models\Purchase;
 use App\Models\PurchaseNotification;
 use App\Models\PurchasePlotInstallments;
+use App\Trait\SetLoggedUserDataTrait;
 
 class PurchasePlotInstallmentRepo
 {
+    use SetLoggedUserDataTrait;
     protected $model;
 
     public function __construct(PurchasePlotInstallments $model)
@@ -72,14 +74,25 @@ class PurchasePlotInstallmentRepo
         $chequeInstallments = $this->model->where('client_id', $client_id)->where('payment_method', '=', 'cheque')->get();
         return [$cashInstallments, $chequeInstallments];
     }
-    public function updateInstallmentStatus($paymentId)
+    public function updateInstallmentStatus($paymentId, $data)
     {
         $payment = $this->find($paymentId);
         $payment->status = 'PAID';
-        $payment->save();
+        if (isset($data['date']) && !empty($data['date'])) {
+            $payment->date = $data['date'];
+        }
+        if (isset($data['payment_type']) && !empty($data['payment_type'])) {
+            $payment->payment_type = $data['payment_type'];
+        }
+        if (isset($data['receipt_image']) && $data['receipt_image']->isValid()) {
+            $payment->receipt_image = $data['receipt_image']->store('purchaseinstallmentreceiptimages', 'public');
+        }
+        $payment = $payment->save();
         // to delete the notification from the `purchase_notifications` table
 
-        PurchaseNotification::where('purchase_notification_id' , $paymentId)->delete();
+        PurchaseNotification::where('purchase_notification_id', $paymentId)->delete();
+
+        return $payment;
     }
 
     public function checkBalanceForInstallments($data, $id, $paymentField)
@@ -119,6 +132,8 @@ class PurchasePlotInstallmentRepo
         $new->payment_method = 'cash';
         $new->installment_payment = $data['installment_payment'];
         $new->payment_installment_due_date = $data['payment_installment_due_date'];
+        $loggedData = $this->setLoggedUserData($new->toArray());
+        $new->fill($loggedData);
         $new->save();
         return true;
     }
@@ -144,7 +159,14 @@ class PurchasePlotInstallmentRepo
         $new->cheque_image = $imagePath;
         $new->cheque_installment_amount = $data['cheque_installment_amount'];
         $new->cheque_installment_due_date = $data['cheque_installment_due_date'];
+        $loggedData = $this->setLoggedUserData($new->toArray());
+        $new->fill($loggedData);
         $new->save();
         return true;
+    }
+
+    public function delete($id)
+    {
+        return $this->model->find($id)->delete();
     }
 }

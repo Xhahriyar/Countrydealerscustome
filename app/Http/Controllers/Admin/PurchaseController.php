@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClientInstallment\InstallmentStatusUpdateRequest;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Purchase;
@@ -105,7 +106,7 @@ class PurchaseController extends Controller
     public function addNewCashInstallment(Request $data, $id)
     {
         $this->authorize(PermissionEnum::PURCHASE_CASH_INSTALLMENT_ADD(), [Purchase::class]);
-        
+
         $customCashInstallment = $this->PurchasePlotInstallmentRepo->addCustomCashInstallment($data, $id);
         if ($customCashInstallment == false) {
             return redirect()->back()->with('error', 'Installment Amount Is More Than Total Amount.');
@@ -124,12 +125,31 @@ class PurchaseController extends Controller
             return redirect()->back()->with('success', 'Record Added Successfully.');
         }
     }
-    public function installmentUpdate($id)
+    public function installmentEdit($id, $installmentId)
+    {
+        $this->authorize(PermissionEnum::PURCHASE_INSTALLMENT_EDIT(), [Purchase::class]);
+
+        $data = $this->PurchaseRepository->getCashInstallments($id);
+        $chequeInstallments = $data[1];
+        $cashInstallments = $data[0];
+        return view('admin.purchase.editinstallments', compact('id', 'installmentId', 'chequeInstallments', 'cashInstallments'));
+    }
+    public function installmentUpdate(InstallmentStatusUpdateRequest $request, $id)
     {
         $this->authorize(PermissionEnum::PURCHASE_INSTALLMENT_STATUS_EDIT(), [Purchase::class]);
 
-        $data = $this->PurchasePlotInstallmentRepo->updateInstallmentStatus($id);
-        return redirect()->back()->with('success', 'Status Update Successfully.');
+        $installment = $this->PurchasePlotInstallmentRepo->updateInstallmentStatus($id, $request->validated());
+        if ($installment) {
+            return Redirect::route('purchase.installments', ['id' => $request->id])->with("success", "Installment Status Updated Successfully");
+        }
+        return Redirect::route('purchase.installments', ['id' => $request->id])->with("error", "Error in Updating Installment Status. ");
+    }
+
+    public function deleteInstallment($id)
+    {
+        $this->authorize(PermissionEnum::PURCHASE_INSTALLMENT_DELETE(), [Purchase::class]);
+        $this->PurchasePlotInstallmentRepo->delete($id);
+        return redirect()->back()->with('success', 'Record Deleted Successfully.');
     }
 
     public function print($client_id, $installment_id)

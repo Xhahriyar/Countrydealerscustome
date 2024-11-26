@@ -43,6 +43,8 @@ enum PermissionEnum: string
     case CLIENT_CASH_INSTALLMENT_ADD = 'client_cash_installment-add';
     case CLIENT_CHECK_INSTALLMENT_ADD = 'client_check_installment-add';
     case CLIENT_INSTALLMENT_STATUS = 'client_installment-status';
+    case CLIENT_INSTALLMENT_STATUS_EDIT = 'client_installment_status-edit';
+    case CLIENT_INSTALLMENT_EDIT = 'client_installment_-edit';
     case CLIENT_INSTALLMENT_DELETE = 'client_installment-delete';
 
         // EXPENSE
@@ -62,6 +64,9 @@ enum PermissionEnum: string
     case PURCHASE_CASH_INSTALLMENT_ADD = 'purchase_cash_installment-add';
     case PURCHASE_CHECK_INSTALLMENT_ADD = 'purchase_check_installment-add';
     case PURCHASE_INSTALLMENT_STATUS_EDIT = 'purchase_installment_status-edit';
+    case PURCHASE_INSTALLMENT_EDIT = 'purchase_installment-edit';
+    case PURCHASE_INSTALLMENT_DELETE = 'client_installment-delete';
+
         // PAYROLLS
     case PAYROLL = 'payroll';
     case PAYROLL_VIEW = 'payroll-view';

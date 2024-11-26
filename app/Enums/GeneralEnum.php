@@ -10,6 +10,7 @@ enum GeneralEnum: string
 
         // INSTALLMENT
     case CLIENT_PLOT_INSTALLMENT = 'CPI';
+    case PURCHASE_PLOT_INSTALLMENT = 'PPI';
 
 
 }
