@@ -40,18 +40,18 @@
               </div>
             </div>
           </div>
-        {{-- <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        {{$expenseChart->container()}}
-                    </div>
-                    <div class="col-md-6">
-                        {{$purchaseChart->container()}}
-                    </div>
-                </div>
-            </div>
-        </div> --}}
+      {{-- <div class="card">
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6">
+                      {{$expenseChart->container()}}
+                  </div>
+                  <div class="col-md-6">
+                      {{$purchaseChart->container()}}
+                  </div>
+              </div>
+          </div>
+      </div> --}}
     </div>
     <script src="{{ $expenseChart->cdn() }}"></script>
     <script src="{{ $purchaseChart->cdn() }}"></script>

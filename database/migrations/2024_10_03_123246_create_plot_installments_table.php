@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('installment_payment')->nullable();
             $table->dateTime('payment_installment_due_date')->nullable();
             $table->string('receipt_image')->nullable();
-            $table->date('date');
+            $table->date('date')->nullable();
             $table->unsignedBigInteger('logged_in_id');
             $table->string('logged_in_name');
             $table->string('ip_address');

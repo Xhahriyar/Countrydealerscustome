@@ -155,8 +155,8 @@
                 <div class="info-row">
                     <span class="label">Paid By:</span>
                     <span class="value">
-                        <input type="text" id="dynamicInput" value={{ $data->name }}
-                            style="width: 100px;border:none; background:transparent;outline: none;"> </span>
+                        <input type="text" id="dynamicInput" value="{{ $data->name }}"
+                            style="width:80px;border:none; background:transparent;outline: none;"> </span>
                 </div>
                 <div class="info-row">
                     <span class="label">CNIC No:</span>

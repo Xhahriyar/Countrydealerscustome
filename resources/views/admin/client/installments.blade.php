@@ -53,11 +53,11 @@
                                                 N/A
                                             @endif
                                         </td>
-                                        <td>{{ Carbon\Carbon::parse($installment->payment_installment_due_date)->format('D-M-Y') }}
+                                        <td>{{ Carbon\Carbon::parse($installment->payment_installment_due_date)->format('d-M-Y') }}
                                         </td>
                                         <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->date)->format('D-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->date)->format('d-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -85,12 +85,12 @@
                                             @endif
                                             @can('client_installment-delete')
                                                 @if ($installment->status != 'PAID')
-                                                    <form id="delete-form"
+                                                    <form id="delete-form-cash"
                                                         action="{{ route('client.installment.delete', $installment->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" onclick="confirmDelete()"
+                                                        <button type="button" onclick="confirmDeleteInstallment('delete-form-cash')"
                                                             class="btn btn-sm btn-danger ml-2">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
@@ -159,11 +159,11 @@
                                                 N/A
                                             @endif
                                         </td>
-                                        <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('D-M-Y') }}
+                                        <td>{{ Carbon\Carbon::parse($installment->cheque_installment_due_date)->format('d-M-Y') }}
                                         </td>
                                         <td>
                                             @if ($installment->status == 'PAID')
-                                                {{ Carbon\Carbon::parse($installment->date)->format('D-M-Y') }}
+                                                {{ Carbon\Carbon::parse($installment->date)->format('d-M-Y') }}
                                             @endif
                                         </td>
                                         <td>
@@ -190,12 +190,12 @@
                                             @endif
                                             @can('client_installment-delete')
                                                 @if ($installment->status != 'PAID')
-                                                    <form id="delete-form"
+                                                    <form id="delete-form-check"
                                                         action="{{ route('client.installment.delete', $installment->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" onclick="confirmDelete()"
+                                                        <button type="button" onclick="confirmDeleteInstallment('delete-form-check')"
                                                             class="btn btn-sm btn-danger ml-2">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
@@ -232,6 +232,41 @@
                 form.attr('action', `/client/installment/status/update/${installmentId}`);
             });
         });
+
+        function confirmDeleteInstallment(formId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if confirmed
+                    document.getElementById(formId).submit();
+
+                    // Show success toast after submission
+                    $.toast({
+                        heading: 'Success',
+                        text: 'Item deleted successfully!',
+                        icon: 'success',
+                        position: 'top-right',
+                        stack: false
+                    });
+                } else {
+                    // Show cancellation toast
+                    $.toast({
+                        heading: 'Cancelled',
+                        text: 'Delete operation was cancelled.',
+                        icon: 'info',
+                        position: 'top-right',
+                        stack: false
+                    });
+                }
+            });
+        }
 
         // Format the amount with commas
         function formatAmount(input) {

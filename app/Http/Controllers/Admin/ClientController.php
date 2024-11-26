@@ -103,7 +103,7 @@ class ClientController extends Controller
     }
     public function installmentEdit($id, $installmentId)
     {
-        // $this->authorize(PermissionEnum::CLIENT_INSTALLMENT_STATUS(), [Client::class]);
+        $this->authorize(PermissionEnum::CLIENT_INSTALLMENT_EDIT(), [Client::class]);
         $data = $this->clientRepository->getCashInstallments($id);
         $chequeInstallments = $data[1];
         $cashInstallments = $data[0];
@@ -111,7 +111,7 @@ class ClientController extends Controller
     }
     public function installmentUpdate(InstallmentStatusUpdateRequest $request, $id)
     {
-        $this->authorize(PermissionEnum::CLIENT_INSTALLMENT_STATUS(), [Client::class]);
+        $this->authorize(PermissionEnum::CLIENT_INSTALLMENT_STATUS_EDIT(), [Client::class]);
         $installment = $this->clientRepository->updateInstallmentStatus($id, $request->validated());
 
         if ($installment) {
