@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Charts\ExpenseChart;
-use App\Charts\Purchase;
+use App\Charts\PurchaseChart;
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\ProfileUpdateRequest;
@@ -14,6 +14,7 @@ use App\Services\Role\RoleService;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\Users\StoreUserRequest;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -26,18 +27,88 @@ class UserController extends Controller
     ) {
         $this->dashboardRepository = $dashboardRepository;
     }
-    public function index(ExpenseChart $expenseChart, Purchase $purchaseChart)
+    
+    public function index(ExpenseChart $expenseChart, PurchaseChart $purchaseChart)
     {
         $this->authorize(PermissionEnum::DASHBOARD(), [User::class]);
-
-        $salesCount = $this->dashboardRepository->totalSales();
-        $totalSalesAmount = $this->dashboardRepository->totalSalesAmount();
-        $expensesCount = $this->dashboardRepository->expenses();
-        $TotalexpensesAmount = $this->dashboardRepository->TotalexpensesAmount();
-        $purchasesCount = $this->dashboardRepository->purchases();
-        $totaPurchasesAmount = $this->dashboardRepository->totaPurchasesAmount();
-        return view("admin.dashboard", ['expenseChart' => $expenseChart->build(), 'purchaseChart' => $purchaseChart->build()], compact('salesCount', 'expensesCount', 'purchasesCount', 'totaPurchasesAmount', 'TotalexpensesAmount', 'totalSalesAmount'));
+    
+        // Fetch sales data
+        $salesData = $this->dashboardRepository->salesData();
+        $totalSalesAmount = $salesData['totalSalesAmount'];
+        $salesDates = $salesData['salesDates'];
+        $salesAmounts = $salesData['salesAmounts'];
+        $salesCount = $salesData['salesCount'];
+    
+        // Fetch purchase data
+        $purchaseData = $this->dashboardRepository->purchaseData();
+        $totalPurchaseAmount = $purchaseData['totalPurchaseAmount'];
+        $purchaseDates = $purchaseData['purchaseDates'];
+        $purchaseAmounts = $purchaseData['purchaseAmounts'];
+        $purchasesCount = $purchaseData['purchasesCount'];
+        $totalPurchasesAmount = $purchaseData['totalPurchasesAmount'];
+    
+        // Fetch expenses data
+        $expenseData = $this->dashboardRepository->expensesData();
+        $totalExpensesAmount = $expenseData['totalExpensesAmount'];
+        $expenseDates = $expenseData['expenseDates'];
+        $expenseAmounts = $expenseData['expenseAmounts'];
+        $expensesCount = $expenseData['expensesCount'];
+    
+        // Standardize and sort dates in 'Y-m-d' format
+        $salesDatesFormatted = array_map(fn($date) => Carbon::parse($date)->format('Y-m-d'), $salesDates);
+        $purchaseDatesFormatted = array_map(fn($date) => Carbon::parse($date)->format('Y-m-d'), $purchaseDates);
+        $expenseDatesFormatted = array_map(fn($date) => Carbon::parse($date)->format('Y-m-d'), $expenseDates);
+    
+        // Generate common dates and sort them
+        $commonDates = array_unique(array_merge($salesDatesFormatted, $purchaseDatesFormatted, $expenseDatesFormatted));
+        sort($commonDates); // Sort in ascending order
+    
+        // Fill missing data for the sorted dates
+        $salesDataFilled = $this->fillMissingData($commonDates, $salesDatesFormatted, $salesAmounts);
+        $purchaseDataFilled = $this->fillMissingData($commonDates, $purchaseDatesFormatted, $purchaseAmounts);
+        $expenseDataFilled = $this->fillMissingData($commonDates, $expenseDatesFormatted, $expenseAmounts);
+    
+        // Convert commonDates back to 'd M Y' format
+        $commonDatesFormatted = array_map(fn($date) => Carbon::parse($date)->format('d M Y'), $commonDates);
+    
+        return view("admin.dashboard", [
+            'expenseChart' => $expenseChart->build(),
+            'purchaseChart' => $purchaseChart->build(),
+        ], compact(
+            'salesCount',
+            'expensesCount',
+            'purchasesCount',
+            'totalPurchasesAmount',
+            'totalExpensesAmount',
+            'totalSalesAmount',
+            'salesDataFilled', // Filled sales data
+            'purchaseDataFilled', // Filled purchase data
+            'expenseDataFilled', // Filled expense data
+            'commonDatesFormatted', // Display-ready formatted dates
+        ));
     }
+    
+    /**
+     * Function to fill missing data with 0 for given dates and amounts
+     * 
+     * @param array $commonDates The unified list of all dates
+     * @param array $categoryDates The dates specific to the category (sales, purchase, expense)
+     * @param array $categoryAmounts The amounts corresponding to the category
+     * 
+     * @return array The data with missing points filled with 0
+     */
+    private function fillMissingData($commonDates, $categoryDates, $categoryAmounts)
+    {
+        $filledData = [];
+        foreach ($commonDates as $date) {
+            $key = array_search($date, $categoryDates);
+            $filledData[] = ($key !== false) ? $categoryAmounts[$key] : 0; // Use 0 if no data for the date
+        }
+        return $filledData;
+    }
+
+
+
     public function dashboard()
     {
         $this->authorize(PermissionEnum::DASHBOARD_VIEW(), [User::class]);
@@ -82,9 +153,9 @@ class UserController extends Controller
                 $this->service->updateRole($user, $request->input('role'));
             }
 
-            return Redirect::route('users.index')->with("success","Record Added Successfully");;
+            return Redirect::route('users.index')->with("success", "Record Added Successfully");;
         }
-        return Redirect::route('users.index')->with("error","Error in Adding Record");;
+        return Redirect::route('users.index')->with("error", "Error in Adding Record");;
     }
 
     /**
@@ -125,12 +196,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         $this->authorize(PermissionEnum::USER_DELETE(), [User::class]);
-        
+
         $admin = $this->service->getOne($id);
         $this->service->destroy($admin);
         $admin->syncRoles([]); // removing all roles assigned
-        return Redirect::route('users.index')->with("success","Record Deleted Successfully");;
-
+        return Redirect::route('users.index')->with("success", "Record Deleted Successfully");;
     }
 
 
@@ -151,6 +221,6 @@ class UserController extends Controller
     {
         $this->service->update($request->validated(), $request->user());
 
-        return redirect()->back()->with("success","Profile Updated Successfully");
+        return redirect()->back()->with("success", "Profile Updated Successfully");
     }
 }

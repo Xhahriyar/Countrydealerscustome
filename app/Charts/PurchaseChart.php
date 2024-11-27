@@ -4,7 +4,7 @@ namespace App\Charts;
 
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 use App\Repositories\purchase\PurchaseRepository;
-class Purchase
+class PurchaseChart
 {
     protected $chart;
     protected $purchaseRepository;
